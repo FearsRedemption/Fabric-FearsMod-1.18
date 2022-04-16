@@ -10,6 +10,7 @@ import net.minecraft.util.registry.Registry;
 import static net.fearsredemption.fearsmod.FearsMod.MOD_ID;
 
 public class ModItems {
+    //MEGITEK ITEMS
     public static final Item MAGITEK_INGOT = registerItem("magitek_ingot",
             new Item(new FabricItemSettings().group(ItemGroup.MISC)));
 
@@ -17,6 +18,16 @@ public class ModItems {
             new Item(new FabricItemSettings().group(ItemGroup.MISC)));
 
     public static final Item RAW_MAGITEK = registerItem("raw_magitek",
+            new Item(new FabricItemSettings().group(ItemGroup.MISC)));
+
+    //VOXITE ITEMS
+    public static final Item VOXITE_INGOT = registerItem("voxite_ingot",
+            new Item(new FabricItemSettings().group(ItemGroup.MISC)));
+
+    public static final Item VOXITE_NUGGET = registerItem("voxite_nugget",
+            new Item(new FabricItemSettings().group(ItemGroup.MISC)));
+
+    public static final Item RAW_VOXITE = registerItem("raw_voxite",
             new Item(new FabricItemSettings().group(ItemGroup.MISC)));
 
     private static Item registerItem(String name, Item item) {

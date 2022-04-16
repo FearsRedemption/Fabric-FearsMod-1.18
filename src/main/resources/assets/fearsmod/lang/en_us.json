@@ -1,5 +1,13 @@
 {
   "item.fearsmod.magitek_ingot": "Magitek Ingot",
   "item.fearsmod.magitek_nugget": "Magitek Nugget",
-  "item.fearsmod.raw_magitek": "Raw Magitek"
+  "item.fearsmod.raw_magitek": "Raw Magitek",
+  "item.fearsmod.voxite_ingot": "Voxite Ingot",
+  "item.fearsmod.voxite_nugget": "Voxite Nugget",
+  "item.fearsmod.raw_voxite": "Raw Voxite",
+
+  "block.fearsmod.magitek_block": "Magitek Block",
+  "block.fearsmod.magitek_ore": "Magitek Ore",
+  "block.fearsmod.voxite_block": "Voxite Block",
+  "block.fearsmod.voxite_ore": "Voxite Ore"
 }
