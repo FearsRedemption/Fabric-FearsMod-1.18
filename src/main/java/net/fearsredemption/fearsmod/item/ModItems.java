@@ -2,6 +2,7 @@ package net.fearsredemption.fearsmod.item;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fearsredemption.fearsmod.FearsMod;
+import net.fearsredemption.fearsmod.item.custom.DowsingRodItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -29,6 +30,10 @@ public class ModItems {
 
     public static final Item RAW_VOXITE = registerItem("raw_voxite",
             new Item(new FabricItemSettings().group(ModItemGroup.VOXITE)));
+
+    //DOWSING ROD
+    public static final Item DOWSING_ROD = registerItem("dowsing_rod",
+            new DowsingRodItem(new FabricItemSettings().group(ModItemGroup.VOXITE).maxDamage(16)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(MOD_ID, name), item);

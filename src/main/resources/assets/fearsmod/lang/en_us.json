@@ -5,6 +5,7 @@
   "item.fearsmod.voxite_ingot": "Voxite Ingot",
   "item.fearsmod.voxite_nugget": "Voxite Nugget",
   "item.fearsmod.raw_voxite": "Raw Voxite",
+  "item.fearsmod.dowsing_rod": "Dowsing Rod",
 
   "block.fearsmod.magitek_block": "Magitek Block",
   "block.fearsmod.magitek_ore": "Magitek Ore",
@@ -12,5 +13,7 @@
   "block.fearsmod.voxite_ore": "Voxite Ore",
 
   "itemGroup.fearsmod.magitek": "Magitek Tab",
-  "itemGroup.fearsmod.voxite": "Voxite Tab"
+  "itemGroup.fearsmod.voxite": "Voxite Tab",
+
+  "item.tutorialmod.dowsing_rod.no_valuables": "No Valuables Found"
 }
