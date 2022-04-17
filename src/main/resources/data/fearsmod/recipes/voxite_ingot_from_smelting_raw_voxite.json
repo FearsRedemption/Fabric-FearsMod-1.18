@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "group": "voxite_ingot",
+  "ingredient": {
+    "item": "fearsmod:raw_voxite"
+  },
+  "result": "fearsmod:voxite_ingot",
+  "experience": 1,
+  "cookingtime": 220
+}

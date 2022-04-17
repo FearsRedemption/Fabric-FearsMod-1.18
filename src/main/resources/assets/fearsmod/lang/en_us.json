@@ -9,5 +9,8 @@
   "block.fearsmod.magitek_block": "Magitek Block",
   "block.fearsmod.magitek_ore": "Magitek Ore",
   "block.fearsmod.voxite_block": "Voxite Block",
-  "block.fearsmod.voxite_ore": "Voxite Ore"
+  "block.fearsmod.voxite_ore": "Voxite Ore",
+
+  "itemGroup.fearsmod.magitek": "Magitek Tab",
+  "itemGroup.fearsmod.voxite": "Voxite Tab"
 }
