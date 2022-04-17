@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "fearsmod:magitek_block",
+    "fearsmod:magitek_ore",
+    "fearsmod:voxite_block",
+    "fearsmod:voxite_ore"
+  ]
+}

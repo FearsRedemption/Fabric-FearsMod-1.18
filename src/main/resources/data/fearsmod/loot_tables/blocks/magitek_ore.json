@@ -25,7 +25,7 @@
                   }
                 }
               ],
-              "name": "fearsmod:voxite_ore"
+              "name": "fearsmod:magitek_ore"
             },
             {
               "type": "minecraft:item",
@@ -39,7 +39,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "fearsmod:raw_voxite"
+              "name": "fearsmod:raw_magitek"
             }
           ]
         }

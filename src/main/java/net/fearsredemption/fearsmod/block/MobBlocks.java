@@ -18,14 +18,14 @@ public class MobBlocks {
 
     //MAGITEK BLOCKS
     public static final Block MAGITEK_BLOCK = registerBlock("magitek_block",
-            new Block(FabricBlockSettings.of(Material.METAL).strength(4.5f).requiresTool()), ModItemGroup.MAGITEK);
+            new Block(FabricBlockSettings.of(Material.METAL).strength(6f).requiresTool()), ModItemGroup.MAGITEK);
 
     public static final Block MAGITEK_ORE = registerBlock("magitek_ore",
             new Block(FabricBlockSettings.of(Material.STONE).strength(4.5f).requiresTool()), ModItemGroup.MAGITEK);
 
     //VOXITE BLOCKS
     public static final Block VOXITE_BLOCK = registerBlock("voxite_block",
-            new Block(FabricBlockSettings.of(Material.METAL).strength(4.5f).requiresTool().luminance(7)), ModItemGroup.VOXITE);
+            new Block(FabricBlockSettings.of(Material.METAL).strength(6f).requiresTool().luminance(7)), ModItemGroup.VOXITE);
 
     public static final Block VOXITE_ORE = registerBlock("voxite_ore",
             new Block(FabricBlockSettings.of(Material.STONE).strength(4.5f).requiresTool().luminance(5)), ModItemGroup.VOXITE);
