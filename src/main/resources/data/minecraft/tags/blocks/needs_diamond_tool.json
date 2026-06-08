@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "fearsmod:voxite_ore",
+    "fearsmod:deepslate_voxite_ore",
     "fearsmod:voxite_block"
   ]
 }

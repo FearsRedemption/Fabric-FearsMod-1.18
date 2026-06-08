@@ -9,11 +9,13 @@
 
   "block.fearsmod.magitek_block": "Magitek Block",
   "block.fearsmod.magitek_ore": "Magitek Ore",
+  "block.fearsmod.deepslate_magitek_ore": "Deepslate Magitek Ore",
   "block.fearsmod.voxite_block": "Voxite Block",
   "block.fearsmod.voxite_ore": "Voxite Ore",
+  "block.fearsmod.deepslate_voxite_ore": "Deepslate Voxite Ore",
 
   "itemGroup.fearsmod.magitek": "Magitek Tab",
   "itemGroup.fearsmod.voxite": "Voxite Tab",
 
-  "item.tutorialmod.dowsing_rod.no_valuables": "No Valuables Found"
+  "item.fearsmod.dowsing_rod.no_valuables": "No Valuables Found"
 }

@@ -9,12 +9,10 @@
     "FearsRedemption"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/FearsRedemption/Fabric-FearsMod-1.18"
   },
 
   "license": "MIT",
-  "icon": "assets/modid/icon.png",
 
   "environment": "*",
   "entrypoints": {
@@ -27,12 +25,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.13.3",
-    "fabric": "*",
-    "minecraft": "1.18.x",
-    "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
   }
 }

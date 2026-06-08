@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "fearsmod:magitek_ore",
+    "fearsmod:deepslate_magitek_ore",
     "fearsmod:magitek_block"
   ]
 }
