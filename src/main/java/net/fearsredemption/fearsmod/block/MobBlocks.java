@@ -5,6 +5,7 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fearsredemption.fearsmod.FearsMod;
 import net.fearsredemption.fearsmod.block.custom.BuddingCrystalBlock;
+import net.fearsredemption.fearsmod.block.custom.ResonanceWorkbenchBlock;
 import net.fearsredemption.fearsmod.item.ModItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,6 +22,18 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import static net.fearsredemption.fearsmod.FearsMod.MOD_ID;
 
 public class MobBlocks {
+    //RESONANCE APPARATUS
+    public static final Block RESONANCE_WORKBENCH = register("resonance_workbench", ResonanceWorkbenchBlock::new,
+            BlockBehaviour.Properties.of().strength(3.0f).requiresCorrectToolForDrops().sound(SoundType.COPPER));
+
+    public static final Block MAGITEK_CORE = register("magitek_core", Block::new,
+            BlockBehaviour.Properties.of().strength(5.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).lightLevel(state -> 4));
+
+    public static final Block VOXITE_STABILIZER = register("voxite_stabilizer", Block::new,
+            BlockBehaviour.Properties.of().strength(5.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).lightLevel(state -> 2));
+
+    public static final Block AMETHYST_FOCUS = register("amethyst_focus", Block::new,
+            BlockBehaviour.Properties.of().strength(1.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(state -> 5));
 
     //MAGITEK BLOCKS
     public static final Block MAGITEK_BLOCK = register("magitek_block", Block::new,
@@ -153,6 +166,13 @@ public class MobBlocks {
             entries.accept(MEDIUM_TOPAZ_BUD.asItem());
             entries.accept(LARGE_TOPAZ_BUD.asItem());
             entries.accept(TOPAZ_CLUSTER.asItem());
+        });
+
+        CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.RESONANCE_KEY).register(entries -> {
+            entries.accept(RESONANCE_WORKBENCH.asItem());
+            entries.accept(MAGITEK_CORE.asItem());
+            entries.accept(VOXITE_STABILIZER.asItem());
+            entries.accept(AMETHYST_FOCUS.asItem());
         });
     }
 }

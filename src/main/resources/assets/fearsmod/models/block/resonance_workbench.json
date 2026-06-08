@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "fearsmod:block/resonance_workbench_bottom",
+    "side": "fearsmod:block/resonance_workbench_side",
+    "top": "fearsmod:block/resonance_workbench_top"
+  }
+}

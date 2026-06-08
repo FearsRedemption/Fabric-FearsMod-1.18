@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " V ",
+    "VAV",
+    " V "
+  ],
+  "key": {
+    "V": "fearsmod:voxite_ingot",
+    "A": "fearsmod:agate_shard"
+  },
+  "result": {
+    "id": "fearsmod:voxite_stabilizer"
+  }
+}

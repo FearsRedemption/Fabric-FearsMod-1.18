@@ -15,6 +15,15 @@ import net.minecraft.world.item.Item;
 import static net.fearsredemption.fearsmod.FearsMod.MOD_ID;
 
 public class ModItems {
+    //RESONANCE ITEMS
+    public static final Item RESONANT_COPPER = register("resonant_copper", Item::new, new Item.Properties());
+
+    public static final Item STABILIZED_IRON_PLATE = register("stabilized_iron_plate", Item::new, new Item.Properties());
+
+    public static final Item CHARGED_MAGITEK_CORE = register("charged_magitek_core", Item::new, new Item.Properties());
+
+    public static final Item FOCUSING_LENS = register("focusing_lens", Item::new, new Item.Properties());
+
     //MEGITEK ITEMS
     public static final Item MAGITEK_INGOT = register("magitek_ingot", Item::new, new Item.Properties());
 
@@ -72,6 +81,13 @@ public class ModItems {
             entries.accept(AQUAMARINE_SHARD);
             entries.accept(RUBY_SHARD);
             entries.accept(TOPAZ_SHARD);
+        });
+
+        CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.RESONANCE_KEY).register(entries -> {
+            entries.accept(RESONANT_COPPER);
+            entries.accept(STABILIZED_IRON_PLATE);
+            entries.accept(CHARGED_MAGITEK_CORE);
+            entries.accept(FOCUSING_LENS);
         });
     }
 }

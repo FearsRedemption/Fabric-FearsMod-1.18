@@ -39,9 +39,19 @@ public class ModItemGroup {
             .title(Component.translatable("itemGroup.fearsmod.crystals"))
             .build();
 
+    public static final ResourceKey<CreativeModeTab> RESONANCE_KEY = ResourceKey.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB.key(),
+            Identifier.fromNamespaceAndPath(MOD_ID, "resonance")
+    );
+    public static final CreativeModeTab RESONANCE = FabricCreativeModeTab.builder()
+            .icon(() -> new ItemStack(ModItems.CHARGED_MAGITEK_CORE))
+            .title(Component.translatable("itemGroup.fearsmod.resonance"))
+            .build();
+
     public static void initialize() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, MAGITEK_KEY, MAGITEK);
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, VOXITE_KEY, VOXITE);
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CRYSTALS_KEY, CRYSTALS);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, RESONANCE_KEY, RESONANCE);
     }
 }

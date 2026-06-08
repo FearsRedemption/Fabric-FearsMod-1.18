@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "CAC",
+    "RMR",
+    "CAC"
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "A": "minecraft:amethyst_shard",
+    "R": "minecraft:redstone",
+    "M": "fearsmod:magitek_ingot"
+  },
+  "result": {
+    "id": "fearsmod:magitek_core"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "VAV",
+    "CWC",
+    "CCC"
+  ],
+  "key": {
+    "V": "fearsmod:voxite_ingot",
+    "A": "minecraft:amethyst_shard",
+    "C": "minecraft:copper_ingot",
+    "W": "minecraft:crafting_table"
+  },
+  "result": {
+    "id": "fearsmod:resonance_workbench"
+  }
+}

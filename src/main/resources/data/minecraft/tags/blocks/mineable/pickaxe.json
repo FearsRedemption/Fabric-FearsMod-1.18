@@ -36,6 +36,10 @@
     "fearsmod:large_ruby_bud",
     "fearsmod:small_topaz_bud",
     "fearsmod:medium_topaz_bud",
-    "fearsmod:large_topaz_bud"
+    "fearsmod:large_topaz_bud",
+    "fearsmod:resonance_workbench",
+    "fearsmod:magitek_core",
+    "fearsmod:voxite_stabilizer",
+    "fearsmod:amethyst_focus"
   ]
 }

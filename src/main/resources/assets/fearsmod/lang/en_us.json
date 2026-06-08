@@ -50,5 +50,21 @@
   "block.fearsmod.large_ruby_bud": "Large Ruby Bud",
   "block.fearsmod.small_topaz_bud": "Small Topaz Bud",
   "block.fearsmod.medium_topaz_bud": "Medium Topaz Bud",
-  "block.fearsmod.large_topaz_bud": "Large Topaz Bud"
+  "block.fearsmod.large_topaz_bud": "Large Topaz Bud",
+  "itemGroup.fearsmod.resonance": "Resonance Apparatus",
+  "block.fearsmod.resonance_workbench": "Resonance Workbench",
+  "block.fearsmod.magitek_core": "Magitek Core",
+  "block.fearsmod.voxite_stabilizer": "Voxite Stabilizer",
+  "block.fearsmod.amethyst_focus": "Amethyst Focus",
+  "item.fearsmod.resonant_copper": "Resonant Copper",
+  "item.fearsmod.stabilized_iron_plate": "Stabilized Iron Plate",
+  "item.fearsmod.charged_magitek_core": "Charged Magitek Core",
+  "item.fearsmod.focusing_lens": "Focusing Lens",
+  "block.fearsmod.resonance_workbench.status": "Apparatus: Magitek Core %s, Amethyst Focus %s, Stable %s",
+  "block.fearsmod.resonance_workbench.needs_core": "The workbench hums, but no nearby Magitek Core answers.",
+  "block.fearsmod.resonance_workbench.needs_focus": "The resonance scatters without a nearby Amethyst Focus.",
+  "block.fearsmod.resonance_workbench.unstable": "The iron pattern requires a nearby Voxite Stabilizer.",
+  "block.fearsmod.resonance_workbench.needs_amethyst_shard": "A Magitek charge needs one Amethyst Shard in your inventory.",
+  "block.fearsmod.resonance_workbench.no_pattern": "No known resonance pattern catches on that item.",
+  "block.fearsmod.resonance_workbench.complete": "Resonance condenses into %s."
 }
