@@ -30,8 +30,18 @@ public class ModItemGroup {
             .title(Component.translatable("itemGroup.fearsmod.voxite"))
             .build();
 
+    public static final ResourceKey<CreativeModeTab> CRYSTALS_KEY = ResourceKey.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB.key(),
+            Identifier.fromNamespaceAndPath(MOD_ID, "crystals")
+    );
+    public static final CreativeModeTab CRYSTALS = FabricCreativeModeTab.builder()
+            .icon(() -> new ItemStack(ModItems.AQUAMARINE_SHARD))
+            .title(Component.translatable("itemGroup.fearsmod.crystals"))
+            .build();
+
     public static void initialize() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, MAGITEK_KEY, MAGITEK);
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, VOXITE_KEY, VOXITE);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CRYSTALS_KEY, CRYSTALS);
     }
 }

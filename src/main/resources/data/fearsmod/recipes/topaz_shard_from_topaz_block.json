@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "fearsmod:topaz_block"
+    }
+  ],
+  "result": {
+    "item": "fearsmod:topaz_shard",
+    "count": 4
+  }
+}

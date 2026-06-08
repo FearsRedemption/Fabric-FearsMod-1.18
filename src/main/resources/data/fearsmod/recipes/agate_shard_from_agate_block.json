@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "fearsmod:agate_block"
+    }
+  ],
+  "result": {
+    "item": "fearsmod:agate_shard",
+    "count": 4
+  }
+}

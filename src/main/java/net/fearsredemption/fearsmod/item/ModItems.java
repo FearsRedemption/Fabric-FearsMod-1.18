@@ -32,6 +32,17 @@ public class ModItems {
     //DOWSING ROD
     public static final Item DOWSING_ROD = register("dowsing_rod", DowsingRodItem::new, new Item.Properties().durability(16));
 
+    //CRYSTAL ITEMS
+    public static final Item AGATE_SHARD = register("agate_shard", Item::new, new Item.Properties());
+
+    public static final Item AMBER_SHARD = register("amber_shard", Item::new, new Item.Properties());
+
+    public static final Item AQUAMARINE_SHARD = register("aquamarine_shard", Item::new, new Item.Properties());
+
+    public static final Item RUBY_SHARD = register("ruby_shard", Item::new, new Item.Properties());
+
+    public static final Item TOPAZ_SHARD = register("topaz_shard", Item::new, new Item.Properties());
+
     public static <T extends Item> T register(String name, Function<Item.Properties, T> itemFactory, Item.Properties properties) {
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, name));
         T item = itemFactory.apply(properties.setId(itemKey));
@@ -53,6 +64,14 @@ public class ModItems {
             entries.accept(VOXITE_NUGGET);
             entries.accept(RAW_VOXITE);
             entries.accept(DOWSING_ROD);
+        });
+
+        CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.CRYSTALS_KEY).register(entries -> {
+            entries.accept(AGATE_SHARD);
+            entries.accept(AMBER_SHARD);
+            entries.accept(AQUAMARINE_SHARD);
+            entries.accept(RUBY_SHARD);
+            entries.accept(TOPAZ_SHARD);
         });
     }
 }

@@ -6,16 +6,34 @@
   "item.fearsmod.voxite_nugget": "Voxite Nugget",
   "item.fearsmod.raw_voxite": "Raw Voxite",
   "item.fearsmod.dowsing_rod": "Dowsing Rod",
-
   "block.fearsmod.magitek_block": "Magitek Block",
   "block.fearsmod.magitek_ore": "Magitek Ore",
   "block.fearsmod.deepslate_magitek_ore": "Deepslate Magitek Ore",
   "block.fearsmod.voxite_block": "Voxite Block",
   "block.fearsmod.voxite_ore": "Voxite Ore",
   "block.fearsmod.deepslate_voxite_ore": "Deepslate Voxite Ore",
-
   "itemGroup.fearsmod.magitek": "Magitek Tab",
   "itemGroup.fearsmod.voxite": "Voxite Tab",
-
-  "item.fearsmod.dowsing_rod.no_valuables": "No Valuables Found"
+  "item.fearsmod.dowsing_rod.no_valuables": "No Valuables Found",
+  "item.fearsmod.agate_shard": "Agate Shard",
+  "block.fearsmod.agate_block": "Agate Block",
+  "block.fearsmod.budding_agate": "Budding Agate",
+  "block.fearsmod.agate_cluster": "Agate Cluster",
+  "item.fearsmod.amber_shard": "Amber Shard",
+  "block.fearsmod.amber_block": "Amber Block",
+  "block.fearsmod.budding_amber": "Budding Amber",
+  "block.fearsmod.amber_cluster": "Amber Cluster",
+  "item.fearsmod.aquamarine_shard": "Aquamarine Shard",
+  "block.fearsmod.aquamarine_block": "Aquamarine Block",
+  "block.fearsmod.budding_aquamarine": "Budding Aquamarine",
+  "block.fearsmod.aquamarine_cluster": "Aquamarine Cluster",
+  "item.fearsmod.ruby_shard": "Ruby Shard",
+  "block.fearsmod.ruby_block": "Ruby Block",
+  "block.fearsmod.budding_ruby": "Budding Ruby",
+  "block.fearsmod.ruby_cluster": "Ruby Cluster",
+  "item.fearsmod.topaz_shard": "Topaz Shard",
+  "block.fearsmod.topaz_block": "Topaz Block",
+  "block.fearsmod.budding_topaz": "Budding Topaz",
+  "block.fearsmod.topaz_cluster": "Topaz Cluster",
+  "itemGroup.fearsmod.crystals": "Crystals Tab"
 }
