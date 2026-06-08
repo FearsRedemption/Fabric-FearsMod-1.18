@@ -35,5 +35,20 @@
   "block.fearsmod.topaz_block": "Topaz Block",
   "block.fearsmod.budding_topaz": "Budding Topaz",
   "block.fearsmod.topaz_cluster": "Topaz Cluster",
-  "itemGroup.fearsmod.crystals": "Crystals Tab"
+  "itemGroup.fearsmod.crystals": "Crystals Tab",
+  "block.fearsmod.small_agate_bud": "Small Agate Bud",
+  "block.fearsmod.medium_agate_bud": "Medium Agate Bud",
+  "block.fearsmod.large_agate_bud": "Large Agate Bud",
+  "block.fearsmod.small_amber_bud": "Small Amber Bud",
+  "block.fearsmod.medium_amber_bud": "Medium Amber Bud",
+  "block.fearsmod.large_amber_bud": "Large Amber Bud",
+  "block.fearsmod.small_aquamarine_bud": "Small Aquamarine Bud",
+  "block.fearsmod.medium_aquamarine_bud": "Medium Aquamarine Bud",
+  "block.fearsmod.large_aquamarine_bud": "Large Aquamarine Bud",
+  "block.fearsmod.small_ruby_bud": "Small Ruby Bud",
+  "block.fearsmod.medium_ruby_bud": "Medium Ruby Bud",
+  "block.fearsmod.large_ruby_bud": "Large Ruby Bud",
+  "block.fearsmod.small_topaz_bud": "Small Topaz Bud",
+  "block.fearsmod.medium_topaz_bud": "Medium Topaz Bud",
+  "block.fearsmod.large_topaz_bud": "Large Topaz Bud"
 }

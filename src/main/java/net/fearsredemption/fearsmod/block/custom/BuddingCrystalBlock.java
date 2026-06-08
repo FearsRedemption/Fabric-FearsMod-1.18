@@ -1,7 +1,5 @@
 package net.fearsredemption.fearsmod.block.custom;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -12,11 +10,17 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BuddingCrystalBlock extends Block {
-    private final Supplier<BlockState> clusterState;
+    private final Block smallBud;
+    private final Block mediumBud;
+    private final Block largeBud;
+    private final Block cluster;
 
-    public BuddingCrystalBlock(Supplier<BlockState> clusterState, BlockBehaviour.Properties properties) {
+    public BuddingCrystalBlock(Block smallBud, Block mediumBud, Block largeBud, Block cluster, BlockBehaviour.Properties properties) {
         super(properties);
-        this.clusterState = clusterState;
+        this.smallBud = smallBud;
+        this.mediumBud = mediumBud;
+        this.largeBud = largeBud;
+        this.cluster = cluster;
     }
 
     @Override
@@ -27,10 +31,37 @@ public class BuddingCrystalBlock extends Block {
 
         Direction direction = Direction.values()[random.nextInt(Direction.values().length)];
         BlockPos targetPos = pos.relative(direction);
-        if (!level.getBlockState(targetPos).isAir()) {
+        BlockState targetState = level.getBlockState(targetPos);
+        BlockState nextState = nextGrowthState(targetState, direction);
+
+        if (nextState == null) {
             return;
         }
 
-        level.setBlockAndUpdate(targetPos, clusterState.get().setValue(AmethystClusterBlock.FACING, direction));
+        level.setBlockAndUpdate(targetPos, nextState);
+    }
+
+    private BlockState nextGrowthState(BlockState state, Direction direction) {
+        if (state.isAir()) {
+            return smallBud.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction);
+        }
+
+        if (!state.hasProperty(AmethystClusterBlock.FACING) || state.getValue(AmethystClusterBlock.FACING) != direction) {
+            return null;
+        }
+
+        if (state.is(smallBud)) {
+            return mediumBud.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction);
+        }
+
+        if (state.is(mediumBud)) {
+            return largeBud.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction);
+        }
+
+        if (state.is(largeBud)) {
+            return cluster.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction);
+        }
+
+        return null;
     }
 }

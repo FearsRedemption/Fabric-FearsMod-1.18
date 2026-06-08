@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "fearsmod:block/medium_agate_bud",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "fearsmod:block/medium_agate_bud",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "fearsmod:block/medium_agate_bud",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "fearsmod:block/medium_agate_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "fearsmod:block/medium_agate_bud"
+    },
+    "facing=west": {
+      "model": "fearsmod:block/medium_agate_bud",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
