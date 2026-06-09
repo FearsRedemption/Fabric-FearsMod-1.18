@@ -23,15 +23,15 @@ public final class JournalUnlocks {
             new Discovery("voxite_ingot", player -> has(player, ModItems.VOXITE_INGOT)),
             new Discovery("magitek_ingot", player -> has(player, ModItems.MAGITEK_INGOT)),
             new Discovery("combined_ingots", player -> hasTag(player, "voxite_ingot") && hasTag(player, "magitek_ingot")),
-            new Discovery("resonance_workbench", player -> has(player, MobBlocks.RESONANCE_WORKBENCH.asItem())),
-            new Discovery("power_blocks", player -> has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
-            new Discovery("starter_structure", player -> hasTag(player, "resonance_workbench") && has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
-            new Discovery("ritual_basics", player -> hasTag(player, "resonance_workbench") && has(player, Items.REDSTONE)),
-            new Discovery("staff_ritual", player -> has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
-            new Discovery("first_staff", JournalUnlocks::hasAnyStaff),
-            new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff") || has(player, ModItems.FOCUSING_LENS)),
-            new Discovery("stack_handling", player -> hasTag(player, "ritual_basics")),
-            new Discovery("crystal_growth", JournalUnlocks::hasAnyModShard),
+            new Discovery("power_blocks", player -> hasTag(player, "combined_ingots") && has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
+            new Discovery("resonance_workbench", player -> hasTag(player, "combined_ingots") && has(player, MobBlocks.RESONANCE_WORKBENCH.asItem())),
+            new Discovery("starter_structure", player -> hasTag(player, "power_blocks") && hasTag(player, "resonance_workbench")),
+            new Discovery("ritual_basics", player -> hasTag(player, "starter_structure") && has(player, Items.REDSTONE)),
+            new Discovery("staff_ritual", player -> hasTag(player, "ritual_basics") && has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
+            new Discovery("first_staff", player -> hasTag(player, "staff_ritual") && hasAnyStaff(player)),
+            new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff") && has(player, ModItems.FOCUSING_LENS)),
+            new Discovery("stack_handling", player -> hasTag(player, "first_staff")),
+            new Discovery("crystal_growth", player -> hasTag(player, "staff_ritual") && hasAnyModShard(player)),
             new Discovery("future", player -> hasTag(player, "first_staff"))
     );
 
@@ -70,8 +70,8 @@ public final class JournalUnlocks {
 
     private static void notifyJournalUpdate(ServerPlayer player) {
         player.sendOverlayMessage(Component.translatable("item.fearsmod.resonance_journal.note"));
-        player.playSound(SoundEvents.BOOK_PAGE_TURN, 0.65F, 1.1F);
-        player.playSound(SoundEvents.BRUSH_GENERIC, 0.35F, 1.25F);
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BOOK_PAGE_TURN, SoundSource.PLAYERS, 0.9F, 1.1F);
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BRUSH_GENERIC, SoundSource.PLAYERS, 0.7F, 1.25F);
         JournalNetworking.sync(player);
     }
 

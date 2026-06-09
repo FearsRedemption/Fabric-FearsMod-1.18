@@ -54,19 +54,16 @@ public final class ResonanceJournalClient {
     private static List<JournalPage> buildPages(Set<String> unlocked) {
         List<JournalPage> pages = new ArrayList<>();
         for (JournalEntry entry : loadEntries()) {
-            boolean visible = entry.alwaysVisible() || unlocked.contains(entry.unlock());
-            pages.add(new JournalPage(
-                    visible ? entry.title() : "Undiscovered Entry",
-                    visible ? entry.text() : "The notes here are incomplete. I need to discover more before this makes sense.",
-                    visible
-            ));
+            if (entry.alwaysVisible() || unlocked.contains(entry.unlock())) {
+                pages.add(new JournalPage(entry.unlock(), entry.title(), entry.text()));
+            }
         }
 
         if (pages.isEmpty()) {
             pages.add(new JournalPage(
+                    "start",
                     "Resonance Journal",
-                    "I started this journal because the materials I keep finding do not behave like normal stone or metal.",
-                    true
+                    "I started this journal because the materials I keep finding do not behave like normal stone or metal."
             ));
         }
         return pages;
@@ -102,6 +99,6 @@ public final class ResonanceJournalClient {
     private record JournalEntry(String unlock, String title, String text, boolean alwaysVisible) {
     }
 
-    public record JournalPage(String title, String text, boolean unlocked) {
+    public record JournalPage(String unlock, String title, String text) {
     }
 }
