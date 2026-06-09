@@ -5,6 +5,8 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fearsredemption.fearsmod.FearsMod;
 import net.fearsredemption.fearsmod.block.custom.BuddingCrystalBlock;
+import net.fearsredemption.fearsmod.block.custom.ResonanceSocketBlock;
+import net.fearsredemption.fearsmod.block.custom.ResonanceSocketType;
 import net.fearsredemption.fearsmod.block.custom.ResonanceWorkbenchBlock;
 import net.fearsredemption.fearsmod.item.ModItemGroup;
 import net.minecraft.core.Registry;
@@ -26,13 +28,13 @@ public class MobBlocks {
     public static final Block RESONANCE_WORKBENCH = register("resonance_workbench", ResonanceWorkbenchBlock::new,
             BlockBehaviour.Properties.of().strength(3.0f).requiresCorrectToolForDrops().sound(SoundType.COPPER));
 
-    public static final Block MAGITEK_CORE = register("magitek_core", Block::new,
+    public static final Block MAGITEK_CORE = register("magitek_core", properties -> new ResonanceSocketBlock(ResonanceSocketType.CORE, properties),
             BlockBehaviour.Properties.of().strength(5.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).lightLevel(state -> 4));
 
-    public static final Block VOXITE_STABILIZER = register("voxite_stabilizer", Block::new,
+    public static final Block VOXITE_STABILIZER = register("voxite_stabilizer", properties -> new ResonanceSocketBlock(ResonanceSocketType.STABILIZER, properties),
             BlockBehaviour.Properties.of().strength(5.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).lightLevel(state -> 2));
 
-    public static final Block AMETHYST_FOCUS = register("amethyst_focus", Block::new,
+    public static final Block AMETHYST_FOCUS = register("amethyst_focus", properties -> new ResonanceSocketBlock(ResonanceSocketType.FOCUS, properties),
             BlockBehaviour.Properties.of().strength(1.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(state -> 5));
 
     //MAGITEK BLOCKS

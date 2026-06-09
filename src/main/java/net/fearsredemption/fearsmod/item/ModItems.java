@@ -72,7 +72,6 @@ public class ModItems {
             entries.accept(VOXITE_INGOT);
             entries.accept(VOXITE_NUGGET);
             entries.accept(RAW_VOXITE);
-            entries.accept(DOWSING_ROD);
         });
 
         CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.CRYSTALS_KEY).register(entries -> {
@@ -84,6 +83,7 @@ public class ModItems {
         });
 
         CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.RESONANCE_KEY).register(entries -> {
+            entries.accept(DOWSING_ROD);
             entries.accept(RESONANT_COPPER);
             entries.accept(STABILIZED_IRON_PLATE);
             entries.accept(CHARGED_MAGITEK_CORE);

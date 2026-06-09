@@ -1,6 +1,6 @@
 # Resonance Apparatus Testing Guide
 
-This checklist covers the first gameplay pass for the spatial Resonance Apparatus system.
+This checklist covers the spatial Resonance Apparatus system.
 
 ## 1. Preflight
 
@@ -44,6 +44,7 @@ Confirm these blocks exist:
 
 Confirm these items exist:
 
+- Resonance Staff
 - Resonant Copper
 - Stabilized Iron Plate
 - Charged Magitek Core
@@ -52,7 +53,7 @@ Confirm these items exist:
 Also confirm the existing material tabs still show their normal items:
 
 - Magitek tab: Magitek ingots, nuggets, raw Magitek, ores, block
-- Voxite tab: Voxite ingots, nuggets, raw Voxite, ores, block, Dowsing Rod
+- Voxite tab: Voxite ingots, nuggets, raw Voxite, ores, block
 - Crystals tab: crystal shards, crystal blocks, buds, clusters
 
 ## 3. Crafting Recipe Checks
@@ -161,145 +162,167 @@ Expected result:
 
 - Produces Amethyst Focus.
 
-## 4. Apparatus Layout Checks
+## 4. Apparatus Pattern Checks
 
-Place a Resonance Workbench in the world.
+The Resonance Workbench now validates an exact top-down 9x9 apparatus circle on the same Y level as the bench.
 
-The workbench scans a 3-block radius around itself. Nearby apparatus blocks may be above, below, beside, or diagonal as long as they are within that radius.
+Use this pattern:
 
-### Invalid Setup
+```text
+XXXFCFXXX
+XXSXXXSXX
+XSXXXXXSX
+FXXXXXXXF
+CXXXBXXXC
+FXXXXXXXF
+XSXXXXXSX
+XXSXXXSXX
+XXXFCFXXX
+```
 
-Place only:
+Legend:
 
-- Resonance Workbench
-
-Right-click the workbench with a Copper Ingot.
-
-Expected result:
-
-- No item is crafted.
-- The workbench reports that it needs a Magitek Core and an Amethyst Focus.
-
-### Basic Valid Setup
-
-Place within 3 blocks of the Resonance Workbench:
-
-- Magitek Core
-- Amethyst Focus
-
-Do not place a Voxite Stabilizer yet.
+- `B` = Resonance Workbench
+- `C` = Magitek Core
+- `S` = Voxite Stabilizer
+- `F` = Amethyst Focus
+- `X` = air, floor, or anything not part of the apparatus
 
 Right-click the workbench with an empty hand.
 
+Expected result for a complete pattern:
+
+- Status says `Pattern complete: true`.
+- Missing sockets count is `0`.
+
+Expected result for an incomplete pattern:
+
+- Status says `Pattern complete: false`.
+- Missing socket count is greater than `0`.
+- Activating with the staff reports the first missing socket offset from the bench.
+
+## 5. Socket Item Checks
+
+Magitek Cores, Voxite Stabilizers, and Amethyst Foci are now item sockets.
+
+Test placing an item:
+
+1. Hold an ingredient item.
+2. Right-click a core, stabilizer, or focus.
+
 Expected result:
 
-- Status message shows Magitek Core = true.
-- Status message shows Amethyst Focus = true.
-- Status message shows Stable = false.
+- The block stores one item.
+- The held stack shrinks by 1, unless in Creative.
+- The stored item appears as a floating item model above the socket.
+- The floating item slowly bobs and rotates.
+- Colored particles appear above the socket.
+- Occasional item particles appear above the socket.
 
-### Stable Setup
+Test removing an item:
 
-Add within 3 blocks of the Resonance Workbench:
-
-- Voxite Stabilizer
-
-Right-click the workbench with an empty hand.
+1. Empty your hand.
+2. Right-click the socket.
 
 Expected result:
 
-- Status message shows Stable = true.
+- The stored item returns to inventory, or drops if inventory is full.
+- The socket becomes empty.
+- The floating item model and socket particles stop rendering shortly after removal.
 
-## 5. Resonance Recipe Checks
+Test occupied socket behavior:
 
-These are not normal crafting-table recipes. They are right-click interactions on the Resonance Workbench.
+1. Place one item on a socket.
+2. Try placing a second item on the same socket.
+
+Expected result:
+
+- The second item is not consumed.
+- The socket reports that it is already occupied.
+
+Test save/load behavior:
+
+1. Place an item on any socket.
+2. Exit the world.
+3. Reopen the world.
+
+Expected result:
+
+- The socket still contains the item.
+- The same floating item model renders above the socket after the world reloads.
+
+## 6. Staff Activation Recipe Checks
+
+These are not normal crafting-table recipes. Place items into sockets, then right-click the Resonance Workbench with the Resonance Staff.
 
 ### Resonant Copper
 
-Required setup:
+Required pattern:
 
-- Resonance Workbench
-- Nearby Magitek Core
-- Nearby Amethyst Focus
+- Complete 9x9 apparatus circle
 
-Test:
+Socketed ingredient:
 
-1. Hold a Copper Ingot.
-2. Right-click the Resonance Workbench.
+- Copper Ingot on any Amethyst Focus
+
+Activation:
+
+1. Place Copper Ingot on an Amethyst Focus.
+2. Right-click the Resonance Workbench with the Resonance Staff.
 
 Expected result:
 
-- Consumes 1 Copper Ingot, unless in Creative.
+- Consumes the socketed Copper Ingot.
 - Gives 1 Resonant Copper.
-- Plays an amethyst resonance sound.
+- Damages the staff by 1, unless in Creative.
+- Plays resonance sounds.
 
 ### Stabilized Iron Plate
 
-Required setup:
+Required pattern:
 
-- Resonance Workbench
-- Nearby Magitek Core
-- Nearby Amethyst Focus
-- Nearby Voxite Stabilizer
+- Complete 9x9 apparatus circle
 
-Test without stabilizer:
+Socketed ingredient:
 
-1. Remove or move the Voxite Stabilizer farther than 3 blocks away.
-2. Hold an Iron Ingot.
-3. Right-click the Resonance Workbench.
+- Iron Ingot on any Voxite Stabilizer
 
-Expected result:
+Activation:
 
-- No item is crafted.
-- The workbench reports that the iron pattern requires a Voxite Stabilizer.
-
-Test with stabilizer:
-
-1. Place the Voxite Stabilizer back within 3 blocks.
-2. Hold an Iron Ingot.
-3. Right-click the Resonance Workbench.
+1. Place Iron Ingot on a Voxite Stabilizer.
+2. Right-click the Resonance Workbench with the Resonance Staff.
 
 Expected result:
 
-- Consumes 1 Iron Ingot, unless in Creative.
+- Consumes the socketed Iron Ingot.
 - Gives 1 Stabilized Iron Plate.
+- Damages the staff by 1, unless in Creative.
 
 ### Charged Magitek Core
 
-Required setup:
+Required pattern:
 
-- Resonance Workbench
-- Nearby Magitek Core
-- Nearby Amethyst Focus
+- Complete 9x9 apparatus circle
 
-Required inventory:
+Socketed ingredients:
 
-- Hold 1 Magitek Ingot.
-- Have at least 1 Amethyst Shard anywhere in player inventory.
+- Magitek Ingot on any Magitek Core
+- Amethyst Shard on any Amethyst Focus
 
-Test without Amethyst Shard:
+Activation:
 
-1. Remove Amethyst Shards from inventory.
-2. Hold a Magitek Ingot.
-3. Right-click the Resonance Workbench.
+1. Place Magitek Ingot on a Magitek Core.
+2. Place Amethyst Shard on an Amethyst Focus.
+3. Right-click the Resonance Workbench with the Resonance Staff.
 
 Expected result:
 
-- No item is crafted.
-- The workbench reports that a Magitek charge needs an Amethyst Shard.
-
-Test with Amethyst Shard:
-
-1. Add an Amethyst Shard to inventory.
-2. Hold a Magitek Ingot.
-3. Right-click the Resonance Workbench.
-
-Expected result:
-
-- Consumes 1 Magitek Ingot, unless in Creative.
-- Consumes 1 Amethyst Shard, unless in Creative.
+- Consumes the socketed Magitek Ingot.
+- Consumes the socketed Amethyst Shard.
 - Gives 1 Charged Magitek Core.
+- Damages the staff by 1, unless in Creative.
 
-## 6. Mining And Drops
+## 7. Mining And Drops
 
 Test each apparatus block in Survival mode with a valid pickaxe:
 
@@ -312,21 +335,25 @@ Expected result:
 
 - Blocks mine normally with a pickaxe.
 - Blocks drop themselves.
+- If a socket is holding an item, the held item drops when the block breaks.
 
 Also test incorrect tools:
 
 - Breaking Magitek Core or Voxite Stabilizer without a suitable pickaxe should not behave like normal hand-mined blocks.
 
-## 7. Visual Checks
+## 8. Visual Checks
 
-Place all four apparatus blocks together.
+Place the full apparatus circle.
 
 Expected visual feel:
 
-- Resonance Workbench reads as a copper-and-stone physical table with a tuned center.
-- Magitek Core reads as volatile pink resonance/power.
-- Voxite Stabilizer reads as cool blue stabilization geometry.
-- Amethyst Focus reads as a copper-framed violet focusing component.
+- Resonance Workbench has an animated copper/stone glyph top.
+- Magitek Core has volatile pink-magitek pulsing frames.
+- Voxite Stabilizer has a cooler blue stabilizing pulse.
+- Amethyst Focus has a violet lens glint.
+- Resonance Staff looks like a staff, not an ore test rod.
+- Socketed ingredients float above the socket with a subtle bob and spin.
+- Socketed ingredients create colored dust and item particles that match the ingredient family.
 
 Check item icons:
 
@@ -335,22 +362,21 @@ Check item icons:
 - Charged Magitek Core should read as a compact magitek charge.
 - Focusing Lens should read as amethyst/copper optical hardware.
 
-## 8. Regression Checks
+## 9. Regression Checks
 
 Confirm existing systems still work:
 
-- Voxite and Magitek ores are still mineable with diamond-tier or better tools.
+- Voxite and Magitek ores and storage blocks are still mineable with iron-tier or better tools.
 - Crystal buds and clusters still mine like amethyst.
 - Shard item textures still have transparent backgrounds.
 - Existing ingots, nuggets, raw materials, and crystal shards still render in inventory.
 
-## 9. Known First-Pass Limits
+## 10. Known First-Pass Limits
 
 These are expected for this version:
 
 - No GUI yet.
-- No block entity inventory yet.
-- No instability effects yet.
-- Resonance transformations are hardcoded in `ResonanceWorkbenchBlock`.
-- Custom resonance recipe JSON is planned for a later pass.
-- Dowsing Rod is not part of the apparatus system.
+- No custom resonance recipe JSON yet.
+- No advanced instability effects yet.
+- Floating socket items are visual only; the socket still stores a single item stack in its block entity.
+- The legacy `dowsing_rod` item id is kept, but its display name and behavior are now Resonance Staff.

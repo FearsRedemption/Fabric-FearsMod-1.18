@@ -1,6 +1,7 @@
 package net.fearsredemption.fearsmod;
 
 import net.fabricmc.api.ModInitializer;
+import net.fearsredemption.fearsmod.block.entity.ModBlockEntities;
 import net.fearsredemption.fearsmod.block.MobBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.fearsredemption.fearsmod.world.ModWorldGeneration;
@@ -15,6 +16,7 @@ public class FearsMod implements ModInitializer {
 	public void onInitialize() {
 		ModItems.initialize();
 		MobBlocks.initialize();
+		ModBlockEntities.initialize();
 		ModWorldGeneration.initialize();
 	}
 }

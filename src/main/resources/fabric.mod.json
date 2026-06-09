@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "net.fearsredemption.fearsmod.FearsMod"
+    ],
+    "client": [
+      "net.fearsredemption.fearsmod.client.FearsModClient"
     ]
   },
   "mixins": [
