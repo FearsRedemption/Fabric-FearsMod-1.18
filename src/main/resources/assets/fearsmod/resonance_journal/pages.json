@@ -63,7 +63,7 @@
   {
     "unlock": "apparatus_rituals",
     "title": "Apparatus Ideas",
-    "text": "If the staff is a conduit, then larger apparatus pieces may need the same kind of treatment. Cores, stabilizers, and lenses should be possible if the workbench can keep the reaction narrow enough.\n\nI should keep testing simple groups of metal, crystal, and redstone."
+    "text": "The staff should be able to act as a catalyst without being spent. I should toss materials near the workbench, then tap the workbench with the staff.\n\nA focus may want glass, copper, and an amethyst shard. A core may want copper, amethyst, and Magitek. A stabilizer may want Voxite and amethyst."
   },
   {
     "unlock": "stack_handling",

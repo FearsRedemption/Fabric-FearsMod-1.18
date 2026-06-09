@@ -249,7 +249,7 @@ public class ResonanceJournalScreen extends Screen {
 
     private boolean hasDiagram(String unlock) {
         return switch (unlock) {
-            case "combined_ingots", "starter_structure", "ritual_basics", "staff_ritual" -> true;
+            case "combined_ingots", "starter_structure", "ritual_basics", "staff_ritual", "apparatus_rituals" -> true;
             default -> false;
         };
     }
@@ -294,9 +294,40 @@ public class ResonanceJournalScreen extends Screen {
                 drawCenteredText(graphics, "Shard: " + shard.getHoverName().getString(), x + 55, y + 52, MUTED_TEXT_COLOR);
                 drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
             }
+            case "apparatus_rituals" -> drawApparatusRecipe(graphics, x, y);
             default -> {
             }
         }
+    }
+
+    private void drawApparatusRecipe(GuiGraphicsExtractor graphics, int x, int y) {
+        int recipeIndex = (int) ((System.currentTimeMillis() / 2200L) % 3L);
+        switch (recipeIndex) {
+            case 0 -> {
+                drawCenteredText(graphics, "Amethyst Focus", x + 55, y, MUTED_TEXT_COLOR);
+                drawIconRow(graphics, x + 55, y + 24,
+                        new ItemStack(Items.GLASS),
+                        new ItemStack(Items.COPPER_INGOT),
+                        new ItemStack(Items.AMETHYST_SHARD));
+            }
+            case 1 -> {
+                drawCenteredText(graphics, "Magitek Core", x + 55, y, MUTED_TEXT_COLOR);
+                drawIconRow(graphics, x + 55, y + 24,
+                        new ItemStack(Items.COPPER_INGOT),
+                        new ItemStack(Items.AMETHYST_SHARD),
+                        new ItemStack(ModItems.MAGITEK_INGOT));
+            }
+            case 2 -> {
+                drawCenteredText(graphics, "Voxite Stabilizer", x + 55, y, MUTED_TEXT_COLOR);
+                drawIconRow(graphics, x + 55, y + 24,
+                        new ItemStack(ModItems.VOXITE_INGOT),
+                        new ItemStack(Items.AMETHYST_SHARD));
+            }
+            default -> {
+            }
+        }
+
+        drawCatalyst(graphics, x + 55, y + 72, new ItemStack(ModItems.RESONANCE_STAFF));
     }
 
     private void drawGrid(GuiGraphicsExtractor graphics, int x, int y, ItemStack[][] stacks) {

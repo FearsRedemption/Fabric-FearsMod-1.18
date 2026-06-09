@@ -99,10 +99,47 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         if (ModItems.isResonanceStaff(stack)) {
+            InteractionResult ritualResult = startStaffCatalyzedRitual(level, pos, player);
+            if (ritualResult != InteractionResult.PASS) {
+                return ritualResult;
+            }
+
             return activateWithStaff(level, pos, player, stack, hand);
         }
 
         player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.place_on_sockets"));
+        return InteractionResult.SUCCESS;
+    }
+
+    private static InteractionResult startStaffCatalyzedRitual(Level level, BlockPos pos, Player player) {
+        if (!(level instanceof ServerLevel serverLevel) || !(level.getBlockEntity(pos) instanceof ResonanceWorkbenchBlockEntity workbench)) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (!hasRitualStructure(level, pos)) {
+            return InteractionResult.PASS;
+        }
+
+        if (workbench.isRitualActive()) {
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_active"));
+            return InteractionResult.SUCCESS;
+        }
+
+        RitualPlan plan = findStaffCatalyzedRitualPlan(serverLevel, pos);
+        if (plan == null) {
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_no_recipe"));
+            return InteractionResult.SUCCESS;
+        }
+
+        protectRitualStacks(serverLevel, pos, ingredientsFor(plan.recipeIndex(), plan.output()));
+        workbench.startRitual(player, plan.recipeIndex(), plan.output());
+        serverLevel.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5D, pos.getY() + 1.15D, pos.getZ() + 0.5D, 18, 0.35D, 0.25D, 0.35D, 0.03D);
+        serverLevel.sendParticles(new DustParticleOptions(0xB987FF, 1.1F), pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, 12, 0.25D, 0.2D, 0.25D, 0.02D);
+        level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.8F, 1.15F);
+        if (player instanceof ServerPlayer serverPlayer) {
+            JournalUnlocks.unlock(serverPlayer, "apparatus_rituals");
+        }
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_started", new ItemStack(plan.output()).getDisplayName()));
         return InteractionResult.SUCCESS;
     }
 
@@ -218,7 +255,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             return List.of(Items.STICK, ModItems.VOXITE_INGOT, ModItems.MAGITEK_INGOT, ModItems.shardForStaff(output));
         }
         if (recipeIndex == RITUAL_AMETHYST_FOCUS) {
-            return List.of(Items.AMETHYST_SHARD, Items.COPPER_INGOT, ModItems.FOCUSING_LENS, ModItems.VOXITE_INGOT);
+            return List.of(Items.GLASS, Items.COPPER_INGOT, Items.AMETHYST_SHARD);
         }
         if (recipeIndex == RITUAL_MAGITEK_CORE) {
             return List.of(Items.COPPER_INGOT, Items.AMETHYST_SHARD, ModItems.MAGITEK_INGOT);
@@ -269,6 +306,10 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             return new RitualPlan(RITUAL_STAFF, staffItem);
         }
 
+        return null;
+    }
+
+    private static RitualPlan findStaffCatalyzedRitualPlan(ServerLevel level, BlockPos pos) {
         if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_AMETHYST_FOCUS, ModBlocks.AMETHYST_FOCUS.asItem()))) {
             return new RitualPlan(RITUAL_AMETHYST_FOCUS, ModBlocks.AMETHYST_FOCUS.asItem());
         }

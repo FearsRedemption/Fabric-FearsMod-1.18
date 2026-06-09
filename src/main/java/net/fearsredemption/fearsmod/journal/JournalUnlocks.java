@@ -31,7 +31,7 @@ public final class JournalUnlocks {
             new Discovery("ritual_basics", player -> hasTag(player, "starter_structure") && hasNearbyStarterStructure(player), "item.fearsmod.resonance_journal.idea"),
             new Discovery("staff_ritual", player -> hasTag(player, "ritual_basics") && has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
             new Discovery("first_staff", player -> hasTag(player, "staff_ritual") && hasAnyStaff(player)),
-            new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff") && has(player, ModItems.FOCUSING_LENS)),
+            new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff")),
             new Discovery("stack_handling", player -> hasTag(player, "first_staff")),
             new Discovery("crystal_growth", player -> hasTag(player, "staff_ritual") && hasAnyModShard(player)),
             new Discovery("future", player -> hasTag(player, "first_staff"))
