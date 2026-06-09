@@ -47,13 +47,13 @@
   },
   {
     "unlock": "ritual_basics",
-    "title": "Redstone Spark",
-    "text": "The workbench does not want items placed into slots. It reacts to loose materials nearby, as if the structure pulls only what it needs.\n\nRedstone dust might make a good catalyst. I should toss the materials near the workbench, then use redstone dust on it to spark the reaction."
+    "title": "I Have an Idea",
+    "text": "The pattern feels right. The blocks are not decorations; they are anchors. The workbench sits where the reaction wants to gather.\n\nFor a first conduit, I should toss a stick, Voxite ingot, Magitek ingot, and a crystal shard near the workbench. Redstone dust should be enough to spark it."
   },
   {
     "unlock": "staff_ritual",
     "title": "A Conduit",
-    "text": "For further creations I'll need a powerful conduit, like a staff. A stick can give it shape, Voxite can steady it, Magitek can feed it, and a crystal shard can tune it.\n\nI should toss a stick, Voxite ingot, Magitek ingot, and a shard near the workbench, then use redstone dust as the catalyst. Amethyst should work, and my other shards may make their own variants."
+    "text": "The materials are all here. A stick can give the conduit shape, Voxite can steady it, Magitek can feed it, and a shard can tune it.\n\nAmethyst should make the simplest staff. My other shards may bend the same pattern into their own variants."
   },
   {
     "unlock": "first_staff",

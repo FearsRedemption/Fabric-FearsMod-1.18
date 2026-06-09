@@ -92,5 +92,6 @@
   "block.fearsmod.resonance_workbench.ritual_stopped": "The ritual failed. I need to check my notes and try again.",
   "block.fearsmod.resonance_workbench.repeated_not_enabled": "Repeated processing is manual for now: spark the workbench again for the next item.",
   "item.fearsmod.resonance_journal": "Resonance Journal",
-  "item.fearsmod.resonance_journal.note": "I should write this down."
+  "item.fearsmod.resonance_journal.note": "I should write this down.",
+  "item.fearsmod.resonance_journal.idea": "I have an idea. I need to write this down."
 }

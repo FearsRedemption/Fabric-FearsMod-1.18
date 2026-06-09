@@ -171,7 +171,7 @@ public class ResonanceJournalScreen extends Screen {
 
     private boolean hasDiagram(String unlock) {
         return switch (unlock) {
-            case "combined_ingots", "starter_structure", "staff_ritual" -> true;
+            case "combined_ingots", "starter_structure", "ritual_basics", "staff_ritual" -> true;
             default -> false;
         };
     }
@@ -196,12 +196,21 @@ public class ResonanceJournalScreen extends Screen {
             }
             case "staff_ritual" -> {
                 drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
-                drawIconRow(graphics, x + 55, y + 28,
-                    new ItemStack(Items.STICK),
-                    new ItemStack(ModItems.VOXITE_INGOT),
-                    new ItemStack(ModItems.MAGITEK_INGOT),
-                    new ItemStack(Items.AMETHYST_SHARD),
-                    new ItemStack(Items.REDSTONE));
+                drawIconRow(graphics, x + 55, y + 24,
+                        new ItemStack(Items.STICK),
+                        new ItemStack(ModItems.VOXITE_INGOT),
+                        new ItemStack(ModItems.MAGITEK_INGOT),
+                        new ItemStack(Items.AMETHYST_SHARD));
+                drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
+            }
+            case "ritual_basics" -> {
+                drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
+                drawIconRow(graphics, x + 55, y + 24,
+                        new ItemStack(Items.STICK),
+                        new ItemStack(ModItems.VOXITE_INGOT),
+                        new ItemStack(ModItems.MAGITEK_INGOT),
+                        new ItemStack(Items.AMETHYST_SHARD));
+                drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
             }
             default -> {
             }
@@ -228,9 +237,21 @@ public class ResonanceJournalScreen extends Screen {
         int startX = centerX - (stacks.length * gap - 4) / 2;
         for (int i = 0; i < stacks.length; i++) {
             int x = startX + i * gap;
-            graphics.fill(x - 1, y - 1, x + 17, y + 17, 0x44FFFFFF);
-            graphics.item(stacks[i], x, y);
+            drawItemSlot(graphics, stacks[i], x, y);
+            drawCenteredText(graphics, "x1", x + 8, y + 19, MUTED_TEXT_COLOR);
         }
+    }
+
+    private void drawCatalyst(GuiGraphicsExtractor graphics, int centerX, int y, ItemStack catalyst) {
+        drawCenteredText(graphics, "Catalyst:", centerX, y, MUTED_TEXT_COLOR);
+        drawItemSlot(graphics, catalyst, centerX - 8, y + 13);
+        drawCenteredText(graphics, "x1", centerX, y + 32, MUTED_TEXT_COLOR);
+    }
+
+    private void drawItemSlot(GuiGraphicsExtractor graphics, ItemStack stack, int x, int y) {
+        graphics.fill(x - 1, y - 1, x + 17, y + 17, 0x44FFFFFF);
+        graphics.outline(x - 1, y - 1, 18, 18, 0x778B6F8E);
+        graphics.item(stack, x, y);
     }
 
     private void drawCenteredText(GuiGraphicsExtractor graphics, String text, int centerX, int y, int color) {

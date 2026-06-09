@@ -7,9 +7,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,7 +28,7 @@ public final class JournalUnlocks {
             new Discovery("power_blocks", player -> hasTag(player, "combined_ingots") && has(player, ModBlocks.VOXITE_BLOCK.asItem()) && has(player, ModBlocks.MAGITEK_BLOCK.asItem())),
             new Discovery("resonance_workbench", player -> hasTag(player, "combined_ingots") && has(player, ModBlocks.RESONANCE_WORKBENCH.asItem())),
             new Discovery("starter_structure", player -> hasTag(player, "power_blocks") && hasTag(player, "resonance_workbench")),
-            new Discovery("ritual_basics", player -> hasTag(player, "starter_structure") && has(player, Items.REDSTONE)),
+            new Discovery("ritual_basics", player -> hasTag(player, "starter_structure") && hasNearbyStarterStructure(player), "item.fearsmod.resonance_journal.idea"),
             new Discovery("staff_ritual", player -> hasTag(player, "ritual_basics") && has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
             new Discovery("first_staff", player -> hasTag(player, "staff_ritual") && hasAnyStaff(player)),
             new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff") && has(player, ModItems.FOCUSING_LENS)),
@@ -51,7 +53,7 @@ public final class JournalUnlocks {
             return;
         }
 
-        notifyJournalUpdate(player);
+        notifyJournalUpdate(player, "item.fearsmod.resonance_journal.note");
     }
 
     public static void refresh(ServerPlayer player) {
@@ -68,8 +70,8 @@ public final class JournalUnlocks {
         return ids;
     }
 
-    private static void notifyJournalUpdate(ServerPlayer player) {
-        player.sendOverlayMessage(Component.translatable("item.fearsmod.resonance_journal.note"));
+    private static void notifyJournalUpdate(ServerPlayer player, String messageKey) {
+        player.sendOverlayMessage(Component.translatable(messageKey));
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BOOK_PAGE_TURN, SoundSource.PLAYERS, 0.9F, 1.1F);
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BRUSH_GENERIC, SoundSource.PLAYERS, 0.7F, 1.25F);
         JournalNetworking.sync(player);
@@ -80,15 +82,20 @@ public final class JournalUnlocks {
             return;
         }
 
+        String messageKey = "item.fearsmod.resonance_journal.note";
         boolean changed = addTag(player, "start");
         for (Discovery discovery : DISCOVERIES) {
             if (discovery.condition().matches(player)) {
-                changed |= addTag(player, discovery.tag());
+                boolean added = addTag(player, discovery.tag());
+                if (added && discovery.messageKey() != null) {
+                    messageKey = discovery.messageKey();
+                }
+                changed |= added;
             }
         }
 
         if (changed) {
-            notifyJournalUpdate(player);
+            notifyJournalUpdate(player, messageKey);
         }
     }
 
@@ -116,7 +123,23 @@ public final class JournalUnlocks {
         return player.getInventory().contains(ModItems::isResonanceStaff);
     }
 
-    private record Discovery(String tag, Condition condition) {
+    private static boolean hasNearbyStarterStructure(ServerPlayer player) {
+        Level level = player.level();
+        BlockPos playerPos = player.blockPosition();
+        for (BlockPos candidate : BlockPos.betweenClosed(playerPos.offset(-8, -4, -8), playerPos.offset(8, 4, 8))) {
+            if (level.getBlockState(candidate).getBlock() == ModBlocks.RESONANCE_WORKBENCH
+                    && net.fearsredemption.fearsmod.block.custom.ResonanceWorkbenchBlock.hasRitualStructure(level, candidate)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private record Discovery(String tag, Condition condition, String messageKey) {
+        private Discovery(String tag, Condition condition) {
+            this(tag, condition, null);
+        }
     }
 
     @FunctionalInterface
