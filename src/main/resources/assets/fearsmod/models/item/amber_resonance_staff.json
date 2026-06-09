@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "fearsmod:item/amber_resonance_staff"
+  }
+}

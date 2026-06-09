@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "fearsmod:item/agate_resonance_staff"
+  }
+}

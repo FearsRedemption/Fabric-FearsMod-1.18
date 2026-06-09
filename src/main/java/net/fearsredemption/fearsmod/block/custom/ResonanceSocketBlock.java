@@ -58,7 +58,7 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
             return takeStoredItem(level, pos, player);
         }
 
-        if (stack.getItem() == ModItems.DOWSING_ROD) {
+        if (ModItems.isResonanceStaff(stack)) {
             describeSocket(level, pos, player);
             return InteractionResult.SUCCESS;
         }

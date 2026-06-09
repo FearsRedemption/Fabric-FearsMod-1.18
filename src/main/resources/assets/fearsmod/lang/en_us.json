@@ -5,7 +5,7 @@
   "item.fearsmod.voxite_ingot": "Voxite Ingot",
   "item.fearsmod.voxite_nugget": "Voxite Nugget",
   "item.fearsmod.raw_voxite": "Raw Voxite",
-  "item.fearsmod.dowsing_rod": "Resonance Staff",
+  "item.fearsmod.dowsing_rod": "Deprecated Dowsing Rod",
   "block.fearsmod.magitek_block": "Magitek Block",
   "block.fearsmod.magitek_ore": "Magitek Ore",
   "block.fearsmod.deepslate_magitek_ore": "Deepslate Magitek Ore",
@@ -76,5 +76,14 @@
   "block.fearsmod.resonance_socket.occupied": "This resonance socket is already holding %s.",
   "block.fearsmod.resonance_socket.placed": "Set %s into the resonance field.",
   "block.fearsmod.resonance_socket.removed": "Recovered %s from the resonance field.",
-  "block.fearsmod.resonance_socket.contains": "This resonance socket is holding %s."
+  "block.fearsmod.resonance_socket.contains": "This resonance socket is holding %s.",
+  "item.fearsmod.resonance_staff": "Resonance Staff",
+  "item.fearsmod.agate_resonance_staff": "Agate Resonance Staff",
+  "item.fearsmod.amber_resonance_staff": "Amber Resonance Staff",
+  "item.fearsmod.aquamarine_resonance_staff": "Aquamarine Resonance Staff",
+  "item.fearsmod.ruby_resonance_staff": "Ruby Resonance Staff",
+  "item.fearsmod.topaz_resonance_staff": "Topaz Resonance Staff",
+  "block.fearsmod.resonance_workbench.ritual_active": "The starter ritual is already gathering resonance.",
+  "block.fearsmod.resonance_workbench.starter_structure_invalid": "The starter ritual needs Voxite north and south, with Magitek east and west.",
+  "block.fearsmod.resonance_workbench.starter_missing_items": "The starter ritual needs a Stick, Voxite Ingot, Magitek Ingot, and one valid crystal shard nearby."
 }

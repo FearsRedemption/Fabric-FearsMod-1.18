@@ -11,6 +11,15 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import static net.fearsredemption.fearsmod.FearsMod.MOD_ID;
 
 public class ModBlockEntities {
+    public static final BlockEntityType<ResonanceWorkbenchBlockEntity> RESONANCE_WORKBENCH = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(MOD_ID, "resonance_workbench"),
+            FabricBlockEntityTypeBuilder.create(
+                    ResonanceWorkbenchBlockEntity::new,
+                    MobBlocks.RESONANCE_WORKBENCH
+            ).build()
+    );
+
     public static final BlockEntityType<ResonanceSocketBlockEntity> RESONANCE_SOCKET = Registry.register(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             Identifier.fromNamespaceAndPath(MOD_ID, "resonance_socket"),
