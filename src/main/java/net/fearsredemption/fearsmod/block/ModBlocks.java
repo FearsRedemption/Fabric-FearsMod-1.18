@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import static net.fearsredemption.fearsmod.FearsMod.MOD_ID;
 
-public class MobBlocks {
+public class ModBlocks {
     //RESONANCE APPARATUS
     public static final Block RESONANCE_WORKBENCH = register("resonance_workbench", ResonanceWorkbenchBlock::new,
             BlockBehaviour.Properties.of().strength(3.0f).requiresCorrectToolForDrops().sound(SoundType.COPPER));

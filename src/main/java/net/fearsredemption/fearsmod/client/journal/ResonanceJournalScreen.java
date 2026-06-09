@@ -3,7 +3,7 @@ package net.fearsredemption.fearsmod.client.journal;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.fearsredemption.fearsmod.block.MobBlocks;
+import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -189,9 +189,9 @@ public class ResonanceJournalScreen extends Screen {
             case "starter_structure" -> {
                 drawCenteredText(graphics, "Ground Pattern", x + 55, y, MUTED_TEXT_COLOR);
                 drawGrid(graphics, x + 19, y + 17, new ItemStack[][]{
-                        {ItemStack.EMPTY, new ItemStack(MobBlocks.VOXITE_BLOCK), ItemStack.EMPTY},
-                        {new ItemStack(MobBlocks.MAGITEK_BLOCK), new ItemStack(MobBlocks.RESONANCE_WORKBENCH), new ItemStack(MobBlocks.MAGITEK_BLOCK)},
-                        {ItemStack.EMPTY, new ItemStack(MobBlocks.VOXITE_BLOCK), ItemStack.EMPTY}
+                        {ItemStack.EMPTY, new ItemStack(ModBlocks.VOXITE_BLOCK), ItemStack.EMPTY},
+                        {new ItemStack(ModBlocks.MAGITEK_BLOCK), new ItemStack(ModBlocks.RESONANCE_WORKBENCH), new ItemStack(ModBlocks.MAGITEK_BLOCK)},
+                        {ItemStack.EMPTY, new ItemStack(ModBlocks.VOXITE_BLOCK), ItemStack.EMPTY}
                 });
             }
             case "staff_ritual" -> {

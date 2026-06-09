@@ -1,6 +1,6 @@
 package net.fearsredemption.fearsmod.block.custom;
 
-import net.fearsredemption.fearsmod.block.MobBlocks;
+import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.block.entity.ModBlockEntities;
 import net.fearsredemption.fearsmod.block.entity.ResonanceSocketBlockEntity;
 import net.fearsredemption.fearsmod.block.entity.ResonanceWorkbenchBlockEntity;
@@ -185,7 +185,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
 
     public static InteractionResult activateNearestWithStaff(Level level, BlockPos origin, Player player, ItemStack staffStack, InteractionHand hand) {
         for (BlockPos candidate : BlockPos.betweenClosed(origin.offset(-8, -4, -8), origin.offset(8, 4, 8))) {
-            if (level.getBlockState(candidate).getBlock() == MobBlocks.RESONANCE_WORKBENCH) {
+            if (level.getBlockState(candidate).getBlock() == ModBlocks.RESONANCE_WORKBENCH) {
                 return activateWithStaff(level, candidate.immutable(), player, staffStack, hand);
             }
         }
@@ -195,10 +195,10 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     }
 
     public static boolean hasRitualStructure(Level level, BlockPos pos) {
-        return level.getBlockState(pos.north()).getBlock() == MobBlocks.VOXITE_BLOCK
-                && level.getBlockState(pos.south()).getBlock() == MobBlocks.VOXITE_BLOCK
-                && level.getBlockState(pos.east()).getBlock() == MobBlocks.MAGITEK_BLOCK
-                && level.getBlockState(pos.west()).getBlock() == MobBlocks.MAGITEK_BLOCK;
+        return level.getBlockState(pos.north()).getBlock() == ModBlocks.VOXITE_BLOCK
+                && level.getBlockState(pos.south()).getBlock() == ModBlocks.VOXITE_BLOCK
+                && level.getBlockState(pos.east()).getBlock() == ModBlocks.MAGITEK_BLOCK
+                && level.getBlockState(pos.west()).getBlock() == ModBlocks.MAGITEK_BLOCK;
     }
 
     public static ItemEntity findNearbyItemEntity(Level level, BlockPos pos, Item item) {
@@ -272,16 +272,16 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             return new RitualPlan(RITUAL_STAFF, staffItem);
         }
 
-        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_AMETHYST_FOCUS, MobBlocks.AMETHYST_FOCUS.asItem()))) {
-            return new RitualPlan(RITUAL_AMETHYST_FOCUS, MobBlocks.AMETHYST_FOCUS.asItem());
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_AMETHYST_FOCUS, ModBlocks.AMETHYST_FOCUS.asItem()))) {
+            return new RitualPlan(RITUAL_AMETHYST_FOCUS, ModBlocks.AMETHYST_FOCUS.asItem());
         }
 
-        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_MAGITEK_CORE, MobBlocks.MAGITEK_CORE.asItem()))) {
-            return new RitualPlan(RITUAL_MAGITEK_CORE, MobBlocks.MAGITEK_CORE.asItem());
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_MAGITEK_CORE, ModBlocks.MAGITEK_CORE.asItem()))) {
+            return new RitualPlan(RITUAL_MAGITEK_CORE, ModBlocks.MAGITEK_CORE.asItem());
         }
 
-        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_VOXITE_STABILIZER, MobBlocks.VOXITE_STABILIZER.asItem()))) {
-            return new RitualPlan(RITUAL_VOXITE_STABILIZER, MobBlocks.VOXITE_STABILIZER.asItem());
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_VOXITE_STABILIZER, ModBlocks.VOXITE_STABILIZER.asItem()))) {
+            return new RitualPlan(RITUAL_VOXITE_STABILIZER, ModBlocks.VOXITE_STABILIZER.asItem());
         }
 
         return null;
@@ -398,9 +398,9 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
 
     private static Block expectedBlock(ResonanceSocketType type) {
         return switch (type) {
-            case CORE -> MobBlocks.MAGITEK_CORE;
-            case STABILIZER -> MobBlocks.VOXITE_STABILIZER;
-            case FOCUS -> MobBlocks.AMETHYST_FOCUS;
+            case CORE -> ModBlocks.MAGITEK_CORE;
+            case STABILIZER -> ModBlocks.VOXITE_STABILIZER;
+            case FOCUS -> ModBlocks.AMETHYST_FOCUS;
         };
     }
 

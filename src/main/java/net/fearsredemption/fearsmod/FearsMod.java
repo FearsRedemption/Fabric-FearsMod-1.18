@@ -2,7 +2,7 @@ package net.fearsredemption.fearsmod;
 
 import net.fabricmc.api.ModInitializer;
 import net.fearsredemption.fearsmod.block.entity.ModBlockEntities;
-import net.fearsredemption.fearsmod.block.MobBlocks;
+import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.fearsredemption.fearsmod.journal.JournalNetworking;
 import net.fearsredemption.fearsmod.journal.JournalUnlocks;
@@ -17,7 +17,7 @@ public class FearsMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.initialize();
-		MobBlocks.initialize();
+		ModBlocks.initialize();
 		ModBlockEntities.initialize();
 		JournalNetworking.initializeServer();
 		JournalUnlocks.initialize();

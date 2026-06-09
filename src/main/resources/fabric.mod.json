@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Fears Mod",
-  "description": "This is a test mod!",
+  "description": "A magical engineering Fabric mod built around Voxite, Magitek, resonance rituals, and crystal discovery.",
   "authors": [
     "FearsRedemption"
   ],
@@ -23,10 +23,6 @@
       "net.fearsredemption.fearsmod.client.FearsModClient"
     ]
   },
-  "mixins": [
-    "fearsmod.mixins.json"
-  ],
-
   "depends": {
     "fabricloader": ">=0.19.3",
     "minecraft": "~26.1.2",

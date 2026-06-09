@@ -2,7 +2,7 @@ package net.fearsredemption.fearsmod.block.entity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fearsredemption.fearsmod.FearsMod;
-import net.fearsredemption.fearsmod.block.MobBlocks;
+import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -16,7 +16,7 @@ public class ModBlockEntities {
             Identifier.fromNamespaceAndPath(MOD_ID, "resonance_workbench"),
             FabricBlockEntityTypeBuilder.create(
                     ResonanceWorkbenchBlockEntity::new,
-                    MobBlocks.RESONANCE_WORKBENCH
+                    ModBlocks.RESONANCE_WORKBENCH
             ).build()
     );
 
@@ -25,9 +25,9 @@ public class ModBlockEntities {
             Identifier.fromNamespaceAndPath(MOD_ID, "resonance_socket"),
             FabricBlockEntityTypeBuilder.create(
                     ResonanceSocketBlockEntity::new,
-                    MobBlocks.MAGITEK_CORE,
-                    MobBlocks.VOXITE_STABILIZER,
-                    MobBlocks.AMETHYST_FOCUS
+                    ModBlocks.MAGITEK_CORE,
+                    ModBlocks.VOXITE_STABILIZER,
+                    ModBlocks.AMETHYST_FOCUS
             ).build()
     );
 

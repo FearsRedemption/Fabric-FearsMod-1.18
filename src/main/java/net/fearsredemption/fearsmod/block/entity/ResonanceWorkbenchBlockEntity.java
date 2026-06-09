@@ -168,9 +168,9 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     private Item outputForActiveRitual() {
         return switch (ritualRecipeIndex) {
             case ResonanceWorkbenchBlock.RITUAL_STAFF -> ModItems.staffByVariantIndex(outputVariantIndex);
-            case ResonanceWorkbenchBlock.RITUAL_AMETHYST_FOCUS -> net.fearsredemption.fearsmod.block.MobBlocks.AMETHYST_FOCUS.asItem();
-            case ResonanceWorkbenchBlock.RITUAL_MAGITEK_CORE -> net.fearsredemption.fearsmod.block.MobBlocks.MAGITEK_CORE.asItem();
-            case ResonanceWorkbenchBlock.RITUAL_VOXITE_STABILIZER -> net.fearsredemption.fearsmod.block.MobBlocks.VOXITE_STABILIZER.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_AMETHYST_FOCUS -> net.fearsredemption.fearsmod.block.ModBlocks.AMETHYST_FOCUS.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_MAGITEK_CORE -> net.fearsredemption.fearsmod.block.ModBlocks.MAGITEK_CORE.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_VOXITE_STABILIZER -> net.fearsredemption.fearsmod.block.ModBlocks.VOXITE_STABILIZER.asItem();
             default -> ModItems.RESONANCE_STAFF;
         };
     }

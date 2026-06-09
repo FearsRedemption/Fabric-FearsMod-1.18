@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fearsredemption.fearsmod.block.MobBlocks;
+import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,13 +18,13 @@ public final class JournalUnlocks {
     public static final String TAG_PREFIX = "fearsmod.journal.";
 
     private static final List<Discovery> DISCOVERIES = List.of(
-            new Discovery("voxite_ore", player -> has(player, MobBlocks.VOXITE_ORE.asItem()) || has(player, MobBlocks.DEEPSLATE_VOXITE_ORE.asItem()) || has(player, ModItems.RAW_VOXITE)),
-            new Discovery("magitek_ore", player -> has(player, MobBlocks.MAGITEK_ORE.asItem()) || has(player, MobBlocks.DEEPSLATE_MAGITEK_ORE.asItem()) || has(player, ModItems.RAW_MAGITEK)),
+            new Discovery("voxite_ore", player -> has(player, ModBlocks.VOXITE_ORE.asItem()) || has(player, ModBlocks.DEEPSLATE_VOXITE_ORE.asItem()) || has(player, ModItems.RAW_VOXITE)),
+            new Discovery("magitek_ore", player -> has(player, ModBlocks.MAGITEK_ORE.asItem()) || has(player, ModBlocks.DEEPSLATE_MAGITEK_ORE.asItem()) || has(player, ModItems.RAW_MAGITEK)),
             new Discovery("voxite_ingot", player -> has(player, ModItems.VOXITE_INGOT)),
             new Discovery("magitek_ingot", player -> has(player, ModItems.MAGITEK_INGOT)),
             new Discovery("combined_ingots", player -> hasTag(player, "voxite_ingot") && hasTag(player, "magitek_ingot")),
-            new Discovery("power_blocks", player -> hasTag(player, "combined_ingots") && has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
-            new Discovery("resonance_workbench", player -> hasTag(player, "combined_ingots") && has(player, MobBlocks.RESONANCE_WORKBENCH.asItem())),
+            new Discovery("power_blocks", player -> hasTag(player, "combined_ingots") && has(player, ModBlocks.VOXITE_BLOCK.asItem()) && has(player, ModBlocks.MAGITEK_BLOCK.asItem())),
+            new Discovery("resonance_workbench", player -> hasTag(player, "combined_ingots") && has(player, ModBlocks.RESONANCE_WORKBENCH.asItem())),
             new Discovery("starter_structure", player -> hasTag(player, "power_blocks") && hasTag(player, "resonance_workbench")),
             new Discovery("ritual_basics", player -> hasTag(player, "starter_structure") && has(player, Items.REDSTONE)),
             new Discovery("staff_ritual", player -> hasTag(player, "ritual_basics") && has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
