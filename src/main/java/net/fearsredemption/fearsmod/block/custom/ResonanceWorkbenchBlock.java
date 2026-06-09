@@ -95,7 +95,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         if (stack.getItem() == Items.REDSTONE) {
-            return startRitual(level, pos, player, stack);
+            return startRitual(level, pos, player, hand);
         }
 
         if (ModItems.isResonanceStaff(stack)) {
@@ -143,7 +143,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private static InteractionResult startRitual(Level level, BlockPos pos, Player player, ItemStack redstoneStack) {
+    private static InteractionResult startRitual(Level level, BlockPos pos, Player player, InteractionHand hand) {
         if (!(level instanceof ServerLevel serverLevel) || !(level.getBlockEntity(pos) instanceof ResonanceWorkbenchBlockEntity workbench)) {
             return InteractionResult.SUCCESS;
         }
@@ -165,7 +165,9 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         if (!player.isCreative()) {
-            redstoneStack.shrink(1);
+            ItemStack catalystStack = player.getItemInHand(hand);
+            catalystStack.shrink(1);
+            player.setItemInHand(hand, catalystStack.isEmpty() ? ItemStack.EMPTY : catalystStack);
         }
 
         protectRitualStacks(serverLevel, pos, ingredientsFor(plan.recipeIndex(), plan.output()));
