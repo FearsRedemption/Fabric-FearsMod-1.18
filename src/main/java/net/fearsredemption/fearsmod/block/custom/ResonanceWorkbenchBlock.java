@@ -5,11 +5,13 @@ import net.fearsredemption.fearsmod.block.entity.ModBlockEntities;
 import net.fearsredemption.fearsmod.block.entity.ResonanceSocketBlockEntity;
 import net.fearsredemption.fearsmod.block.entity.ResonanceWorkbenchBlockEntity;
 import net.fearsredemption.fearsmod.item.ModItems;
+import net.fearsredemption.fearsmod.journal.JournalUnlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -100,7 +102,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             return activateWithStaff(level, pos, player, stack, hand);
         }
 
-        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.place_on_sockets"));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.place_on_sockets"));
         return InteractionResult.SUCCESS;
     }
 
@@ -110,18 +112,18 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         if (workbench.isRitualActive()) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_active"));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_active"));
             return InteractionResult.SUCCESS;
         }
 
         if (!hasRitualStructure(level, pos)) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.starter_structure_invalid"));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.starter_structure_invalid"));
             return InteractionResult.SUCCESS;
         }
 
         RitualPlan plan = findRitualPlan(serverLevel, pos);
         if (plan == null) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_no_recipe"));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_no_recipe"));
             return InteractionResult.SUCCESS;
         }
 
@@ -135,7 +137,11 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, 10, 0.25D, 0.2D, 0.25D, 0.02D);
         level.playSound(null, pos, SoundEvents.REDSTONE_TORCH_BURNOUT, SoundSource.BLOCKS, 0.55F, 1.6F);
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.75F, 1.0F);
-        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_started", new ItemStack(plan.output()).getDisplayName()));
+        if (player instanceof ServerPlayer serverPlayer) {
+            JournalUnlocks.unlock(serverPlayer, "ritual_basics");
+            JournalUnlocks.unlock(serverPlayer, "stack_handling");
+        }
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_started", new ItemStack(plan.output()).getDisplayName()));
         return InteractionResult.SUCCESS;
     }
 
@@ -155,24 +161,21 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
 
         PatternState pattern = inspectPattern(level, pos);
         if (!pattern.complete()) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.pattern_incomplete", pattern.missingSlots().size()));
-            pattern.missingSlots().stream().findFirst().ifPresent(slot -> player.sendSystemMessage(Component.translatable(
-                    "block.fearsmod.resonance_workbench.pattern_missing",
-                    slot.type().name(),
-                    slot.offset().getX(),
-                    slot.offset().getZ()
-            )));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.pattern_incomplete", pattern.missingSlots().size()));
             return InteractionResult.SUCCESS;
         }
 
         RecipeMatch match = findRecipe(pattern.sockets());
         if (match == null) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.no_socket_recipe"));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.no_socket_recipe"));
             return InteractionResult.SUCCESS;
         }
 
         match.consumedSockets().forEach(socket -> socket.removeStoredItem());
         finishRecipe(level, pos, player, match.recipe().output());
+        if (player instanceof ServerPlayer serverPlayer) {
+            JournalUnlocks.unlock(serverPlayer, "apparatus_rituals");
+        }
         if (!player.isCreative()) {
             staffStack.hurtAndBreak(1, player, hand);
         }
@@ -187,7 +190,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             }
         }
 
-        player.sendSystemMessage(Component.translatable("item.fearsmod.resonance_staff.no_apparatus"));
+        player.sendOverlayMessage(Component.translatable("item.fearsmod.resonance_staff.no_apparatus"));
         return InteractionResult.SUCCESS;
     }
 
@@ -373,7 +376,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     private static void reportSetupStatus(Level level, BlockPos pos, Player player) {
         PatternState pattern = inspectPattern(level, pos);
         long socketedItems = pattern.sockets().stream().filter(socket -> !socket.socket().isEmpty()).count();
-        player.sendSystemMessage(Component.translatable(
+        player.sendOverlayMessage(Component.translatable(
                 "block.fearsmod.resonance_workbench.status",
                 pattern.complete(),
                 socketedItems,
@@ -390,7 +393,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
 
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0f, 0.9f);
         level.playSound(null, pos, SoundEvents.BEACON_POWER_SELECT, SoundSource.BLOCKS, 0.35f, 1.6f);
-        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.complete", outputName));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.complete", outputName));
     }
 
     private static Block expectedBlock(ResonanceSocketType type) {

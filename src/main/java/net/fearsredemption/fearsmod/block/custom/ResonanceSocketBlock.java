@@ -68,7 +68,7 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
         }
 
         if (!socket.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_socket.occupied", socket.getStoredItem().getDisplayName()));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.occupied", socket.getStoredItem().getDisplayName()));
             return InteractionResult.SUCCESS;
         }
 
@@ -78,7 +78,7 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
         }
 
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.6f, 1.2f);
-        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_socket.placed", socket.getStoredItem().getDisplayName()));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.placed", socket.getStoredItem().getDisplayName()));
         return InteractionResult.SUCCESS;
     }
 
@@ -127,7 +127,7 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
         }
 
         if (socket.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_socket.empty"));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.empty"));
             return InteractionResult.SUCCESS;
         }
 
@@ -138,17 +138,17 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
         }
 
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.45f, 0.8f);
-        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_socket.removed", itemName));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.removed", itemName));
         return InteractionResult.SUCCESS;
     }
 
     private void describeSocket(Level level, BlockPos pos, Player player) {
         if (level.getBlockEntity(pos) instanceof ResonanceSocketBlockEntity socket && !socket.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_socket.contains", socket.getStoredItem().getDisplayName()));
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.contains", socket.getStoredItem().getDisplayName()));
             return;
         }
 
-        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_socket.empty"));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.empty"));
     }
 
     public static int colorFor(ItemStack stack) {

@@ -1,0 +1,84 @@
+[
+  {
+    "unlock": "start",
+    "always_visible": true,
+    "title": "Resonance Journal",
+    "text": "I started this journal because the materials I keep finding do not behave like normal stone or metal. There is a pattern here. I just need to learn how to read it."
+  },
+  {
+    "unlock": "voxite_ore",
+    "title": "Pale Ore",
+    "text": "I found a pale, strange ore today. It almost looks split between light and shadow. I think this ore can be smelted in a furnace. I should try that and see what it becomes."
+  },
+  {
+    "unlock": "magitek_ore",
+    "title": "Purple Ore",
+    "text": "This purple ore gives off a faint pull, like it wants to react with something. It does not feel stable, but it feels powerful. I should try smelting it in a furnace."
+  },
+  {
+    "unlock": "voxite_ingot",
+    "title": "Voxite Ingot",
+    "text": "This Voxite Ingot has balancing properties. It feels stable somehow in my hand, even though there appears to be two parts to it. White and black, order and weight. It may be useful for controlling unstable reactions."
+  },
+  {
+    "unlock": "magitek_ingot",
+    "title": "Magitek Ingot",
+    "text": "This Magitek Ingot has a strong arcane pull to it. It feels like stored motion, or pressure waiting for a path. Useful, but dangerous if left uncontrolled."
+  },
+  {
+    "unlock": "combined_ingots",
+    "title": "Two Materials",
+    "text": "Voxite stabilizes. Magitek energizes. They feel opposite, but not incompatible. If I can put them into a controlled workspace, I may be able to make them react without destroying the materials."
+  },
+  {
+    "unlock": "resonance_workbench",
+    "title": "Resonance Workbench",
+    "text": "I think I can make a Resonance Workbench. It should work as a ritual bench, a place where unstable materials can be guided instead of simply crafted.\n\nCurrent recipe:\nV A V\nC W C\nC C C\n\nV Voxite Ingot, A Amethyst Shard, C Copper Ingot, W Crafting Table."
+  },
+  {
+    "unlock": "power_blocks",
+    "title": "Blocks of Power and Balance",
+    "text": "Compressing these ingots into full blocks makes the effect stronger. Voxite pulls the reaction into balance. Magitek pushes it outward. If I place them around the workbench in the right pattern, they may act as an arcane focus."
+  },
+  {
+    "unlock": "starter_structure",
+    "title": "Starter Pattern",
+    "text": "I think this pattern might focus the reaction.\n\n    V\nM - B - M\n    V\n\nVoxite above and below. Magitek to either side. The workbench in the center. It feels crude, but complete enough to try."
+  },
+  {
+    "unlock": "ritual_basics",
+    "title": "Ritual Crafting",
+    "text": "The workbench does not seem to want items placed inside it. It reacts to loose materials nearby. If I drop the right ingredients near the bench and use Redstone Dust as a spark, the structure may pull them in one at a time. Redstone is consumed. The result appears above the workbench."
+  },
+  {
+    "unlock": "staff_ritual",
+    "title": "First Staff",
+    "text": "A rod needs a body, a stabilizer, a source of pull, and something to tune the reaction. A crystal shard should decide the nature of the staff.\n\nDrop Stick, Voxite Ingot, Magitek Ingot, and one shard. Spark with Redstone Dust. Amethyst makes the standard staff; agate, amber, aquamarine, ruby, and topaz tune their own variants."
+  },
+  {
+    "unlock": "first_staff",
+    "title": "It Worked",
+    "text": "It worked. The materials vanished one by one, and the staff formed above the bench like it was being pulled out of the reaction itself. This is not normal crafting. It is controlled conversion. The staff should wake larger apparatus patterns."
+  },
+  {
+    "unlock": "apparatus_rituals",
+    "title": "Apparatus Pieces",
+    "text": "If the staff is a key, then I need better parts for the lock. The workbench can form apparatus pieces the same way it formed the staff.\n\nMagitek Core: Copper Ingot, Amethyst Shard, Magitek Ingot.\nVoxite Stabilizer: Voxite Ingot, Amethyst Shard.\nAmethyst Focus: Amethyst Shard, Copper Ingot, Focusing Lens, Voxite Ingot.\nSpark each with Redstone Dust."
+  },
+  {
+    "unlock": "stack_handling",
+    "title": "Careful Pull",
+    "text": "The workbench is careful. Even if I drop a full stack of materials nearby, it only draws what it needs for one reaction. One cycle, one output. The rest remain untouched while the active ritual keeps them from fading away."
+  },
+  {
+    "unlock": "crystal_growth",
+    "title": "Crystal Growth",
+    "text": "These crystals seem to grow in stages. Small bud, medium bud, large bud, then cluster. The clusters can be harvested for shards, and the shards seem to tune resonance differently. Agate, amber, aquamarine, ruby, and topaz each pull the staff in a different direction. Amethyst remains the simplest starting focus."
+  },
+  {
+    "unlock": "future",
+    "always_visible": true,
+    "title": "Future Discoveries",
+    "text": "There is more to this system. Larger shapes. Better focuses. Stronger reactions. I should keep recording what I learn."
+  }
+]

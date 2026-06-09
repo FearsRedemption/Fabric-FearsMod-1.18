@@ -4,16 +4,19 @@ import java.util.UUID;
 
 import net.fearsredemption.fearsmod.block.custom.ResonanceWorkbenchBlock;
 import net.fearsredemption.fearsmod.item.ModItems;
+import net.fearsredemption.fearsmod.journal.JournalUnlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -124,6 +127,7 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     private void completeRitual(ServerLevel level) {
         ItemStack output = new ItemStack(outputForActiveRitual());
         ResonanceWorkbenchBlock.spawnRitualOutput(level, worldPosition, output);
+        unlockCompletedRitual(level, output);
 
         double x = worldPosition.getX() + 0.5D;
         double y = worldPosition.getY() + 1.35D;
@@ -182,8 +186,31 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     private void cancelRitual(ServerLevel level) {
         level.playSound(null, worldPosition, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.45F, 1.35F);
         level.sendParticles(ParticleTypes.SMOKE, worldPosition.getX() + 0.5D, worldPosition.getY() + 1.05D, worldPosition.getZ() + 0.5D, 10, 0.25D, 0.15D, 0.25D, 0.02D);
+        owner(level).ifPresent(player -> player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_stopped")));
         resetRitual();
         markUpdated();
+    }
+
+    private void unlockCompletedRitual(ServerLevel level, ItemStack output) {
+        owner(level).ifPresent(player -> {
+            JournalUnlocks.unlock(player, "ritual_basics");
+            JournalUnlocks.unlock(player, "stack_handling");
+            if (ModItems.isResonanceStaff(output)) {
+                JournalUnlocks.unlock(player, "first_staff");
+                JournalUnlocks.unlock(player, "apparatus_rituals");
+                return;
+            }
+
+            JournalUnlocks.unlock(player, "apparatus_rituals");
+        });
+    }
+
+    private java.util.Optional<ServerPlayer> owner(ServerLevel level) {
+        if (ownerUuid == null) {
+            return java.util.Optional.empty();
+        }
+
+        return java.util.Optional.ofNullable(level.getServer().getPlayerList().getPlayer(ownerUuid));
     }
 
     private void resetRitual() {

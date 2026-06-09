@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fearsredemption.fearsmod.FearsMod;
+import net.fearsredemption.fearsmod.item.custom.ResonanceJournalItem;
 import net.fearsredemption.fearsmod.item.custom.ResonanceStaffItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,6 +26,8 @@ public class ModItems {
     public static final Item CHARGED_MAGITEK_CORE = register("charged_magitek_core", Item::new, new Item.Properties());
 
     public static final Item FOCUSING_LENS = register("focusing_lens", Item::new, new Item.Properties());
+
+    public static final Item RESONANCE_JOURNAL = register("resonance_journal", ResonanceJournalItem::new, new Item.Properties().stacksTo(1));
 
     //MEGITEK ITEMS
     public static final Item MAGITEK_INGOT = register("magitek_ingot", Item::new, new Item.Properties());
@@ -189,6 +192,7 @@ public class ModItems {
         });
 
         CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.RESONANCE_KEY).register(entries -> {
+            entries.accept(RESONANCE_JOURNAL);
             entries.accept(RESONANCE_STAFF);
             entries.accept(AGATE_RESONANCE_STAFF);
             entries.accept(AMBER_RESONANCE_STAFF);
