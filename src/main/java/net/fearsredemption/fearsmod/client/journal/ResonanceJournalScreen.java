@@ -16,7 +16,9 @@ import net.minecraft.world.item.Items;
 public class ResonanceJournalScreen extends Screen {
     private static final int BOOK_WIDTH = 342;
     private static final int BOOK_HEIGHT = 218;
-    private static final int TEXT_WIDTH = 262;
+    private static final int PAGE_TEXT_WIDTH = 124;
+    private static final int PAGE_TOP_MARGIN = 45;
+    private static final int PAGE_BOTTOM = 172;
     private static final int TEXT_COLOR = 0xFF151018;
     private static final int MUTED_TEXT_COLOR = 0xFF4F4054;
 
@@ -76,16 +78,7 @@ public class ResonanceJournalScreen extends Screen {
         drawCenteredText(graphics, page.title(), left + BOOK_WIDTH / 2, top + 24, TEXT_COLOR);
         graphics.horizontalLine(left + 48, left + BOOK_WIDTH - 48, top + 38, 0xFF9D78B6);
 
-        int y = top + 45;
-        for (String line : wrap(page.text(), TEXT_WIDTH)) {
-            drawText(graphics, line, left + 37, y, TEXT_COLOR);
-            y += 10;
-            if (y > top + BOOK_HEIGHT - 70) {
-                break;
-            }
-        }
-
-        drawPageIcons(graphics, page.unlock(), left + BOOK_WIDTH / 2, top + BOOK_HEIGHT - 62);
+        drawPageContent(graphics, page, left, top);
         drawCenteredText(graphics, (pageIndex + 1) + " / " + pages.size(), left + BOOK_WIDTH / 2, top + BOOK_HEIGHT - 45, MUTED_TEXT_COLOR);
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
@@ -149,28 +142,83 @@ public class ResonanceJournalScreen extends Screen {
         graphics.horizontalLine(left + 20, left + BOOK_WIDTH - 20, top + BOOK_HEIGHT - 38, 0xFF0F0A12);
     }
 
-    private void drawPageIcons(GuiGraphicsExtractor graphics, String unlock, int centerX, int y) {
+    private void drawPageContent(GuiGraphicsExtractor graphics, ResonanceJournalClient.JournalPage page, int left, int top) {
+        int leftPageX = left + 27;
+        int rightPageX = left + BOOK_WIDTH / 2 + 17;
+        int textTop = top + PAGE_TOP_MARGIN;
+        List<String> lines = wrap(page.text(), PAGE_TEXT_WIDTH);
+
+        if (hasDiagram(page.unlock())) {
+            drawLines(graphics, lines, leftPageX, textTop, top + PAGE_BOTTOM);
+            drawPageDiagram(graphics, page.unlock(), rightPageX, textTop + 6);
+            return;
+        }
+
+        int split = Math.min(lines.size(), Math.max(1, (lines.size() + 1) / 2));
+        drawLines(graphics, lines.subList(0, split), leftPageX, textTop, top + PAGE_BOTTOM);
+        drawLines(graphics, lines.subList(split, lines.size()), rightPageX, textTop, top + PAGE_BOTTOM);
+    }
+
+    private void drawLines(GuiGraphicsExtractor graphics, List<String> lines, int x, int y, int bottom) {
+        for (String line : lines) {
+            drawText(graphics, line, x, y, TEXT_COLOR);
+            y += 10;
+            if (y > bottom) {
+                break;
+            }
+        }
+    }
+
+    private boolean hasDiagram(String unlock) {
+        return switch (unlock) {
+            case "combined_ingots", "starter_structure", "staff_ritual" -> true;
+            default -> false;
+        };
+    }
+
+    private void drawPageDiagram(GuiGraphicsExtractor graphics, String unlock, int x, int y) {
         switch (unlock) {
-            case "resonance_workbench" -> drawIconRow(graphics, centerX, y,
-                    new ItemStack(ModItems.VOXITE_INGOT),
-                    new ItemStack(Items.AMETHYST_SHARD),
-                    new ItemStack(ModItems.VOXITE_INGOT),
-                    new ItemStack(Items.COPPER_INGOT),
-                    new ItemStack(Items.CRAFTING_TABLE),
-                    new ItemStack(Items.COPPER_INGOT));
-            case "starter_structure", "power_blocks" -> drawIconRow(graphics, centerX, y,
-                    new ItemStack(MobBlocks.VOXITE_BLOCK),
-                    new ItemStack(MobBlocks.MAGITEK_BLOCK),
-                    new ItemStack(MobBlocks.RESONANCE_WORKBENCH),
-                    new ItemStack(MobBlocks.MAGITEK_BLOCK),
-                    new ItemStack(MobBlocks.VOXITE_BLOCK));
-            case "staff_ritual" -> drawIconRow(graphics, centerX, y,
+            case "combined_ingots" -> {
+                drawCenteredText(graphics, "Workbench", x + 55, y, MUTED_TEXT_COLOR);
+                drawGrid(graphics, x + 19, y + 17, new ItemStack[][]{
+                        {new ItemStack(ModItems.VOXITE_INGOT), new ItemStack(Items.AMETHYST_SHARD), new ItemStack(ModItems.VOXITE_INGOT)},
+                        {new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.CRAFTING_TABLE), new ItemStack(Items.COPPER_INGOT)},
+                        {new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.COPPER_INGOT)}
+                });
+            }
+            case "starter_structure" -> {
+                drawCenteredText(graphics, "Ground Pattern", x + 55, y, MUTED_TEXT_COLOR);
+                drawGrid(graphics, x + 19, y + 17, new ItemStack[][]{
+                        {ItemStack.EMPTY, new ItemStack(MobBlocks.VOXITE_BLOCK), ItemStack.EMPTY},
+                        {new ItemStack(MobBlocks.MAGITEK_BLOCK), new ItemStack(MobBlocks.RESONANCE_WORKBENCH), new ItemStack(MobBlocks.MAGITEK_BLOCK)},
+                        {ItemStack.EMPTY, new ItemStack(MobBlocks.VOXITE_BLOCK), ItemStack.EMPTY}
+                });
+            }
+            case "staff_ritual" -> {
+                drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
+                drawIconRow(graphics, x + 55, y + 28,
                     new ItemStack(Items.STICK),
                     new ItemStack(ModItems.VOXITE_INGOT),
                     new ItemStack(ModItems.MAGITEK_INGOT),
                     new ItemStack(Items.AMETHYST_SHARD),
                     new ItemStack(Items.REDSTONE));
+            }
             default -> {
+            }
+        }
+    }
+
+    private void drawGrid(GuiGraphicsExtractor graphics, int x, int y, ItemStack[][] stacks) {
+        int gap = 24;
+        for (int row = 0; row < 3; row++) {
+            for (int column = 0; column < 3; column++) {
+                int slotX = x + column * gap;
+                int slotY = y + row * gap;
+                graphics.fill(slotX - 2, slotY - 2, slotX + 18, slotY + 18, 0x55FFFFFF);
+                graphics.outline(slotX - 2, slotY - 2, 20, 20, 0xFF8B6F8E);
+                if (!stacks[row][column].isEmpty()) {
+                    graphics.item(stacks[row][column], slotX, slotY);
+                }
             }
         }
     }

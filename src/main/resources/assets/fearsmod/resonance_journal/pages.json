@@ -27,13 +27,13 @@
   },
   {
     "unlock": "combined_ingots",
-    "title": "Opposites",
-    "text": "Voxite settles the air around it. Magitek stirs it. Together they feel less like ingredients and more like parts of a machine.\n\nI should make blocks from both metals. Bigger masses may reveal what they are actually good for."
+    "title": "Workbench Sketch",
+    "text": "Voxite settles the air around it. Magitek stirs it. Together they feel less like ingredients and more like parts of a machine.\n\nA normal crafting table is too passive for this. I think I can build a workbench that listens to these materials instead of merely arranging them."
   },
   {
     "unlock": "resonance_workbench",
     "title": "Resonance Workbench",
-    "text": "A normal crafting table is too passive for this. I think I can build a workbench that listens to these materials instead of merely arranging them.\n\nVoxite should frame the top, an amethyst shard should tune the center, and copper can carry the signal through a crafting table body."
+    "text": "The workbench is real. It feels less like a table and more like a place where pressure can gather without spilling out.\n\nNow I need stronger anchors. I should make blocks from both metals and see how the workbench reacts to them nearby."
   },
   {
     "unlock": "power_blocks",
