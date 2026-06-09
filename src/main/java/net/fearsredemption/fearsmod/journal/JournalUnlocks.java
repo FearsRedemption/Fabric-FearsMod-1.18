@@ -70,10 +70,8 @@ public final class JournalUnlocks {
 
     private static void notifyJournalUpdate(ServerPlayer player) {
         player.sendOverlayMessage(Component.translatable("item.fearsmod.resonance_journal.note"));
-        if (isHoldingJournal(player)) {
-            player.playSound(SoundEvents.BOOK_PAGE_TURN, 0.8F, 1.1F);
-            player.playSound(SoundEvents.BRUSH_GENERIC, 0.45F, 1.25F);
-        }
+        player.playSound(SoundEvents.BOOK_PAGE_TURN, 0.65F, 1.1F);
+        player.playSound(SoundEvents.BRUSH_GENERIC, 0.35F, 1.25F);
         JournalNetworking.sync(player);
     }
 
@@ -96,11 +94,6 @@ public final class JournalUnlocks {
 
     private static boolean addTag(ServerPlayer player, String id) {
         return player.addTag(TAG_PREFIX + id);
-    }
-
-    private static boolean isHoldingJournal(ServerPlayer player) {
-        return player.getMainHandItem().getItem() == ModItems.RESONANCE_JOURNAL
-                || player.getOffhandItem().getItem() == ModItems.RESONANCE_JOURNAL;
     }
 
     private static boolean has(ServerPlayer player, Item item) {

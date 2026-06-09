@@ -74,21 +74,19 @@ public class ResonanceJournalScreen extends Screen {
         graphics.outline(left + 6, top + 6, PANEL_WIDTH - 12, PANEL_HEIGHT - 12, 0xFFDBD6C7);
 
         ResonanceJournalClient.JournalPage page = pages.get(pageIndex);
-        int titleColor = 0xFF000000;
-        int bodyColor = 0xFF000000;
-        outlinedCenteredText(graphics, page.title(), left + PANEL_WIDTH / 2, top + 22, titleColor);
+        textWithPlateCentered(graphics, page.title(), left + PANEL_WIDTH / 2, top + 22);
         graphics.horizontalLine(left + 36, left + PANEL_WIDTH - 36, top + 35, 0xFF8C6B9D);
 
         int y = top + 45;
         for (String line : wrap(page.text(), TEXT_WIDTH)) {
-            outlinedText(graphics, line, left + 29, y, bodyColor);
+            textWithPlate(graphics, line, left + 29, y);
             y += 10;
             if (y > top + PANEL_HEIGHT - 52) {
                 break;
             }
         }
 
-        outlinedCenteredText(graphics, (pageIndex + 1) + " / " + pages.size(), left + PANEL_WIDTH / 2, top + PANEL_HEIGHT - 50, 0xFFE7D7F5);
+        textWithPlateCentered(graphics, (pageIndex + 1) + " / " + pages.size(), left + PANEL_WIDTH / 2, top + PANEL_HEIGHT - 50);
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
@@ -139,15 +137,16 @@ public class ResonanceJournalScreen extends Screen {
         }
     }
 
-    private void outlinedCenteredText(GuiGraphicsExtractor graphics, String text, int centerX, int y, int color) {
-        outlinedText(graphics, text, centerX - font.width(text) / 2, y, color);
+    private void textWithPlateCentered(GuiGraphicsExtractor graphics, String text, int centerX, int y) {
+        textWithPlate(graphics, text, centerX - font.width(text) / 2, y);
     }
 
-    private void outlinedText(GuiGraphicsExtractor graphics, String text, int x, int y, int color) {
-        graphics.text(font, text, x - 1, y, 0xFFFFFFFF);
-        graphics.text(font, text, x + 1, y, 0xFFFFFFFF);
-        graphics.text(font, text, x, y - 1, 0xFFFFFFFF);
-        graphics.text(font, text, x, y + 1, 0xFFFFFFFF);
+    private void textWithPlate(GuiGraphicsExtractor graphics, String text, int x, int y) {
+        if (text.isEmpty()) {
+            return;
+        }
+
+        graphics.fill(x - 1, y - 1, x + font.width(text) + 1, y + 9, 0xFFFDF8EA);
         graphics.text(font, text, x, y, 0xFF000000);
     }
 }
