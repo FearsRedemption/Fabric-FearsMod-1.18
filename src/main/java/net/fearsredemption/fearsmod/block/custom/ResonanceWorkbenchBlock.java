@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -36,6 +37,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
+    public static final int RITUAL_STAFF = 0;
+    public static final int RITUAL_AMETHYST_FOCUS = 1;
+    public static final int RITUAL_MAGITEK_CORE = 2;
+    public static final int RITUAL_VOXITE_STABILIZER = 3;
+
     private static final List<PatternSlot> APPARATUS_PATTERN = createPattern();
     private static final RecipeDefinition[] RECIPES = {
             new RecipeDefinition(
@@ -87,7 +93,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         if (stack.getItem() == Items.REDSTONE) {
-            return startStarterStaffRitual(level, pos, player, stack);
+            return startRitual(level, pos, player, stack);
         }
 
         if (ModItems.isResonanceStaff(stack)) {
@@ -98,7 +104,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private static InteractionResult startStarterStaffRitual(Level level, BlockPos pos, Player player, ItemStack redstoneStack) {
+    private static InteractionResult startRitual(Level level, BlockPos pos, Player player, ItemStack redstoneStack) {
         if (!(level instanceof ServerLevel serverLevel) || !(level.getBlockEntity(pos) instanceof ResonanceWorkbenchBlockEntity workbench)) {
             return InteractionResult.SUCCESS;
         }
@@ -108,15 +114,14 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        if (!hasStarterStaffStructure(level, pos)) {
+        if (!hasRitualStructure(level, pos)) {
             player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.starter_structure_invalid"));
             return InteractionResult.SUCCESS;
         }
 
-        Item shard = findStarterShard(serverLevel, pos);
-        Item staffItem = shard == null ? null : ModItems.staffForShard(shard);
-        if (staffItem == null || !hasStarterRitualIngredients(serverLevel, pos, shard)) {
-            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.starter_missing_items"));
+        RitualPlan plan = findRitualPlan(serverLevel, pos);
+        if (plan == null) {
+            player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_no_recipe"));
             return InteractionResult.SUCCESS;
         }
 
@@ -124,11 +129,13 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             redstoneStack.shrink(1);
         }
 
-        workbench.startStarterRitual(player, staffItem);
+        protectRitualStacks(serverLevel, pos, ingredientsFor(plan.recipeIndex(), plan.output()));
+        workbench.startRitual(player, plan.recipeIndex(), plan.output());
         serverLevel.sendParticles(new DustParticleOptions(0xF04B45, 1.1F), pos.getX() + 0.5D, pos.getY() + 1.15D, pos.getZ() + 0.5D, 20, 0.35D, 0.25D, 0.35D, 0.03D);
         serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, 10, 0.25D, 0.2D, 0.25D, 0.02D);
         level.playSound(null, pos, SoundEvents.REDSTONE_TORCH_BURNOUT, SoundSource.BLOCKS, 0.55F, 1.6F);
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.75F, 1.0F);
+        player.sendSystemMessage(Component.translatable("block.fearsmod.resonance_workbench.ritual_started", new ItemStack(plan.output()).getDisplayName()));
         return InteractionResult.SUCCESS;
     }
 
@@ -184,7 +191,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    public static boolean hasStarterStaffStructure(Level level, BlockPos pos) {
+    public static boolean hasRitualStructure(Level level, BlockPos pos) {
         return level.getBlockState(pos.north()).getBlock() == MobBlocks.VOXITE_BLOCK
                 && level.getBlockState(pos.south()).getBlock() == MobBlocks.VOXITE_BLOCK
                 && level.getBlockState(pos.east()).getBlock() == MobBlocks.MAGITEK_BLOCK
@@ -204,6 +211,23 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
                 .stream()
                 .findFirst()
                 .orElse(null);
+    }
+
+    public static List<Item> ingredientsFor(int recipeIndex, Item output) {
+        if (recipeIndex == RITUAL_STAFF) {
+            return List.of(Items.STICK, ModItems.VOXITE_INGOT, ModItems.MAGITEK_INGOT, ModItems.shardForStaff(output));
+        }
+        if (recipeIndex == RITUAL_AMETHYST_FOCUS) {
+            return List.of(Items.AMETHYST_SHARD, Items.COPPER_INGOT, ModItems.FOCUSING_LENS, ModItems.VOXITE_INGOT);
+        }
+        if (recipeIndex == RITUAL_MAGITEK_CORE) {
+            return List.of(Items.COPPER_INGOT, Items.AMETHYST_SHARD, ModItems.MAGITEK_INGOT);
+        }
+        if (recipeIndex == RITUAL_VOXITE_STABILIZER) {
+            return List.of(ModItems.VOXITE_INGOT, Items.AMETHYST_SHARD);
+        }
+
+        return List.of();
     }
 
     public static int colorForRitualItem(Item item) {
@@ -238,11 +262,39 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         return 0xD8B4FF;
     }
 
-    private static boolean hasStarterRitualIngredients(ServerLevel level, BlockPos pos, Item shard) {
-        return findNearbyItemEntity(level, pos, Items.STICK) != null
-                && findNearbyItemEntity(level, pos, ModItems.VOXITE_INGOT) != null
-                && findNearbyItemEntity(level, pos, ModItems.MAGITEK_INGOT) != null
-                && findNearbyItemEntity(level, pos, shard) != null;
+    private static RitualPlan findRitualPlan(ServerLevel level, BlockPos pos) {
+        Item shard = findStarterShard(level, pos);
+        Item staffItem = shard == null ? null : ModItems.staffForShard(shard);
+        if (staffItem != null && hasRitualIngredients(level, pos, ingredientsFor(RITUAL_STAFF, staffItem))) {
+            return new RitualPlan(RITUAL_STAFF, staffItem);
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_AMETHYST_FOCUS, MobBlocks.AMETHYST_FOCUS.asItem()))) {
+            return new RitualPlan(RITUAL_AMETHYST_FOCUS, MobBlocks.AMETHYST_FOCUS.asItem());
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_MAGITEK_CORE, MobBlocks.MAGITEK_CORE.asItem()))) {
+            return new RitualPlan(RITUAL_MAGITEK_CORE, MobBlocks.MAGITEK_CORE.asItem());
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_VOXITE_STABILIZER, MobBlocks.VOXITE_STABILIZER.asItem()))) {
+            return new RitualPlan(RITUAL_VOXITE_STABILIZER, MobBlocks.VOXITE_STABILIZER.asItem());
+        }
+
+        return null;
+    }
+
+    private static boolean hasRitualIngredients(ServerLevel level, BlockPos pos, List<Item> ingredients) {
+        return ingredients.stream().allMatch(item -> findNearbyItemEntity(level, pos, item) != null);
+    }
+
+    private static void protectRitualStacks(ServerLevel level, BlockPos pos, List<Item> ingredients) {
+        for (Item ingredient : ingredients) {
+            ItemEntity entity = findNearbyItemEntity(level, pos, ingredient);
+            if (entity != null) {
+                entity.setExtendedLifetime();
+            }
+        }
     }
 
     private static Item findStarterShard(ServerLevel level, BlockPos pos) {
@@ -332,8 +384,8 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     private static void finishRecipe(Level level, BlockPos pos, Player player, Item outputItem) {
         ItemStack outputStack = new ItemStack(outputItem);
         Component outputName = outputStack.getDisplayName();
-        if (!player.addItem(outputStack)) {
-            player.drop(outputStack, false);
+        if (!level.isClientSide()) {
+            spawnRitualOutput(level, pos, outputStack);
         }
 
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0f, 0.9f);
@@ -398,5 +450,17 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     }
 
     private record RecipeMatch(RecipeDefinition recipe, List<ResonanceSocketBlockEntity> consumedSockets) {
+    }
+
+    private record RitualPlan(int recipeIndex, Item output) {
+    }
+
+    public static void spawnRitualOutput(Level level, BlockPos pos, ItemStack outputStack) {
+        ItemEntity entity = new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 1.35D, pos.getZ() + 0.5D, outputStack);
+        RandomSource random = RandomSource.create();
+        double dx = (random.nextDouble() - 0.5D) * 0.08D;
+        double dz = (random.nextDouble() - 0.5D) * 0.08D;
+        entity.setDeltaMovement(dx, 0.22D, dz);
+        level.addFreshEntity(entity);
     }
 }

@@ -30,12 +30,14 @@ import net.minecraft.world.phys.AABB;
 public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     private static final String ACTIVE_KEY = "starter_ritual_active";
     private static final String TICKS_KEY = "starter_ritual_ticks";
-    private static final String STAFF_VARIANT_KEY = "starter_staff_variant";
+    private static final String RECIPE_KEY = "starter_ritual_recipe";
+    private static final String OUTPUT_VARIANT_KEY = "starter_output_variant";
     private static final String OWNER_KEY = "starter_ritual_owner";
 
     private boolean ritualActive;
     private int ritualTicks;
-    private int staffVariantIndex;
+    private int ritualRecipeIndex;
+    private int outputVariantIndex;
     private UUID ownerUuid;
 
     public ResonanceWorkbenchBlockEntity(BlockPos pos, BlockState state) {
@@ -46,10 +48,11 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         return ritualActive;
     }
 
-    public void startStarterRitual(Player player, Item staffItem) {
+    public void startRitual(Player player, int recipeIndex, Item outputItem) {
         ritualActive = true;
         ritualTicks = 0;
-        staffVariantIndex = ModItems.staffVariantIndex(staffItem);
+        ritualRecipeIndex = recipeIndex;
+        outputVariantIndex = variantIndexFor(recipeIndex, outputItem);
         ownerUuid = player.getUUID();
         markUpdated();
     }
@@ -59,29 +62,16 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
             return;
         }
 
-        if (!ResonanceWorkbenchBlock.hasStarterStaffStructure(level, pos)) {
+        if (!ResonanceWorkbenchBlock.hasRitualStructure(level, pos)) {
             workbench.cancelRitual(level);
             return;
         }
 
+        workbench.protectActiveIngredientStacks(level);
         workbench.ritualTicks++;
 
-        if (workbench.ritualTicks == 10 && !workbench.consumeRitualItem(level, Items.STICK)) {
-            workbench.cancelRitual(level);
-            return;
-        }
-
-        if (workbench.ritualTicks == 20 && !workbench.consumeRitualItem(level, ModItems.VOXITE_INGOT)) {
-            workbench.cancelRitual(level);
-            return;
-        }
-
-        if (workbench.ritualTicks == 30 && !workbench.consumeRitualItem(level, ModItems.MAGITEK_INGOT)) {
-            workbench.cancelRitual(level);
-            return;
-        }
-
-        if (workbench.ritualTicks == 40 && !workbench.consumeRitualItem(level, ModItems.shardForStaff(ModItems.staffByVariantIndex(workbench.staffVariantIndex)))) {
+        Item ingredient = workbench.ingredientForCurrentTick();
+        if (ingredient != null && !workbench.consumeRitualItem(level, ingredient)) {
             workbench.cancelRitual(level);
             return;
         }
@@ -101,6 +91,7 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
             return false;
         }
 
+        entity.setExtendedLifetime();
         ItemStack stack = entity.getItem();
         Item particleItem = stack.getItem();
         stack.shrink(1);
@@ -131,12 +122,8 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     }
 
     private void completeRitual(ServerLevel level) {
-        ItemStack staff = new ItemStack(ModItems.staffByVariantIndex(staffVariantIndex));
-        Player player = ownerUuid == null ? null : level.getPlayerInAnyDimension(ownerUuid);
-        if (player == null || !player.addItem(staff)) {
-            ItemEntity entity = new ItemEntity(level, worldPosition.getX() + 0.5D, worldPosition.getY() + 1.25D, worldPosition.getZ() + 0.5D, staff);
-            level.addFreshEntity(entity);
-        }
+        ItemStack output = new ItemStack(outputForActiveRitual());
+        ResonanceWorkbenchBlock.spawnRitualOutput(level, worldPosition, output);
 
         double x = worldPosition.getX() + 0.5D;
         double y = worldPosition.getY() + 1.35D;
@@ -146,6 +133,50 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         level.playSound(null, worldPosition, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.55F, 1.45F);
         resetRitual();
         markUpdated();
+    }
+
+    private void protectActiveIngredientStacks(ServerLevel level) {
+        for (Item item : ResonanceWorkbenchBlock.ingredientsFor(ritualRecipeIndex, outputForActiveRitual())) {
+            ItemEntity entity = ResonanceWorkbenchBlock.findNearbyItemEntity(level, worldPosition, item);
+            if (entity != null) {
+                entity.setExtendedLifetime();
+            }
+        }
+    }
+
+    private Item ingredientForCurrentTick() {
+        var ingredients = ResonanceWorkbenchBlock.ingredientsFor(ritualRecipeIndex, outputForActiveRitual());
+        int index = switch (ritualTicks) {
+            case 10 -> 0;
+            case 20 -> 1;
+            case 30 -> 2;
+            case 40 -> 3;
+            default -> -1;
+        };
+
+        if (index < 0 || index >= ingredients.size()) {
+            return null;
+        }
+
+        return ingredients.get(index);
+    }
+
+    private Item outputForActiveRitual() {
+        return switch (ritualRecipeIndex) {
+            case ResonanceWorkbenchBlock.RITUAL_STAFF -> ModItems.staffByVariantIndex(outputVariantIndex);
+            case ResonanceWorkbenchBlock.RITUAL_AMETHYST_FOCUS -> net.fearsredemption.fearsmod.block.MobBlocks.AMETHYST_FOCUS.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_MAGITEK_CORE -> net.fearsredemption.fearsmod.block.MobBlocks.MAGITEK_CORE.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_VOXITE_STABILIZER -> net.fearsredemption.fearsmod.block.MobBlocks.VOXITE_STABILIZER.asItem();
+            default -> ModItems.RESONANCE_STAFF;
+        };
+    }
+
+    private static int variantIndexFor(int recipeIndex, Item outputItem) {
+        if (recipeIndex == ResonanceWorkbenchBlock.RITUAL_STAFF) {
+            return ModItems.staffVariantIndex(outputItem);
+        }
+
+        return 0;
     }
 
     private void cancelRitual(ServerLevel level) {
@@ -158,7 +189,8 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     private void resetRitual() {
         ritualActive = false;
         ritualTicks = 0;
-        staffVariantIndex = 0;
+        ritualRecipeIndex = 0;
+        outputVariantIndex = 0;
         ownerUuid = null;
     }
 
@@ -167,7 +199,8 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         super.saveAdditional(output);
         output.putBoolean(ACTIVE_KEY, ritualActive);
         output.putInt(TICKS_KEY, ritualTicks);
-        output.putInt(STAFF_VARIANT_KEY, staffVariantIndex);
+        output.putInt(RECIPE_KEY, ritualRecipeIndex);
+        output.putInt(OUTPUT_VARIANT_KEY, outputVariantIndex);
         if (ownerUuid != null) {
             output.putString(OWNER_KEY, ownerUuid.toString());
         }
@@ -178,7 +211,8 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         super.loadAdditional(input);
         ritualActive = input.getBooleanOr(ACTIVE_KEY, false);
         ritualTicks = input.getIntOr(TICKS_KEY, 0);
-        staffVariantIndex = input.getIntOr(STAFF_VARIANT_KEY, 0);
+        ritualRecipeIndex = input.getIntOr(RECIPE_KEY, 0);
+        outputVariantIndex = input.getIntOr(OUTPUT_VARIANT_KEY, input.getIntOr("starter_staff_variant", 0));
         ownerUuid = input.getString(OWNER_KEY).map(UUID::fromString).orElse(null);
     }
 

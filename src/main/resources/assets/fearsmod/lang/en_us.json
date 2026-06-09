@@ -83,7 +83,12 @@
   "item.fearsmod.aquamarine_resonance_staff": "Aquamarine Resonance Staff",
   "item.fearsmod.ruby_resonance_staff": "Ruby Resonance Staff",
   "item.fearsmod.topaz_resonance_staff": "Topaz Resonance Staff",
-  "block.fearsmod.resonance_workbench.ritual_active": "The starter ritual is already gathering resonance.",
-  "block.fearsmod.resonance_workbench.starter_structure_invalid": "The starter ritual needs Voxite north and south, with Magitek east and west.",
-  "block.fearsmod.resonance_workbench.starter_missing_items": "The starter ritual needs a Stick, Voxite Ingot, Magitek Ingot, and one valid crystal shard nearby."
+  "block.fearsmod.resonance_workbench.ritual_active": "The workbench is already holding a ritual in resonance.",
+  "block.fearsmod.resonance_workbench.starter_structure_invalid": "The ritual needs Voxite Blocks north and south, with Magitek Blocks east and west.",
+  "block.fearsmod.resonance_workbench.starter_missing_items": "The ritual needs the correct dropped ingredients near the workbench.",
+  "block.fearsmod.resonance_workbench.ritual_no_recipe": "The redstone spark finds no valid ritual recipe in the nearby items.",
+  "block.fearsmod.resonance_workbench.ritual_started": "Redstone sparks the ritual for %s.",
+  "block.fearsmod.resonance_workbench.ritual_complete": "Resonance releases %s into the world.",
+  "block.fearsmod.resonance_workbench.ritual_stopped": "The ritual collapses as the structure or ingredients fall out of tune.",
+  "block.fearsmod.resonance_workbench.repeated_not_enabled": "Repeated processing is manual for now: spark the workbench again for the next item."
 }
