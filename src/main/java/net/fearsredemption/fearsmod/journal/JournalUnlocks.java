@@ -18,21 +18,21 @@ public final class JournalUnlocks {
     public static final String TAG_PREFIX = "fearsmod.journal.";
 
     private static final List<Discovery> DISCOVERIES = List.of(
-            new Discovery("voxite_ore", "voxite_ore", player -> has(player, MobBlocks.VOXITE_ORE.asItem()) || has(player, MobBlocks.DEEPSLATE_VOXITE_ORE.asItem()) || has(player, ModItems.RAW_VOXITE)),
-            new Discovery("magitek_ore", "magitek_ore", player -> has(player, MobBlocks.MAGITEK_ORE.asItem()) || has(player, MobBlocks.DEEPSLATE_MAGITEK_ORE.asItem()) || has(player, ModItems.RAW_MAGITEK)),
-            new Discovery("voxite_ingot", "voxite_ingot", player -> has(player, ModItems.VOXITE_INGOT)),
-            new Discovery("magitek_ingot", "magitek_ingot", player -> has(player, ModItems.MAGITEK_INGOT)),
-            new Discovery("combined_ingots", "combined_ingots", player -> has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT)),
-            new Discovery("resonance_workbench", "resonance_workbench", player -> has(player, MobBlocks.RESONANCE_WORKBENCH.asItem())),
-            new Discovery("power_blocks", "power_blocks", player -> has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
-            new Discovery("starter_structure", "starter_structure", player -> has(player, MobBlocks.RESONANCE_WORKBENCH.asItem()) && has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
-            new Discovery("ritual_basics", "ritual_basics", player -> has(player, Items.REDSTONE) && has(player, MobBlocks.RESONANCE_WORKBENCH.asItem())),
-            new Discovery("staff_ritual", "staff_ritual", player -> has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
-            new Discovery("first_staff", "first_staff", JournalUnlocks::hasAnyStaff),
-            new Discovery("apparatus_rituals", "apparatus_rituals", player -> hasAnyStaff(player) || has(player, ModItems.FOCUSING_LENS)),
-            new Discovery("stack_handling", "stack_handling", player -> hasTag(player, "ritual_basics")),
-            new Discovery("crystal_growth", "crystal_growth", JournalUnlocks::hasAnyModShard),
-            new Discovery("future", "future", player -> hasTag(player, "first_staff"))
+            new Discovery("voxite_ore", player -> has(player, MobBlocks.VOXITE_ORE.asItem()) || has(player, MobBlocks.DEEPSLATE_VOXITE_ORE.asItem()) || has(player, ModItems.RAW_VOXITE)),
+            new Discovery("magitek_ore", player -> has(player, MobBlocks.MAGITEK_ORE.asItem()) || has(player, MobBlocks.DEEPSLATE_MAGITEK_ORE.asItem()) || has(player, ModItems.RAW_MAGITEK)),
+            new Discovery("voxite_ingot", player -> has(player, ModItems.VOXITE_INGOT)),
+            new Discovery("magitek_ingot", player -> has(player, ModItems.MAGITEK_INGOT)),
+            new Discovery("combined_ingots", player -> hasTag(player, "voxite_ingot") && hasTag(player, "magitek_ingot")),
+            new Discovery("resonance_workbench", player -> has(player, MobBlocks.RESONANCE_WORKBENCH.asItem())),
+            new Discovery("power_blocks", player -> has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
+            new Discovery("starter_structure", player -> hasTag(player, "resonance_workbench") && has(player, MobBlocks.VOXITE_BLOCK.asItem()) && has(player, MobBlocks.MAGITEK_BLOCK.asItem())),
+            new Discovery("ritual_basics", player -> hasTag(player, "resonance_workbench") && has(player, Items.REDSTONE)),
+            new Discovery("staff_ritual", player -> has(player, Items.STICK) && has(player, ModItems.VOXITE_INGOT) && has(player, ModItems.MAGITEK_INGOT) && hasAnyShard(player)),
+            new Discovery("first_staff", JournalUnlocks::hasAnyStaff),
+            new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff") || has(player, ModItems.FOCUSING_LENS)),
+            new Discovery("stack_handling", player -> hasTag(player, "ritual_basics")),
+            new Discovery("crystal_growth", JournalUnlocks::hasAnyModShard),
+            new Discovery("future", player -> hasTag(player, "first_staff"))
     );
 
     private JournalUnlocks() {
@@ -123,7 +123,7 @@ public final class JournalUnlocks {
         return player.getInventory().contains(ModItems::isResonanceStaff);
     }
 
-    private record Discovery(String tag, String page, Condition condition) {
+    private record Discovery(String tag, Condition condition) {
     }
 
     @FunctionalInterface

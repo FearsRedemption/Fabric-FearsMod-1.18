@@ -16,7 +16,6 @@ public class ResonanceJournalScreen extends Screen {
 
     private List<ResonanceJournalClient.JournalPage> pages;
     private int pageIndex;
-    private int refreshTicks;
     private Button previousButton;
     private Button nextButton;
 
@@ -62,16 +61,6 @@ public class ResonanceJournalScreen extends Screen {
     }
 
     @Override
-    public void tick() {
-        refreshTicks++;
-        if (refreshTicks >= 20) {
-            refreshTicks = 0;
-            ResonanceJournalClient.requestRefresh();
-        }
-        super.tick();
-    }
-
-    @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         extractTransparentBackground(graphics);
         int left = (width - PANEL_WIDTH) / 2;
@@ -80,7 +69,7 @@ public class ResonanceJournalScreen extends Screen {
         graphics.fill(left - 6, top - 6, left + PANEL_WIDTH + 6, top + PANEL_HEIGHT + 6, 0xDD09070D);
         graphics.fill(left, top, left + PANEL_WIDTH, top + PANEL_HEIGHT, 0xFF21182A);
         graphics.fill(left + 7, top + 7, left + PANEL_WIDTH - 7, top + PANEL_HEIGHT - 7, 0xFF35243F);
-        graphics.fill(left + 13, top + 13, left + PANEL_WIDTH - 13, top + PANEL_HEIGHT - 39, 0xFFE5D6B8);
+        graphics.fill(left + 13, top + 13, left + PANEL_WIDTH - 13, top + PANEL_HEIGHT - 39, 0xFFF2E2BE);
         graphics.outline(left, top, PANEL_WIDTH, PANEL_HEIGHT, 0xFF9B64D7);
         graphics.outline(left + 6, top + 6, PANEL_WIDTH - 12, PANEL_HEIGHT - 12, 0xFFDBD6C7);
 
@@ -155,10 +144,10 @@ public class ResonanceJournalScreen extends Screen {
     }
 
     private void outlinedText(GuiGraphicsExtractor graphics, String text, int x, int y, int color) {
-        graphics.text(font, text, x - 1, y, 0xCCFFFFFF);
-        graphics.text(font, text, x + 1, y, 0xCCFFFFFF);
-        graphics.text(font, text, x, y - 1, 0xCCFFFFFF);
-        graphics.text(font, text, x, y + 1, 0xCCFFFFFF);
-        graphics.text(font, text, x, y, color);
+        graphics.text(font, text, x - 1, y, 0xFFFFFFFF);
+        graphics.text(font, text, x + 1, y, 0xFFFFFFFF);
+        graphics.text(font, text, x, y - 1, 0xFFFFFFFF);
+        graphics.text(font, text, x, y + 1, 0xFFFFFFFF);
+        graphics.text(font, text, x, y, 0xFF000000);
     }
 }

@@ -9,12 +9,12 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fearsredemption.fearsmod.FearsMod;
 import net.fearsredemption.fearsmod.block.MobBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.fearsredemption.fearsmod.journal.JournalNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.Identifier;
@@ -42,10 +42,6 @@ public final class ResonanceJournalClient {
             ClientPlayNetworking.send(JournalNetworking.OpenJournalRequestPayload.INSTANCE);
             return InteractionResult.SUCCESS;
         });
-    }
-
-    public static void requestRefresh() {
-        ClientPlayNetworking.send(JournalNetworking.OpenJournalRequestPayload.INSTANCE);
     }
 
     private static void receive(List<String> unlockedPages, boolean openJournal) {
@@ -153,6 +149,7 @@ public final class ResonanceJournalClient {
         Minecraft minecraft = Minecraft.getInstance();
         List<Resource> resources = minecraft.getResourceManager().getResourceStack(PAGES);
         if (resources.isEmpty()) {
+            FearsMod.LOGGER.warn("No Resonance Journal page data found at assets/{}/{}. The journal will show fallback text only.", FearsMod.MOD_ID, PAGES.getPath());
             return entries;
         }
 
@@ -166,7 +163,8 @@ public final class ResonanceJournalClient {
                 boolean alwaysVisible = object.has("always_visible") && object.get("always_visible").getAsBoolean();
                 entries.add(new JournalEntry(unlock, title, text, alwaysVisible));
             }
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
+            FearsMod.LOGGER.warn("Failed to load Resonance Journal page data from {}.", PAGES, exception);
             entries.clear();
         }
 
