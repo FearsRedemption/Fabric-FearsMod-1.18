@@ -40,6 +40,10 @@ public final class ResonanceJournalClient {
         });
     }
 
+    public static void requestRefresh() {
+        ClientPlayNetworking.send(JournalNetworking.OpenJournalRequestPayload.INSTANCE);
+    }
+
     private static void receive(List<String> unlockedPages, boolean openJournal) {
         Set<String> unlocked = new HashSet<>(unlockedPages);
         Minecraft minecraft = Minecraft.getInstance();

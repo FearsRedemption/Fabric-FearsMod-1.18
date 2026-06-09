@@ -16,6 +16,7 @@ public class ResonanceJournalScreen extends Screen {
 
     private List<ResonanceJournalClient.JournalPage> pages;
     private int pageIndex;
+    private int refreshTicks;
     private Button previousButton;
     private Button nextButton;
 
@@ -47,11 +48,27 @@ public class ResonanceJournalScreen extends Screen {
     }
 
     public void setPages(List<ResonanceJournalClient.JournalPage> pages) {
+        for (int i = 0; i < Math.min(this.pages.size(), pages.size()); i++) {
+            if (!this.pages.get(i).unlocked() && pages.get(i).unlocked()) {
+                pageIndex = i;
+                break;
+            }
+        }
         this.pages = pages;
         if (pageIndex >= pages.size()) {
             pageIndex = Math.max(0, pages.size() - 1);
         }
         updateButtons();
+    }
+
+    @Override
+    public void tick() {
+        refreshTicks++;
+        if (refreshTicks >= 20) {
+            refreshTicks = 0;
+            ResonanceJournalClient.requestRefresh();
+        }
+        super.tick();
     }
 
     @Override
@@ -70,19 +87,19 @@ public class ResonanceJournalScreen extends Screen {
         ResonanceJournalClient.JournalPage page = pages.get(pageIndex);
         int titleColor = page.unlocked() ? 0xFF4A245B : 0xFF59504F;
         int bodyColor = page.unlocked() ? 0xFF241D24 : 0xFF5F5756;
-        graphics.centeredText(font, page.title(), left + PANEL_WIDTH / 2, top + 22, titleColor);
+        outlinedCenteredText(graphics, page.title(), left + PANEL_WIDTH / 2, top + 22, titleColor);
         graphics.horizontalLine(left + 36, left + PANEL_WIDTH - 36, top + 35, 0xFF8C6B9D);
 
         int y = top + 45;
         for (String line : wrap(page.text(), TEXT_WIDTH)) {
-            graphics.text(font, line, left + 29, y, bodyColor);
+            outlinedText(graphics, line, left + 29, y, bodyColor);
             y += 10;
             if (y > top + PANEL_HEIGHT - 52) {
                 break;
             }
         }
 
-        graphics.centeredText(font, (pageIndex + 1) + " / " + pages.size(), left + PANEL_WIDTH / 2, top + PANEL_HEIGHT - 50, 0xFFE7D7F5);
+        outlinedCenteredText(graphics, (pageIndex + 1) + " / " + pages.size(), left + PANEL_WIDTH / 2, top + PANEL_HEIGHT - 50, 0xFFE7D7F5);
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
@@ -131,5 +148,17 @@ public class ResonanceJournalScreen extends Screen {
         if (nextButton != null) {
             nextButton.active = pageIndex < pages.size() - 1;
         }
+    }
+
+    private void outlinedCenteredText(GuiGraphicsExtractor graphics, String text, int centerX, int y, int color) {
+        outlinedText(graphics, text, centerX - font.width(text) / 2, y, color);
+    }
+
+    private void outlinedText(GuiGraphicsExtractor graphics, String text, int x, int y, int color) {
+        graphics.text(font, text, x - 1, y, 0xFFFFFFFF);
+        graphics.text(font, text, x + 1, y, 0xFFFFFFFF);
+        graphics.text(font, text, x, y - 1, 0xFFFFFFFF);
+        graphics.text(font, text, x, y + 1, 0xFFFFFFFF);
+        graphics.text(font, text, x, y, color);
     }
 }
