@@ -1,5 +1,6 @@
 package net.fearsredemption.fearsmod.journal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -50,6 +51,24 @@ public final class JournalUnlocks {
             return;
         }
 
+        notifyJournalUpdate(player);
+    }
+
+    public static void refresh(ServerPlayer player) {
+        update(player);
+    }
+
+    public static List<String> unlockedPageIds(ServerPlayer player) {
+        List<String> ids = new ArrayList<>();
+        for (String tag : player.entityTags()) {
+            if (tag.startsWith(TAG_PREFIX)) {
+                ids.add(tag.substring(TAG_PREFIX.length()));
+            }
+        }
+        return ids;
+    }
+
+    private static void notifyJournalUpdate(ServerPlayer player) {
         player.sendOverlayMessage(Component.translatable("item.fearsmod.resonance_journal.note"));
         if (isHoldingJournal(player)) {
             player.playSound(SoundEvents.BOOK_PAGE_TURN, 0.8F, 1.1F);
@@ -62,12 +81,20 @@ public final class JournalUnlocks {
             return;
         }
 
-        unlock(player, "start");
+        boolean changed = addTag(player, "start");
         for (Discovery discovery : DISCOVERIES) {
             if (discovery.condition().matches(player)) {
-                unlock(player, discovery.tag());
+                changed |= addTag(player, discovery.tag());
             }
         }
+
+        if (changed) {
+            notifyJournalUpdate(player);
+        }
+    }
+
+    private static boolean addTag(ServerPlayer player, String id) {
+        return player.addTag(TAG_PREFIX + id);
     }
 
     private static boolean isHoldingJournal(ServerPlayer player) {

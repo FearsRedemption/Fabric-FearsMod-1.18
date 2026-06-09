@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fearsredemption.fearsmod.block.entity.ModBlockEntities;
 import net.fearsredemption.fearsmod.block.MobBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
+import net.fearsredemption.fearsmod.journal.JournalNetworking;
 import net.fearsredemption.fearsmod.journal.JournalUnlocks;
 import net.fearsredemption.fearsmod.world.ModWorldGeneration;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public class FearsMod implements ModInitializer {
 		ModItems.initialize();
 		MobBlocks.initialize();
 		ModBlockEntities.initialize();
+		JournalNetworking.initializeServer();
 		JournalUnlocks.initialize();
 		ModWorldGeneration.initialize();
 	}
