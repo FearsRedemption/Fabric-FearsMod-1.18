@@ -176,9 +176,6 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         if (player instanceof ServerPlayer serverPlayer) {
             JournalUnlocks.unlock(serverPlayer, "apparatus_rituals");
         }
-        if (!player.isCreative()) {
-            staffStack.hurtAndBreak(1, player, hand);
-        }
 
         return InteractionResult.SUCCESS;
     }

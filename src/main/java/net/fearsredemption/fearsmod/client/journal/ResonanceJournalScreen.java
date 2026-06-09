@@ -19,17 +19,22 @@ public class ResonanceJournalScreen extends Screen {
     private static final int PAGE_TEXT_WIDTH = 124;
     private static final int PAGE_TOP_MARGIN = 45;
     private static final int PAGE_BOTTOM = 172;
+    private static final int LINE_HEIGHT = 10;
     private static final int TEXT_COLOR = 0xFF151018;
     private static final int MUTED_TEXT_COLOR = 0xFF4F4054;
 
+    private static int lastPageIndex;
+
     private List<ResonanceJournalClient.JournalPage> pages;
     private int pageIndex;
+    private int scrollOffset;
     private Button previousButton;
     private Button nextButton;
 
     public ResonanceJournalScreen(List<ResonanceJournalClient.JournalPage> pages) {
         super(Component.translatable("item.fearsmod.resonance_journal"));
         this.pages = pages;
+        this.pageIndex = Math.min(lastPageIndex, Math.max(0, pages.size() - 1));
     }
 
     @Override
@@ -39,12 +44,16 @@ public class ResonanceJournalScreen extends Screen {
         previousButton = addRenderableWidget(Button.builder(Component.literal("<"), button -> {
             if (pageIndex > 0) {
                 pageIndex--;
+                scrollOffset = 0;
+                rememberPage();
                 updateButtons();
             }
         }).bounds(left + 18, top + BOOK_HEIGHT - 30, 24, 20).build());
         nextButton = addRenderableWidget(Button.builder(Component.literal(">"), button -> {
             if (pageIndex < pages.size() - 1) {
                 pageIndex++;
+                scrollOffset = 0;
+                rememberPage();
                 updateButtons();
             }
         }).bounds(left + BOOK_WIDTH - 42, top + BOOK_HEIGHT - 30, 24, 20).build());
@@ -59,10 +68,13 @@ public class ResonanceJournalScreen extends Screen {
         this.pages = pages;
         if (pages.size() > oldSize) {
             pageIndex = pages.size() - 1;
+            scrollOffset = 0;
         }
         if (pageIndex >= pages.size()) {
             pageIndex = Math.max(0, pages.size() - 1);
+            scrollOffset = 0;
         }
+        rememberPage();
         updateButtons();
     }
 
@@ -79,6 +91,7 @@ public class ResonanceJournalScreen extends Screen {
         graphics.horizontalLine(left + 48, left + BOOK_WIDTH - 48, top + 38, 0xFF9D78B6);
 
         drawPageContent(graphics, page, left, top);
+        drawScrollHint(graphics, page, left, top);
         drawCenteredText(graphics, (pageIndex + 1) + " / " + pages.size(), left + BOOK_WIDTH / 2, top + BOOK_HEIGHT - 45, MUTED_TEXT_COLOR);
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
@@ -87,15 +100,33 @@ public class ResonanceJournalScreen extends Screen {
     public boolean keyPressed(KeyEvent event) {
         if (event.key() == 263 && pageIndex > 0) {
             pageIndex--;
+            scrollOffset = 0;
+            rememberPage();
             updateButtons();
             return true;
         }
         if (event.key() == 262 && pageIndex < pages.size() - 1) {
             pageIndex++;
+            scrollOffset = 0;
+            rememberPage();
             updateButtons();
             return true;
         }
+        if (event.key() == 265) {
+            scrollPage(-1);
+            return true;
+        }
+        if (event.key() == 264) {
+            scrollPage(1);
+            return true;
+        }
         return super.keyPressed(event);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        scrollPage(deltaY > 0 ? -2 : 2);
+        return true;
     }
 
     private List<String> wrap(String text, int maxWidth) {
@@ -108,6 +139,15 @@ public class ResonanceJournalScreen extends Screen {
 
             StringBuilder line = new StringBuilder();
             for (String word : paragraph.split(" ")) {
+                if (font.width(word) > maxWidth) {
+                    if (!line.isEmpty()) {
+                        lines.add(line.toString());
+                        line = new StringBuilder();
+                    }
+                    splitLongWord(lines, word, maxWidth);
+                    continue;
+                }
+
                 String candidate = line.isEmpty() ? word : line + " " + word;
                 if (font.width(candidate) > maxWidth && !line.isEmpty()) {
                     lines.add(line.toString());
@@ -119,6 +159,23 @@ public class ResonanceJournalScreen extends Screen {
             lines.add(line.toString());
         }
         return lines;
+    }
+
+    private void splitLongWord(List<String> lines, String word, int maxWidth) {
+        StringBuilder piece = new StringBuilder();
+        for (int i = 0; i < word.length(); i++) {
+            String candidate = piece.toString() + word.charAt(i);
+            if (font.width(candidate) > maxWidth && !piece.isEmpty()) {
+                lines.add(piece.toString());
+                piece = new StringBuilder(String.valueOf(word.charAt(i)));
+            } else {
+                piece = new StringBuilder(candidate);
+            }
+        }
+
+        if (!piece.isEmpty()) {
+            lines.add(piece.toString());
+        }
     }
 
     private void updateButtons() {
@@ -149,24 +206,37 @@ public class ResonanceJournalScreen extends Screen {
         List<String> lines = wrap(page.text(), PAGE_TEXT_WIDTH);
 
         if (hasDiagram(page.unlock())) {
-            drawLines(graphics, lines, leftPageX, textTop, top + PAGE_BOTTOM);
+            drawLines(graphics, visibleLines(lines, true, 0), leftPageX, textTop, top + PAGE_BOTTOM);
             drawPageDiagram(graphics, page.unlock(), rightPageX, textTop + 6);
             return;
         }
 
-        int split = Math.min(lines.size(), Math.max(1, (lines.size() + 1) / 2));
-        drawLines(graphics, lines.subList(0, split), leftPageX, textTop, top + PAGE_BOTTOM);
-        drawLines(graphics, lines.subList(split, lines.size()), rightPageX, textTop, top + PAGE_BOTTOM);
+        List<String> visible = visibleLines(lines, false, 0);
+        int capacity = linesPerColumn();
+        int split = Math.min(visible.size(), capacity);
+        drawLines(graphics, visible.subList(0, split), leftPageX, textTop, top + PAGE_BOTTOM);
+        drawLines(graphics, visible.subList(split, visible.size()), rightPageX, textTop, top + PAGE_BOTTOM);
     }
 
     private void drawLines(GuiGraphicsExtractor graphics, List<String> lines, int x, int y, int bottom) {
         for (String line : lines) {
             drawText(graphics, line, x, y, TEXT_COLOR);
-            y += 10;
+            y += LINE_HEIGHT;
             if (y > bottom) {
                 break;
             }
         }
+    }
+
+    private List<String> visibleLines(List<String> lines, boolean diagramPage, int extraLines) {
+        int capacity = Math.max(1, linesPerColumn() * (diagramPage ? 1 : 2) + extraLines);
+        int start = Math.min(scrollOffset, Math.max(0, lines.size() - capacity));
+        int end = Math.min(lines.size(), start + capacity);
+        return lines.subList(start, end);
+    }
+
+    private int linesPerColumn() {
+        return Math.max(1, (PAGE_BOTTOM - PAGE_TOP_MARGIN) / LINE_HEIGHT);
     }
 
     private boolean hasDiagram(String unlock) {
@@ -252,6 +322,33 @@ public class ResonanceJournalScreen extends Screen {
         graphics.fill(x - 1, y - 1, x + 17, y + 17, 0x44FFFFFF);
         graphics.outline(x - 1, y - 1, 18, 18, 0x778B6F8E);
         graphics.item(stack, x, y);
+    }
+
+    private void drawScrollHint(GuiGraphicsExtractor graphics, ResonanceJournalClient.JournalPage page, int left, int top) {
+        List<String> lines = wrap(page.text(), PAGE_TEXT_WIDTH);
+        boolean diagramPage = hasDiagram(page.unlock());
+        int capacity = linesPerColumn() * (diagramPage ? 1 : 2);
+        if (lines.size() <= capacity) {
+            return;
+        }
+
+        String hint = (scrollOffset + 1) + "-" + Math.min(lines.size(), scrollOffset + capacity) + " / " + lines.size();
+        drawCenteredText(graphics, hint, left + BOOK_WIDTH - 64, top + BOOK_HEIGHT - 45, MUTED_TEXT_COLOR);
+    }
+
+    private void scrollPage(int amount) {
+        ResonanceJournalClient.JournalPage page = pages.get(pageIndex);
+        int totalLines = wrap(page.text(), PAGE_TEXT_WIDTH).size();
+        int capacity = linesPerColumn() * (hasDiagram(page.unlock()) ? 1 : 2);
+        int maxOffset = Math.max(0, totalLines - capacity);
+        int nextOffset = Math.max(0, Math.min(maxOffset, scrollOffset + amount));
+        if (nextOffset != scrollOffset) {
+            scrollOffset = nextOffset;
+        }
+    }
+
+    private void rememberPage() {
+        lastPageIndex = pageIndex;
     }
 
     private void drawCenteredText(GuiGraphicsExtractor graphics, String text, int centerX, int y, int color) {
