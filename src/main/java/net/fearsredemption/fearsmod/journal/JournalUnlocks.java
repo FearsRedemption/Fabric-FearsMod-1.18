@@ -74,6 +74,7 @@ public final class JournalUnlocks {
             player.playSound(SoundEvents.BOOK_PAGE_TURN, 0.8F, 1.1F);
             player.playSound(SoundEvents.BRUSH_GENERIC, 0.45F, 1.25F);
         }
+        JournalNetworking.sync(player);
     }
 
     private static void update(ServerPlayer player) {

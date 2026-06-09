@@ -14,7 +14,7 @@ public class ResonanceJournalScreen extends Screen {
     private static final int PANEL_HEIGHT = 198;
     private static final int TEXT_WIDTH = 250;
 
-    private final List<ResonanceJournalClient.JournalPage> pages;
+    private List<ResonanceJournalClient.JournalPage> pages;
     private int pageIndex;
     private Button previousButton;
     private Button nextButton;
@@ -43,6 +43,14 @@ public class ResonanceJournalScreen extends Screen {
         addRenderableWidget(Button.builder(Component.literal("Close"), button -> onClose())
                 .bounds(left + PANEL_WIDTH / 2 - 32, top + PANEL_HEIGHT - 30, 64, 20)
                 .build());
+        updateButtons();
+    }
+
+    public void setPages(List<ResonanceJournalClient.JournalPage> pages) {
+        this.pages = pages;
+        if (pageIndex >= pages.size()) {
+            pageIndex = Math.max(0, pages.size() - 1);
+        }
         updateButtons();
     }
 

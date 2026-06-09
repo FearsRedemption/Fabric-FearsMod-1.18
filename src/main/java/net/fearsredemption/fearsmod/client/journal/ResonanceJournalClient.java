@@ -28,7 +28,7 @@ public final class ResonanceJournalClient {
 
     public static void initialize() {
         ClientPlayNetworking.registerGlobalReceiver(JournalNetworking.OpenJournalPayload.TYPE, (payload, context) ->
-                context.client().execute(() -> open(payload.unlockedPages())));
+                context.client().execute(() -> receive(payload.unlockedPages(), payload.openJournal())));
 
         UseItemCallback.EVENT.register((player, level, hand) -> {
             if (!level.isClientSide() || player.getItemInHand(hand).getItem() != ModItems.RESONANCE_JOURNAL) {
@@ -40,9 +40,15 @@ public final class ResonanceJournalClient {
         });
     }
 
-    private static void open(List<String> unlockedPages) {
+    private static void receive(List<String> unlockedPages, boolean openJournal) {
         Set<String> unlocked = new HashSet<>(unlockedPages);
-        Minecraft.getInstance().setScreen(new ResonanceJournalScreen(buildPages(unlocked)));
+        Minecraft minecraft = Minecraft.getInstance();
+        List<JournalPage> pages = buildPages(unlocked);
+        if (minecraft.screen instanceof ResonanceJournalScreen screen) {
+            screen.setPages(pages);
+        } else if (openJournal) {
+            minecraft.setScreen(new ResonanceJournalScreen(pages));
+        }
     }
 
     private static List<JournalPage> buildPages(Set<String> unlocked) {
