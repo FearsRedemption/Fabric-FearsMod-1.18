@@ -22,6 +22,14 @@ public class ResonanceJournalScreen extends Screen {
     private static final int LINE_HEIGHT = 10;
     private static final int TEXT_COLOR = 0xFF151018;
     private static final int MUTED_TEXT_COLOR = 0xFF4F4054;
+    private static final ItemStack[] STAFF_SHARDS = {
+            new ItemStack(Items.AMETHYST_SHARD),
+            new ItemStack(ModItems.AGATE_SHARD),
+            new ItemStack(ModItems.AMBER_SHARD),
+            new ItemStack(ModItems.AQUAMARINE_SHARD),
+            new ItemStack(ModItems.RUBY_SHARD),
+            new ItemStack(ModItems.TOPAZ_SHARD)
+    };
 
     private static int lastPageIndex;
 
@@ -265,21 +273,25 @@ public class ResonanceJournalScreen extends Screen {
                 });
             }
             case "staff_ritual" -> {
+                ItemStack shard = rotatingStaffShard();
                 drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
                 drawIconRow(graphics, x + 55, y + 24,
                         new ItemStack(Items.STICK),
                         new ItemStack(ModItems.VOXITE_INGOT),
                         new ItemStack(ModItems.MAGITEK_INGOT),
-                        new ItemStack(Items.AMETHYST_SHARD));
+                        shard);
+                drawCenteredText(graphics, "Shard: " + shard.getHoverName().getString(), x + 55, y + 52, MUTED_TEXT_COLOR);
                 drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
             }
             case "ritual_basics" -> {
+                ItemStack shard = rotatingStaffShard();
                 drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
                 drawIconRow(graphics, x + 55, y + 24,
                         new ItemStack(Items.STICK),
                         new ItemStack(ModItems.VOXITE_INGOT),
                         new ItemStack(ModItems.MAGITEK_INGOT),
-                        new ItemStack(Items.AMETHYST_SHARD));
+                        shard);
+                drawCenteredText(graphics, "Shard: " + shard.getHoverName().getString(), x + 55, y + 52, MUTED_TEXT_COLOR);
                 drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
             }
             default -> {
@@ -316,6 +328,11 @@ public class ResonanceJournalScreen extends Screen {
         drawCenteredText(graphics, "Catalyst:", centerX, y, MUTED_TEXT_COLOR);
         drawItemSlot(graphics, catalyst, centerX - 8, y + 13);
         drawCenteredText(graphics, "x1", centerX, y + 32, MUTED_TEXT_COLOR);
+    }
+
+    private ItemStack rotatingStaffShard() {
+        int index = (int) ((System.currentTimeMillis() / 1600L) % STAFF_SHARDS.length);
+        return STAFF_SHARDS[index];
     }
 
     private void drawItemSlot(GuiGraphicsExtractor graphics, ItemStack stack, int x, int y) {
