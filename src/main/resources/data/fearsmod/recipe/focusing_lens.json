@@ -1,17 +1,17 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "pattern": [
-    " G ",
-    "CAC",
-    " G "
-  ],
-  "key": {
-    "G": "minecraft:glass",
-    "C": "minecraft:copper_ingot",
-    "A": "minecraft:amethyst_shard"
-  },
-  "result": {
-    "id": "fearsmod:focusing_lens"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "key":  {
+                "G":  "minecraft:glass",
+                "C":  "minecraft:copper_ingot",
+                "A":  "minecraft:amethyst_shard"
+            },
+    "pattern":  [
+                    " G ",
+                    "CAC",
+                    " G "
+                ],
+    "result":  {
+                   "id":  "fearsmod:focusing_lens"
+               }
 }

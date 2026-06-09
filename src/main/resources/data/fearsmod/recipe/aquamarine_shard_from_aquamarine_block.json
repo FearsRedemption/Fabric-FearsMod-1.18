@@ -1,12 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "fearsmod:aquamarine_block"
-    }
-  ],
-  "result": {
-    "item": "fearsmod:aquamarine_shard",
-    "count": 4
-  }
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "ingredients":  [
+                        "fearsmod:aquamarine_block"
+                    ],
+    "result":  {
+                   "count":  4,
+                   "id":  "fearsmod:aquamarine_shard"
+               }
 }

@@ -1,13 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "group": "voxite_ingot",
-  "ingredients": [
-    {
-      "item": "fearsmod:voxite_block"
-    }
-  ],
-  "result": {
-    "item": "fearsmod:voxite_ingot",
-    "count": 9
-  }
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "group":  "voxite_ingot",
+    "ingredients":  [
+                        "fearsmod:voxite_block"
+                    ],
+    "result":  {
+                   "count":  9,
+                   "id":  "fearsmod:voxite_ingot"
+               }
 }

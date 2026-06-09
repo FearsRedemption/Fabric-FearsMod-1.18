@@ -1,15 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
-      "item": "fearsmod:amber_shard"
-    }
-  },
-  "result": {
-    "item": "fearsmod:amber_block"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "key":  {
+                "#":  "fearsmod:amber_shard"
+            },
+    "pattern":  [
+                    "##",
+                    "##"
+                ],
+    "result":  {
+                   "id":  "fearsmod:amber_block"
+               }
 }

@@ -1,15 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
-      "item": "fearsmod:topaz_shard"
-    }
-  },
-  "result": {
-    "item": "fearsmod:topaz_block"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "key":  {
+                "#":  "fearsmod:topaz_shard"
+            },
+    "pattern":  [
+                    "##",
+                    "##"
+                ],
+    "result":  {
+                   "id":  "fearsmod:topaz_block"
+               }
 }

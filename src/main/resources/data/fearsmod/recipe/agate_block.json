@@ -1,15 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
-      "item": "fearsmod:agate_shard"
-    }
-  },
-  "result": {
-    "item": "fearsmod:agate_block"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "key":  {
+                "#":  "fearsmod:agate_shard"
+            },
+    "pattern":  [
+                    "##",
+                    "##"
+                ],
+    "result":  {
+                   "id":  "fearsmod:agate_block"
+               }
 }

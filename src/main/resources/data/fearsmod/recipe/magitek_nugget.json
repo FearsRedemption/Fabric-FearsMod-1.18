@@ -1,12 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "fearsmod:magitek_ingot"
-    }
-  ],
-  "result": {
-    "item": "fearsmod:magitek_nugget",
-    "count": 9
-  }
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "ingredients":  [
+                        "fearsmod:magitek_ingot"
+                    ],
+    "result":  {
+                   "count":  9,
+                   "id":  "fearsmod:magitek_nugget"
+               }
 }

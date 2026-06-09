@@ -3,9 +3,9 @@
     "category":  "misc",
     "cookingtime":  220,
     "experience":  1,
-    "group":  "magitek_ingot",
-    "ingredient":  "fearsmod:raw_magitek",
+    "group":  "voxite_ingot",
+    "ingredient":  "fearsmod:voxite_ore",
     "result":  {
-                   "id":  "fearsmod:magitek_ingot"
+                   "id":  "fearsmod:voxite_ingot"
                }
 }

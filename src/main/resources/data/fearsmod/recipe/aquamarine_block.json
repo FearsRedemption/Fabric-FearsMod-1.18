@@ -1,15 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
-      "item": "fearsmod:aquamarine_shard"
-    }
-  },
-  "result": {
-    "item": "fearsmod:aquamarine_block"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "key":  {
+                "#":  "fearsmod:aquamarine_shard"
+            },
+    "pattern":  [
+                    "##",
+                    "##"
+                ],
+    "result":  {
+                   "id":  "fearsmod:aquamarine_block"
+               }
 }

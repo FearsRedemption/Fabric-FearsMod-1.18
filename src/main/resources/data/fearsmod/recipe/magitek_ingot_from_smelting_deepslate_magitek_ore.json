@@ -4,7 +4,7 @@
     "cookingtime":  220,
     "experience":  1,
     "group":  "magitek_ingot",
-    "ingredient":  "fearsmod:raw_magitek",
+    "ingredient":  "fearsmod:deepslate_magitek_ore",
     "result":  {
                    "id":  "fearsmod:magitek_ingot"
                }

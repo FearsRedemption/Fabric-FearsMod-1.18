@@ -1,16 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "###",
-    "###"
-  ],
-  "key": {
-    "#": {
-      "item": "fearsmod:voxite_nugget"
-    }
-  },
-  "result": {
-    "item": "fearsmod:voxite_ingot"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "key":  {
+                "#":  "fearsmod:voxite_nugget"
+            },
+    "pattern":  [
+                    "###",
+                    "###",
+                    "###"
+                ],
+    "result":  {
+                   "id":  "fearsmod:voxite_ingot"
+               }
 }

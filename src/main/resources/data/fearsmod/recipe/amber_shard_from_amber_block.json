@@ -1,12 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "fearsmod:amber_block"
-    }
-  ],
-  "result": {
-    "item": "fearsmod:amber_shard",
-    "count": 4
-  }
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "ingredients":  [
+                        "fearsmod:amber_block"
+                    ],
+    "result":  {
+                   "count":  4,
+                   "id":  "fearsmod:amber_shard"
+               }
 }

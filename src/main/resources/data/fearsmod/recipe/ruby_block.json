@@ -1,15 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
-      "item": "fearsmod:ruby_shard"
-    }
-  },
-  "result": {
-    "item": "fearsmod:ruby_block"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "key":  {
+                "#":  "fearsmod:ruby_shard"
+            },
+    "pattern":  [
+                    "##",
+                    "##"
+                ],
+    "result":  {
+                   "id":  "fearsmod:ruby_block"
+               }
 }

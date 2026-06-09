@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    "minecraft:book",
-    "minecraft:amethyst_shard",
-    "fearsmod:voxite_nugget"
-  ],
-  "result": {
-    "id": "fearsmod:resonance_journal"
-  }
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "ingredients":  [
+                        "minecraft:book",
+                        "minecraft:amethyst_shard",
+                        "fearsmod:voxite_nugget"
+                    ],
+    "result":  {
+                   "id":  "fearsmod:resonance_journal"
+               }
 }
