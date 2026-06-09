@@ -30,6 +30,34 @@ public class ResonanceJournalScreen extends Screen {
             new ItemStack(ModItems.RUBY_SHARD),
             new ItemStack(ModItems.TOPAZ_SHARD)
     };
+    private static final ItemStack[] STAFF_RESULTS = {
+            new ItemStack(ModItems.RESONANCE_STAFF),
+            new ItemStack(ModItems.AGATE_RESONANCE_STAFF),
+            new ItemStack(ModItems.AMBER_RESONANCE_STAFF),
+            new ItemStack(ModItems.AQUAMARINE_RESONANCE_STAFF),
+            new ItemStack(ModItems.RUBY_RESONANCE_STAFF),
+            new ItemStack(ModItems.TOPAZ_RESONANCE_STAFF)
+    };
+    private static final RecipeDisplay[] APPARATUS_RECIPES = {
+            new RecipeDisplay(
+                    "Amethyst Focus",
+                    new ItemStack(ModBlocks.AMETHYST_FOCUS),
+                    new ItemStack(ModItems.RESONANCE_STAFF),
+                    new ItemStack[]{new ItemStack(Items.GLASS), new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.AMETHYST_SHARD)}
+            ),
+            new RecipeDisplay(
+                    "Magitek Core",
+                    new ItemStack(ModBlocks.MAGITEK_CORE),
+                    new ItemStack(ModItems.RESONANCE_STAFF),
+                    new ItemStack[]{new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.AMETHYST_SHARD), new ItemStack(ModItems.MAGITEK_INGOT)}
+            ),
+            new RecipeDisplay(
+                    "Voxite Stabilizer",
+                    new ItemStack(ModBlocks.VOXITE_STABILIZER),
+                    new ItemStack(ModItems.RESONANCE_STAFF),
+                    new ItemStack[]{new ItemStack(ModItems.VOXITE_INGOT), new ItemStack(Items.AMETHYST_SHARD)}
+            )
+    };
 
     private static int lastPageIndex;
 
@@ -249,7 +277,7 @@ public class ResonanceJournalScreen extends Screen {
 
     private boolean hasDiagram(String unlock) {
         return switch (unlock) {
-            case "combined_ingots", "starter_structure", "ritual_basics", "staff_ritual", "apparatus_rituals" -> true;
+            case "combined_ingots", "starter_structure", "ritual_basics", "apparatus_rituals" -> true;
             default -> false;
         };
     }
@@ -257,8 +285,7 @@ public class ResonanceJournalScreen extends Screen {
     private void drawPageDiagram(GuiGraphicsExtractor graphics, String unlock, int x, int y) {
         switch (unlock) {
             case "combined_ingots" -> {
-                drawCenteredText(graphics, "Workbench", x + 55, y, MUTED_TEXT_COLOR);
-                drawGrid(graphics, x + 19, y + 17, new ItemStack[][]{
+                drawCraftingGridRecipe(graphics, x, y, "Workbench", new ItemStack(ModBlocks.RESONANCE_WORKBENCH), new ItemStack[][]{
                         {new ItemStack(ModItems.VOXITE_INGOT), new ItemStack(Items.AMETHYST_SHARD), new ItemStack(ModItems.VOXITE_INGOT)},
                         {new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.CRAFTING_TABLE), new ItemStack(Items.COPPER_INGOT)},
                         {new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.COPPER_INGOT)}
@@ -272,27 +299,9 @@ public class ResonanceJournalScreen extends Screen {
                         {ItemStack.EMPTY, new ItemStack(ModBlocks.VOXITE_BLOCK), ItemStack.EMPTY}
                 });
             }
-            case "staff_ritual" -> {
-                ItemStack shard = rotatingStaffShard();
-                drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
-                drawIconRow(graphics, x + 55, y + 24,
-                        new ItemStack(Items.STICK),
-                        new ItemStack(ModItems.VOXITE_INGOT),
-                        new ItemStack(ModItems.MAGITEK_INGOT),
-                        shard);
-                drawCenteredText(graphics, "Shard: " + shard.getHoverName().getString(), x + 55, y + 52, MUTED_TEXT_COLOR);
-                drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
-            }
             case "ritual_basics" -> {
-                ItemStack shard = rotatingStaffShard();
-                drawCenteredText(graphics, "Toss Nearby", x + 55, y, MUTED_TEXT_COLOR);
-                drawIconRow(graphics, x + 55, y + 24,
-                        new ItemStack(Items.STICK),
-                        new ItemStack(ModItems.VOXITE_INGOT),
-                        new ItemStack(ModItems.MAGITEK_INGOT),
-                        shard);
-                drawCenteredText(graphics, "Shard: " + shard.getHoverName().getString(), x + 55, y + 52, MUTED_TEXT_COLOR);
-                drawCatalyst(graphics, x + 55, y + 72, new ItemStack(Items.REDSTONE));
+                int variant = rotatingIndex(STAFF_SHARDS.length, 1800L);
+                drawRecipe(graphics, x, y, staffRecipe(variant), "Variant " + (variant + 1) + " / " + STAFF_SHARDS.length);
             }
             case "apparatus_rituals" -> drawApparatusRecipe(graphics, x, y);
             default -> {
@@ -301,33 +310,43 @@ public class ResonanceJournalScreen extends Screen {
     }
 
     private void drawApparatusRecipe(GuiGraphicsExtractor graphics, int x, int y) {
-        int recipeIndex = (int) ((System.currentTimeMillis() / 2200L) % 3L);
-        switch (recipeIndex) {
-            case 0 -> {
-                drawCenteredText(graphics, "Amethyst Focus", x + 55, y, MUTED_TEXT_COLOR);
-                drawIconRow(graphics, x + 55, y + 24,
-                        new ItemStack(Items.GLASS),
-                        new ItemStack(Items.COPPER_INGOT),
-                        new ItemStack(Items.AMETHYST_SHARD));
-            }
-            case 1 -> {
-                drawCenteredText(graphics, "Magitek Core", x + 55, y, MUTED_TEXT_COLOR);
-                drawIconRow(graphics, x + 55, y + 24,
-                        new ItemStack(Items.COPPER_INGOT),
-                        new ItemStack(Items.AMETHYST_SHARD),
-                        new ItemStack(ModItems.MAGITEK_INGOT));
-            }
-            case 2 -> {
-                drawCenteredText(graphics, "Voxite Stabilizer", x + 55, y, MUTED_TEXT_COLOR);
-                drawIconRow(graphics, x + 55, y + 24,
-                        new ItemStack(ModItems.VOXITE_INGOT),
-                        new ItemStack(Items.AMETHYST_SHARD));
-            }
-            default -> {
-            }
-        }
+        int recipeIndex = rotatingIndex(APPARATUS_RECIPES.length, 2200L);
+        drawRecipe(graphics, x, y, APPARATUS_RECIPES[recipeIndex], "Recipe " + (recipeIndex + 1) + " / " + APPARATUS_RECIPES.length);
+    }
 
-        drawCatalyst(graphics, x + 55, y + 72, new ItemStack(ModItems.RESONANCE_STAFF));
+    private RecipeDisplay staffRecipe(int variant) {
+        return new RecipeDisplay(
+                STAFF_RESULTS[variant].getHoverName().getString(),
+                STAFF_RESULTS[variant],
+                new ItemStack(Items.REDSTONE),
+                new ItemStack[]{
+                        new ItemStack(Items.STICK),
+                        new ItemStack(ModItems.VOXITE_INGOT),
+                        new ItemStack(ModItems.MAGITEK_INGOT),
+                        STAFF_SHARDS[variant]
+                }
+        );
+    }
+
+    private int rotatingIndex(int length, long intervalMillis) {
+        return (int) ((System.currentTimeMillis() / intervalMillis) % length);
+    }
+
+    private void drawRecipe(GuiGraphicsExtractor graphics, int x, int y, RecipeDisplay recipe, String note) {
+        int centerX = x + 55;
+        drawWrappedCenteredText(graphics, recipe.title(), centerX, y, 108, MUTED_TEXT_COLOR, 2);
+        drawCenteredText(graphics, note, centerX, y + 18, 0xFF765F7E);
+        drawIconRow(graphics, centerX, y + 36, recipe.ingredients());
+        drawCatalyst(graphics, centerX, y + 65, recipe.catalyst());
+        drawResult(graphics, centerX, y + 101, recipe.output());
+    }
+
+    private void drawCraftingGridRecipe(GuiGraphicsExtractor graphics, int x, int y, String title, ItemStack output, ItemStack[][] stacks) {
+        drawCenteredText(graphics, title, x + 55, y, MUTED_TEXT_COLOR);
+        drawGrid(graphics, x + 5, y + 17, stacks);
+        drawText(graphics, ">", x + 82, y + 45, MUTED_TEXT_COLOR);
+        drawItemSlot(graphics, output, x + 97, y + 41);
+        drawCenteredText(graphics, "Result", x + 105, y + 63, MUTED_TEXT_COLOR);
     }
 
     private void drawGrid(GuiGraphicsExtractor graphics, int x, int y, ItemStack[][] stacks) {
@@ -361,9 +380,10 @@ public class ResonanceJournalScreen extends Screen {
         drawCenteredText(graphics, "x1", centerX, y + 32, MUTED_TEXT_COLOR);
     }
 
-    private ItemStack rotatingStaffShard() {
-        int index = (int) ((System.currentTimeMillis() / 1600L) % STAFF_SHARDS.length);
-        return STAFF_SHARDS[index];
+    private void drawResult(GuiGraphicsExtractor graphics, int centerX, int y, ItemStack output) {
+        drawCenteredText(graphics, "Result:", centerX, y, MUTED_TEXT_COLOR);
+        drawItemSlot(graphics, output, centerX - 8, y + 13);
+        drawWrappedCenteredText(graphics, output.getHoverName().getString(), centerX, y + 33, 108, MUTED_TEXT_COLOR, 2);
     }
 
     private void drawItemSlot(GuiGraphicsExtractor graphics, ItemStack stack, int x, int y) {
@@ -403,11 +423,21 @@ public class ResonanceJournalScreen extends Screen {
         drawText(graphics, text, centerX - font.width(text) / 2, y, color);
     }
 
+    private void drawWrappedCenteredText(GuiGraphicsExtractor graphics, String text, int centerX, int y, int maxWidth, int color, int maxLines) {
+        List<String> lines = wrap(text, maxWidth);
+        for (int i = 0; i < Math.min(lines.size(), maxLines); i++) {
+            drawCenteredText(graphics, lines.get(i), centerX, y + i * LINE_HEIGHT, color);
+        }
+    }
+
     private void drawText(GuiGraphicsExtractor graphics, String text, int x, int y, int color) {
         if (text.isEmpty()) {
             return;
         }
 
         graphics.text(font, text, x, y, color, false);
+    }
+
+    private record RecipeDisplay(String title, ItemStack output, ItemStack catalyst, ItemStack[] ingredients) {
     }
 }

@@ -53,8 +53,9 @@ public final class ResonanceJournalClient {
 
     private static List<JournalPage> buildPages(Set<String> unlocked) {
         List<JournalPage> pages = new ArrayList<>();
+        Set<String> addedUnlocks = new HashSet<>();
         for (JournalEntry entry : loadEntries()) {
-            if (entry.alwaysVisible() || unlocked.contains(entry.unlock())) {
+            if ((entry.alwaysVisible() || unlocked.contains(entry.unlock())) && addedUnlocks.add(entry.unlock())) {
                 pages.add(new JournalPage(entry.unlock(), entry.title(), entry.text()));
             }
         }
