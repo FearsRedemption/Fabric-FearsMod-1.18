@@ -85,8 +85,8 @@ public class ResonanceJournalScreen extends Screen {
         graphics.outline(left + 6, top + 6, PANEL_WIDTH - 12, PANEL_HEIGHT - 12, 0xFFDBD6C7);
 
         ResonanceJournalClient.JournalPage page = pages.get(pageIndex);
-        int titleColor = page.unlocked() ? 0xFF4A245B : 0xFF59504F;
-        int bodyColor = page.unlocked() ? 0xFF241D24 : 0xFF5F5756;
+        int titleColor = 0xFF000000;
+        int bodyColor = 0xFF000000;
         outlinedCenteredText(graphics, page.title(), left + PANEL_WIDTH / 2, top + 22, titleColor);
         graphics.horizontalLine(left + 36, left + PANEL_WIDTH - 36, top + 35, 0xFF8C6B9D);
 
@@ -155,10 +155,10 @@ public class ResonanceJournalScreen extends Screen {
     }
 
     private void outlinedText(GuiGraphicsExtractor graphics, String text, int x, int y, int color) {
-        graphics.text(font, text, x - 1, y, 0xFFFFFFFF);
-        graphics.text(font, text, x + 1, y, 0xFFFFFFFF);
-        graphics.text(font, text, x, y - 1, 0xFFFFFFFF);
-        graphics.text(font, text, x, y + 1, 0xFFFFFFFF);
+        graphics.text(font, text, x - 1, y, 0xCCFFFFFF);
+        graphics.text(font, text, x + 1, y, 0xCCFFFFFF);
+        graphics.text(font, text, x, y - 1, 0xCCFFFFFF);
+        graphics.text(font, text, x, y + 1, 0xCCFFFFFF);
         graphics.text(font, text, x, y, color);
     }
 }
