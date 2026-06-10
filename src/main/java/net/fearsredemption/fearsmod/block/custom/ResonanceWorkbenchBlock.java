@@ -45,6 +45,9 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     public static final int RITUAL_VOXITE_STABILIZER = 3;
     public static final int RITUAL_MAGITEK_STONE = 4;
     public static final int RITUAL_VOXITE_STONE = 5;
+    public static final int RITUAL_CHARGED_MAGITEK_CORE = 6;
+    public static final int RITUAL_STABILIZED_IRON_PLATE = 7;
+    public static final int RITUAL_RESONANT_COPPER = 8;
 
     private static final List<PatternSlot> APPARATUS_PATTERN = createPattern();
     private static final RecipeDefinition[] RECIPES = {
@@ -233,10 +236,15 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     }
 
     public static boolean hasRitualStructure(Level level, BlockPos pos) {
-        return level.getBlockState(pos.north()).getBlock() == ModBlocks.VOXITE_BLOCK
+        boolean voxiteNorthSouth = level.getBlockState(pos.north()).getBlock() == ModBlocks.VOXITE_BLOCK
                 && level.getBlockState(pos.south()).getBlock() == ModBlocks.VOXITE_BLOCK
                 && level.getBlockState(pos.east()).getBlock() == ModBlocks.MAGITEK_BLOCK
                 && level.getBlockState(pos.west()).getBlock() == ModBlocks.MAGITEK_BLOCK;
+        boolean magitekNorthSouth = level.getBlockState(pos.north()).getBlock() == ModBlocks.MAGITEK_BLOCK
+                && level.getBlockState(pos.south()).getBlock() == ModBlocks.MAGITEK_BLOCK
+                && level.getBlockState(pos.east()).getBlock() == ModBlocks.VOXITE_BLOCK
+                && level.getBlockState(pos.west()).getBlock() == ModBlocks.VOXITE_BLOCK;
+        return voxiteNorthSouth || magitekNorthSouth;
     }
 
     public static ItemEntity findNearbyItemEntity(Level level, BlockPos pos, Item item) {
@@ -272,6 +280,15 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
         if (recipeIndex == RITUAL_VOXITE_STONE) {
             return List.of(Items.COBBLESTONE, ModItems.VOXITE_NUGGET);
+        }
+        if (recipeIndex == RITUAL_CHARGED_MAGITEK_CORE) {
+            return List.of(ModItems.MAGITEK_INGOT, Items.AMETHYST_SHARD);
+        }
+        if (recipeIndex == RITUAL_STABILIZED_IRON_PLATE) {
+            return List.of(Items.IRON_INGOT);
+        }
+        if (recipeIndex == RITUAL_RESONANT_COPPER) {
+            return List.of(Items.COPPER_INGOT);
         }
 
         return List.of();
@@ -314,6 +331,12 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         if (item == ModItems.VOXITE_NUGGET) {
             return 0xF4F4F0;
         }
+        if (item == Items.IRON_INGOT) {
+            return 0xDDE4E2;
+        }
+        if (item == Items.COPPER_INGOT) {
+            return 0xE49257;
+        }
 
         return 0xD8B4FF;
     }
@@ -347,6 +370,18 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
 
         if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_VOXITE_STONE, ModBlocks.VOXITE_STONE.asItem()))) {
             return new RitualPlan(RITUAL_VOXITE_STONE, ModBlocks.VOXITE_STONE.asItem());
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_CHARGED_MAGITEK_CORE, ModItems.CHARGED_MAGITEK_CORE))) {
+            return new RitualPlan(RITUAL_CHARGED_MAGITEK_CORE, ModItems.CHARGED_MAGITEK_CORE);
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_STABILIZED_IRON_PLATE, ModItems.STABILIZED_IRON_PLATE))) {
+            return new RitualPlan(RITUAL_STABILIZED_IRON_PLATE, ModItems.STABILIZED_IRON_PLATE);
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_RESONANT_COPPER, ModItems.RESONANT_COPPER))) {
+            return new RitualPlan(RITUAL_RESONANT_COPPER, ModItems.RESONANT_COPPER);
         }
 
         return null;

@@ -1,13 +1,18 @@
 package net.fearsredemption.fearsmod.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.block.entity.ResonanceSocketBlockEntity;
 import net.fearsredemption.fearsmod.item.ModItems;
+import net.fearsredemption.fearsmod.journal.JournalUnlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -59,26 +64,15 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
         }
 
         if (ModItems.isResonanceStaff(stack)) {
+            if (socketType == ResonanceSocketType.CORE) {
+                return activateSmelterFrame(level, pos, player);
+            }
+
             describeSocket(level, pos, player);
             return InteractionResult.SUCCESS;
         }
 
-        if (!(level.getBlockEntity(pos) instanceof ResonanceSocketBlockEntity socket)) {
-            return InteractionResult.PASS;
-        }
-
-        if (!socket.isEmpty()) {
-            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.occupied", socket.getStoredItem().getDisplayName()));
-            return InteractionResult.SUCCESS;
-        }
-
-        socket.setStoredItem(stack.copyWithCount(1));
-        if (!player.isCreative()) {
-            stack.shrink(1);
-        }
-
-        level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.6f, 1.2f);
-        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.placed", socket.getStoredItem().getDisplayName()));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.structure_component"));
         return InteractionResult.SUCCESS;
     }
 
@@ -148,7 +142,70 @@ public class ResonanceSocketBlock extends Block implements EntityBlock {
             return;
         }
 
-        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.empty"));
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_socket.structure_component"));
+    }
+
+    private InteractionResult activateSmelterFrame(Level level, BlockPos pos, Player player) {
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (!isCompleteSmelterFrame(level, pos)) {
+            player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_smelter.structure_incomplete"));
+            return InteractionResult.SUCCESS;
+        }
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            JournalUnlocks.unlock(serverPlayer, "resonance_smelter_structure");
+        }
+
+        Direction facing = player.getDirection().getOpposite();
+        level.setBlock(pos, ModBlocks.RESONANCE_SMELTER.defaultBlockState().setValue(ResonanceSmelterBlock.FACING, facing), 3);
+        serverLevel.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5D, pos.getY() + 0.7D, pos.getZ() + 0.5D, 36, 0.55D, 0.55D, 0.55D, 0.04D);
+        serverLevel.sendParticles(new DustParticleOptions(0xB987FF, 1.3F), pos.getX() + 0.5D, pos.getY() + 0.7D, pos.getZ() + 0.5D, 44, 0.65D, 0.65D, 0.65D, 0.02D);
+        level.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.85F, 1.1F);
+        level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0F, 0.75F);
+        player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_smelter.activated"));
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            JournalUnlocks.unlock(serverPlayer, "resonance_smelter_active");
+        }
+
+        return InteractionResult.SUCCESS;
+    }
+
+    public static boolean isCompleteSmelterFrame(Level level, BlockPos corePos) {
+        if (level.getBlockState(corePos).getBlock() != ModBlocks.MAGITEK_CORE) {
+            return false;
+        }
+
+        for (int y = -1; y <= 1; y++) {
+            for (int z = -1; z <= 1; z++) {
+                for (int x = -1; x <= 1; x++) {
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+
+                    Block expected = expectedSmelterFrameBlock(x, y, z);
+                    if (level.getBlockState(corePos.offset(x, y, z)).getBlock() != expected) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static Block expectedSmelterFrameBlock(int x, int y, int z) {
+        boolean middleLayer = y == 0;
+        boolean corner = Math.abs(x) == 1 && Math.abs(z) == 1;
+        boolean centerOfOuterLayer = x == 0 && z == 0;
+        if (middleLayer) {
+            return corner ? ModBlocks.VOXITE_STONE : ModBlocks.MAGITEK_STONE;
+        }
+
+        return (corner || centerOfOuterLayer) ? ModBlocks.MAGITEK_STONE : ModBlocks.VOXITE_STONE;
     }
 
     public static int colorFor(ItemStack stack) {

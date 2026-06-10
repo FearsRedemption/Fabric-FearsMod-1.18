@@ -73,7 +73,17 @@
   {
     "unlock": "infused_stone",
     "title": "Stone That Holds Heat",
-    "text": "Cobblestone can hold shape, but not pressure. Magitek wants to push outward, and Voxite wants to pull the reaction back into balance.\n\nIf I bind each nugget into stone, I may be able to build a frame that does more than decorate a room. It might hold a furnace reaction in place.\n\nThe frame in my notes is only a structure idea for now: Magitek Stone and Voxite Stone around a Magitek Core, stacked as roof, middle, and ground layers."
+    "text": "Cobblestone can hold shape, but not pressure. Magitek wants to push outward, and Voxite wants to pull the reaction back into balance.\n\nIf I bind each nugget into stone, I may be able to build a frame that does more than decorate a room. It might hold a furnace reaction in place.\n\nMagitek Stone and Voxite Stone should surround a Magitek Core, stacked as roof, middle, and ground layers."
+  },
+  {
+    "unlock": "resonance_smelter_structure",
+    "title": "Resonance Smelter Frame",
+    "text": "The frame holds. Magitek Stone pushes heat through the pattern, Voxite Stone pulls the reaction back into shape, and the Magitek Core sits at the center like a heart.\n\nWith a staff, I can pull the structure together into something more complete: not a furnace made of fire, but a cage that teaches fire how to behave."
+  },
+  {
+    "unlock": "resonance_smelter_active",
+    "title": "Resonance Smelter",
+    "text": "It works. The smelter burns hotter and cleaner than a furnace, but the reaction feels contained.\n\nThree channels can work at once from a single fuel source. Magitek pushes the heat, Voxite keeps it from running wild, and the core keeps the machine alive."
   },
   {
     "unlock": "crystal_growth",

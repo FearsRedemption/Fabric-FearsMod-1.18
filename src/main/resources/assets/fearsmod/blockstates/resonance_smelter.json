@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "fearsmod:block/resonance_smelter" },
+    "facing=east": { "model": "fearsmod:block/resonance_smelter", "y": 90 },
+    "facing=south": { "model": "fearsmod:block/resonance_smelter", "y": 180 },
+    "facing=west": { "model": "fearsmod:block/resonance_smelter", "y": 270 }
+  }
+}

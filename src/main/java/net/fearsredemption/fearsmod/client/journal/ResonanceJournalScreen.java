@@ -289,7 +289,7 @@ public class ResonanceJournalScreen extends Screen {
 
     private boolean hasDiagram(String unlock) {
         return switch (unlock) {
-            case "combined_ingots", "starter_structure", "ritual_basics", "apparatus_rituals", "infused_stone" -> true;
+            case "combined_ingots", "starter_structure", "ritual_basics", "apparatus_rituals", "infused_stone", "resonance_smelter_structure", "resonance_smelter_active" -> true;
             default -> false;
         };
     }
@@ -316,7 +316,7 @@ public class ResonanceJournalScreen extends Screen {
                 drawRecipe(graphics, x, y, staffRecipe(variant), "Variant " + (variant + 1) + " / " + STAFF_SHARDS.length);
             }
             case "apparatus_rituals" -> drawApparatusRecipe(graphics, x, y);
-            case "infused_stone" -> drawSmelterSketch(graphics, x, y);
+            case "infused_stone", "resonance_smelter_structure", "resonance_smelter_active" -> drawSmelterSketch(graphics, x, y);
             default -> {
             }
         }

@@ -188,6 +188,9 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
             case ResonanceWorkbenchBlock.RITUAL_VOXITE_STABILIZER -> net.fearsredemption.fearsmod.block.ModBlocks.VOXITE_STABILIZER.asItem();
             case ResonanceWorkbenchBlock.RITUAL_MAGITEK_STONE -> net.fearsredemption.fearsmod.block.ModBlocks.MAGITEK_STONE.asItem();
             case ResonanceWorkbenchBlock.RITUAL_VOXITE_STONE -> net.fearsredemption.fearsmod.block.ModBlocks.VOXITE_STONE.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_CHARGED_MAGITEK_CORE -> ModItems.CHARGED_MAGITEK_CORE;
+            case ResonanceWorkbenchBlock.RITUAL_STABILIZED_IRON_PLATE -> ModItems.STABILIZED_IRON_PLATE;
+            case ResonanceWorkbenchBlock.RITUAL_RESONANT_COPPER -> ModItems.RESONANT_COPPER;
             default -> ModItems.AMETHYST_RESONANCE_STAFF;
         };
     }

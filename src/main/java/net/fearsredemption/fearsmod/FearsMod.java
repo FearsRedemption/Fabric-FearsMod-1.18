@@ -6,6 +6,7 @@ import net.fearsredemption.fearsmod.block.ModBlocks;
 import net.fearsredemption.fearsmod.item.ModItems;
 import net.fearsredemption.fearsmod.journal.JournalNetworking;
 import net.fearsredemption.fearsmod.journal.JournalUnlocks;
+import net.fearsredemption.fearsmod.screen.ModMenus;
 import net.fearsredemption.fearsmod.world.ModWorldGeneration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class FearsMod implements ModInitializer {
 		ModItems.initialize();
 		ModBlocks.initialize();
 		ModBlockEntities.initialize();
+		ModMenus.initialize();
 		JournalNetworking.initializeServer();
 		JournalUnlocks.initialize();
 		ModWorldGeneration.initialize();

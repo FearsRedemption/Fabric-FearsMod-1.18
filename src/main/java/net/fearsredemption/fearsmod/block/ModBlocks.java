@@ -5,6 +5,7 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fearsredemption.fearsmod.FearsMod;
 import net.fearsredemption.fearsmod.block.custom.BuddingCrystalBlock;
+import net.fearsredemption.fearsmod.block.custom.ResonanceSmelterBlock;
 import net.fearsredemption.fearsmod.block.custom.ResonanceSocketBlock;
 import net.fearsredemption.fearsmod.block.custom.ResonanceSocketType;
 import net.fearsredemption.fearsmod.block.custom.ResonanceWorkbenchBlock;
@@ -36,6 +37,9 @@ public class ModBlocks {
 
     public static final Block AMETHYST_FOCUS = register("amethyst_focus", properties -> new ResonanceSocketBlock(ResonanceSocketType.FOCUS, properties),
             BlockBehaviour.Properties.of().strength(1.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(state -> 5));
+
+    public static final Block RESONANCE_SMELTER = register("resonance_smelter", ResonanceSmelterBlock::new,
+            BlockBehaviour.Properties.of().strength(5.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).lightLevel(state -> 8));
 
     //MAGITEK BLOCKS
     public static final Block MAGITEK_BLOCK = register("magitek_block", Block::new,
@@ -185,6 +189,7 @@ public class ModBlocks {
             entries.accept(AMETHYST_FOCUS.asItem());
             entries.accept(MAGITEK_STONE.asItem());
             entries.accept(VOXITE_STONE.asItem());
+            entries.accept(RESONANCE_SMELTER.asItem());
         });
     }
 }
