@@ -20,17 +20,6 @@ public class ModBlockEntities {
             ).build()
     );
 
-    public static final BlockEntityType<ResonanceSocketBlockEntity> RESONANCE_SOCKET = Registry.register(
-            BuiltInRegistries.BLOCK_ENTITY_TYPE,
-            Identifier.fromNamespaceAndPath(MOD_ID, "resonance_socket"),
-            FabricBlockEntityTypeBuilder.create(
-                    ResonanceSocketBlockEntity::new,
-                    ModBlocks.MAGITEK_CORE,
-                    ModBlocks.VOXITE_STABILIZER,
-                    ModBlocks.AMETHYST_FOCUS
-            ).build()
-    );
-
     public static final BlockEntityType<ResonanceSmelterBlockEntity> RESONANCE_SMELTER = Registry.register(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             Identifier.fromNamespaceAndPath(MOD_ID, "resonance_smelter"),

@@ -2,6 +2,7 @@ package net.fearsredemption.fearsmod.item.custom;
 
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.fearsredemption.fearsmod.block.custom.ResonanceSocketBlock;
 import net.fearsredemption.fearsmod.block.custom.ResonanceWorkbenchBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -43,6 +45,25 @@ public class ResonanceStaffItem extends Item {
     }
 
     @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Player player = context.getPlayer();
+        if (player == null) {
+            return InteractionResult.PASS;
+        }
+
+        if (context.getLevel().isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
+
+        InteractionResult smelterResult = ResonanceSocketBlock.activateSmelterFrameFromStaff(context.getLevel(), context.getClickedPos(), player, true);
+        if (smelterResult != InteractionResult.PASS) {
+            return smelterResult;
+        }
+
+        return ResonanceWorkbenchBlock.activateNearestWithStaff(context.getLevel(), context.getClickedPos(), player, context.getItemInHand(), context.getHand());
+    }
+
+    @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide()) {
@@ -51,6 +72,11 @@ public class ResonanceStaffItem extends Item {
 
         HitResult hit = player.pick(8.0D, 0.0F, false);
         if (hit instanceof BlockHitResult blockHit) {
+            InteractionResult smelterResult = ResonanceSocketBlock.activateSmelterFrameFromStaff(level, blockHit.getBlockPos(), player, true);
+            if (smelterResult != InteractionResult.PASS) {
+                return smelterResult;
+            }
+
             return ResonanceWorkbenchBlock.activateNearestWithStaff(level, blockHit.getBlockPos(), player, stack, hand);
         }
 

@@ -78,7 +78,7 @@
   {
     "unlock": "resonance_smelter_structure",
     "title": "Resonance Smelter Frame",
-    "text": "The frame holds. Magitek Stone pushes heat through the pattern, Voxite Stone pulls the reaction back into shape, and the Magitek Core sits at the center like a heart.\n\nWith a staff, I can pull the structure together into something more complete: not a furnace made of fire, but a cage that teaches fire how to behave."
+    "text": "The frame does not need the workbench beside it. This is a machine shape, not a workbench ritual.\n\nMagitek Stone pushes heat through the pattern, Voxite Stone contains it, and the Magitek Core sits at the center like a heart. With a staff, the frame can be pulled together into a furnace that holds its reaction."
   },
   {
     "unlock": "resonance_smelter_active",
