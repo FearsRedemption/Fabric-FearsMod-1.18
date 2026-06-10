@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "front": "fearsmod:block/resonance_smelter_part_front_port",
+    "side": "fearsmod:block/resonance_smelter_part_casing",
+    "top": "fearsmod:block/resonance_smelter_part_top"
+  }
+}

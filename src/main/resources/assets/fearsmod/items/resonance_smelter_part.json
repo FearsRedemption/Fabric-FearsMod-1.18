@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "fearsmod:block/resonance_smelter_part"
+    "model": "fearsmod:block/resonance_smelter_part_front_port"
   }
 }

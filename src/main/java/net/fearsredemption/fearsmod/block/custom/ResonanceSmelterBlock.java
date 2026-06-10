@@ -20,7 +20,6 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -97,7 +96,7 @@ public class ResonanceSmelterBlock extends BaseEntityBlock {
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide()) {
-            breakAsFrameDrops(level, pos, player);
+            disassembleToFrame(level, pos, player);
         }
 
         return super.playerWillDestroy(level, pos, state, player);
@@ -111,7 +110,9 @@ public class ResonanceSmelterBlock extends BaseEntityBlock {
                     if (x == 0 && y == 0 && z == 0) {
                         level.setBlock(target, ModBlocks.RESONANCE_SMELTER.defaultBlockState().setValue(FACING, facing), 3);
                     } else {
-                        level.setBlock(target, ModBlocks.RESONANCE_SMELTER_PART.defaultBlockState(), 3);
+                        level.setBlock(target, ModBlocks.RESONANCE_SMELTER_PART.defaultBlockState()
+                                .setValue(ResonanceSmelterPartBlock.FACING, facing)
+                                .setValue(ResonanceSmelterPartBlock.PART, ResonanceSmelterPartBlock.partForOffset(x, y, z, facing)), 3);
                         if (level.getBlockEntity(target) instanceof ResonanceSmelterPartBlockEntity part) {
                             part.setControllerPos(controllerPos);
                         }
@@ -127,7 +128,7 @@ public class ResonanceSmelterBlock extends BaseEntityBlock {
         level.playSound(null, controllerPos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0F, 0.7F);
     }
 
-    public static void breakAsFrameDrops(Level level, BlockPos controllerPos, Player player) {
+    public static void disassembleToFrame(Level level, BlockPos controllerPos, Player player) {
         if (level.getBlockEntity(controllerPos) instanceof ResonanceSmelterBlockEntity smelter) {
             Containers.dropContents(level, controllerPos, smelter);
         }
@@ -141,11 +142,10 @@ public class ResonanceSmelterBlock extends BaseEntityBlock {
                         continue;
                     }
 
-                    Block drop = x == 0 && y == 0 && z == 0
+                    Block restored = x == 0 && y == 0 && z == 0
                             ? ModBlocks.MAGITEK_CORE
                             : ResonanceSocketBlock.frameBlockForOffset(x, y, z);
-                    Block.popResource(level, target, new ItemStack(drop));
-                    level.setBlock(target, Blocks.AIR.defaultBlockState(), 3);
+                    level.setBlock(target, restored.defaultBlockState(), 3);
                 }
             }
         }
