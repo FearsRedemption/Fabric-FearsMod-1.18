@@ -29,6 +29,15 @@ public class ModBlockEntities {
             ).build()
     );
 
+    public static final BlockEntityType<ResonanceSmelterPartBlockEntity> RESONANCE_SMELTER_PART = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(MOD_ID, "resonance_smelter_part"),
+            FabricBlockEntityTypeBuilder.create(
+                    ResonanceSmelterPartBlockEntity::new,
+                    ModBlocks.RESONANCE_SMELTER_PART
+            ).build()
+    );
+
     public static void initialize() {
         FearsMod.LOGGER.info("Registering ModBlockEntities for " + MOD_ID);
     }

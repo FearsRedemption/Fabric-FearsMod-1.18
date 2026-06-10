@@ -43,6 +43,7 @@
     "fearsmod:magitek_core",
     "fearsmod:voxite_stabilizer",
     "fearsmod:amethyst_focus",
-    "fearsmod:resonance_smelter"
+    "fearsmod:resonance_smelter",
+    "fearsmod:resonance_smelter_part"
   ]
 }

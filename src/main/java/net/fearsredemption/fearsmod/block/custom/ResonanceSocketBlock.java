@@ -6,13 +6,9 @@ import net.fearsredemption.fearsmod.item.ModItems;
 import net.fearsredemption.fearsmod.journal.JournalUnlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -97,11 +93,7 @@ public class ResonanceSocketBlock extends Block {
         }
 
         Direction facing = player.getDirection().getOpposite();
-        level.setBlock(corePos, ModBlocks.RESONANCE_SMELTER.defaultBlockState().setValue(ResonanceSmelterBlock.FACING, facing), 3);
-        serverLevel.sendParticles(ParticleTypes.END_ROD, corePos.getX() + 0.5D, corePos.getY() + 0.7D, corePos.getZ() + 0.5D, 36, 0.55D, 0.55D, 0.55D, 0.04D);
-        serverLevel.sendParticles(new DustParticleOptions(0xB987FF, 1.3F), corePos.getX() + 0.5D, corePos.getY() + 0.7D, corePos.getZ() + 0.5D, 44, 0.65D, 0.65D, 0.65D, 0.02D);
-        level.playSound(null, corePos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.85F, 1.1F);
-        level.playSound(null, corePos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0F, 0.75F);
+        ResonanceSmelterBlock.assembleSmelter(serverLevel, corePos, facing);
         player.sendOverlayMessage(Component.translatable("block.fearsmod.resonance_smelter.activated"));
 
         if (player instanceof ServerPlayer serverPlayer) {
@@ -131,7 +123,7 @@ public class ResonanceSocketBlock extends Block {
                         continue;
                     }
 
-                    Block expected = expectedSmelterFrameBlock(x, y, z);
+                    Block expected = frameBlockForOffset(x, y, z);
                     Block actual = level.getBlockState(corePos.offset(x, y, z)).getBlock();
                     if (actual != expected) {
                         return SmelterFrameValidation.incomplete(Component.translatable(
@@ -168,7 +160,7 @@ public class ResonanceSocketBlock extends Block {
         return null;
     }
 
-    private static Block expectedSmelterFrameBlock(int x, int y, int z) {
+    public static Block frameBlockForOffset(int x, int y, int z) {
         boolean middleLayer = y == 0;
         boolean corner = Math.abs(x) == 1 && Math.abs(z) == 1;
         boolean centerOfOuterLayer = x == 0 && z == 0;
