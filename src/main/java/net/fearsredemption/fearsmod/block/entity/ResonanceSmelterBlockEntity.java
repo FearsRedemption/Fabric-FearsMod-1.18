@@ -1,11 +1,14 @@
 package net.fearsredemption.fearsmod.block.entity;
 
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
+import net.fearsredemption.fearsmod.block.custom.ResonanceSmelterBlock;
 import net.fearsredemption.fearsmod.screen.ResonanceSmelterMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -30,6 +33,7 @@ public class ResonanceSmelterBlockEntity extends BaseContainerBlockEntity implem
     public static final int OUTPUT_1 = 5;
     public static final int OUTPUT_2 = 6;
     public static final int SMELT_TIME = 160;
+    private static final int AUTOMATION_INTERVAL = 4;
 
     private static final String BURN_TIME_KEY = "burn_time";
     private static final String BURN_DURATION_KEY = "burn_duration";
@@ -39,6 +43,7 @@ public class ResonanceSmelterBlockEntity extends BaseContainerBlockEntity implem
     private int burnTime;
     private int burnDuration;
     private final int[] progress = new int[3];
+    private int automationCooldown;
 
     private final ContainerData data = new ContainerData() {
         @Override
@@ -90,6 +95,16 @@ public class ResonanceSmelterBlockEntity extends BaseContainerBlockEntity implem
         boolean changed = false;
         boolean hasWork = false;
 
+        if (smelter.automationCooldown > 0) {
+            smelter.automationCooldown--;
+        }
+
+        if (smelter.automationCooldown <= 0) {
+            smelter.automationCooldown = AUTOMATION_INTERVAL;
+            changed |= smelter.tryPullFromInputAttachment(level, pos);
+            changed |= smelter.tryPushToOutputAttachment(level, pos, state);
+        }
+
         for (int lane = 0; lane < 3; lane++) {
             if (smelter.canSmelt(level, lane)) {
                 hasWork = true;
@@ -126,6 +141,146 @@ public class ResonanceSmelterBlockEntity extends BaseContainerBlockEntity implem
 
         if (changed) {
             smelter.setChanged();
+        }
+    }
+
+    private boolean tryPullFromInputAttachment(ServerLevel level, BlockPos pos) {
+        Container source = containerAt(level, pos.above(2));
+        if (source == null) {
+            return false;
+        }
+
+        for (int sourceSlot = 0; sourceSlot < source.getContainerSize(); sourceSlot++) {
+            ItemStack sourceStack = source.getItem(sourceSlot);
+            if (sourceStack.isEmpty()) {
+                continue;
+            }
+
+            int destinationSlot = destinationSlotFor(level, sourceStack);
+            if (destinationSlot == -1) {
+                continue;
+            }
+
+            ItemStack moved = sourceStack.split(1);
+            mergeOneIntoSmelter(destinationSlot, moved);
+            if (sourceStack.isEmpty()) {
+                source.setItem(sourceSlot, ItemStack.EMPTY);
+            }
+            source.setChanged();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean tryPushToOutputAttachment(ServerLevel level, BlockPos pos, BlockState state) {
+        Direction facing = state.getValue(ResonanceSmelterBlock.FACING);
+        Container target = containerAt(level, pos.relative(facing, 2).below());
+        if (target == null) {
+            return false;
+        }
+
+        for (int sourceSlot = OUTPUT_0; sourceSlot <= OUTPUT_2; sourceSlot++) {
+            ItemStack sourceStack = items.get(sourceSlot);
+            if (sourceStack.isEmpty() || !canInsertOne(target, sourceStack)) {
+                continue;
+            }
+
+            ItemStack moved = sourceStack.split(1);
+            insertOne(target, moved);
+            if (sourceStack.isEmpty()) {
+                items.set(sourceSlot, ItemStack.EMPTY);
+            }
+            target.setChanged();
+            return true;
+        }
+
+        return false;
+    }
+
+    private Container containerAt(ServerLevel level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof Container container) {
+            return container;
+        }
+
+        return null;
+    }
+
+    private int destinationSlotFor(ServerLevel level, ItemStack stack) {
+        if (level.fuelValues().isFuel(stack) && canMergeIntoSlot(FUEL, stack)) {
+            return FUEL;
+        }
+
+        if (smeltResult(level, stack).isEmpty()) {
+            return -1;
+        }
+
+        for (int slot = INPUT_0; slot <= INPUT_2; slot++) {
+            if (canMergeIntoSlot(slot, stack)) {
+                return slot;
+            }
+        }
+
+        return -1;
+    }
+
+    private boolean canMergeIntoSlot(int slot, ItemStack stack) {
+        if (!canPlaceItem(slot, stack)) {
+            return false;
+        }
+
+        ItemStack current = items.get(slot);
+        if (current.isEmpty()) {
+            return true;
+        }
+
+        return ItemStack.isSameItemSameComponents(current, stack) && current.getCount() < current.getMaxStackSize();
+    }
+
+    private void mergeOneIntoSmelter(int slot, ItemStack stack) {
+        ItemStack current = items.get(slot);
+        if (current.isEmpty()) {
+            items.set(slot, stack);
+        } else {
+            current.grow(stack.getCount());
+        }
+    }
+
+    private boolean canInsertOne(Container target, ItemStack stack) {
+        for (int slot = 0; slot < target.getContainerSize(); slot++) {
+            if (!target.canPlaceItem(slot, stack)) {
+                continue;
+            }
+
+            ItemStack targetStack = target.getItem(slot);
+            if (targetStack.isEmpty()) {
+                return true;
+            }
+
+            if (ItemStack.isSameItemSameComponents(targetStack, stack) && targetStack.getCount() < targetStack.getMaxStackSize()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void insertOne(Container target, ItemStack stack) {
+        for (int slot = 0; slot < target.getContainerSize(); slot++) {
+            if (!target.canPlaceItem(slot, stack)) {
+                continue;
+            }
+
+            ItemStack targetStack = target.getItem(slot);
+            if (targetStack.isEmpty()) {
+                target.setItem(slot, stack);
+                return;
+            }
+
+            if (ItemStack.isSameItemSameComponents(targetStack, stack) && targetStack.getCount() < targetStack.getMaxStackSize()) {
+                targetStack.grow(stack.getCount());
+                return;
+            }
         }
     }
 
