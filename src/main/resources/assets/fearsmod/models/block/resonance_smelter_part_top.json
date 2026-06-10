@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "fearsmod:block/resonance_smelter_part_top"
-  }
-}

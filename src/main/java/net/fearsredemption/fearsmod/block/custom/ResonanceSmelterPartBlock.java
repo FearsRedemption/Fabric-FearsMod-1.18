@@ -104,35 +104,79 @@ public class ResonanceSmelterPartBlock extends BaseEntityBlock {
         Direction rightDirection = facing.getClockWise();
         int right = x * rightDirection.getStepX() + z * rightDirection.getStepZ();
 
-        if (forward == 1 && right == 0 && y == 0) {
+        if (forward == 1) {
+            if (y == 1) {
+                return right < 0 ? SmelterPart.FRONT_TOP_LEFT : right > 0 ? SmelterPart.FRONT_TOP_RIGHT : SmelterPart.FRONT_TOP;
+            }
+            if (y == -1) {
+                return right < 0 ? SmelterPart.FRONT_BOTTOM_LEFT : right > 0 ? SmelterPart.FRONT_BOTTOM_RIGHT : SmelterPart.FRONT_BOTTOM;
+            }
+            if (right < 0) {
+                return SmelterPart.FRONT_LEFT;
+            }
+            if (right > 0) {
+                return SmelterPart.FRONT_RIGHT;
+            }
             return SmelterPart.FRONT_PORT;
         }
-        if (forward == 1) {
-            return SmelterPart.FRONT_CASING;
-        }
-        if (y == 1) {
-            return SmelterPart.TOP;
+        if (forward == -1) {
+            if (y == 1) {
+                return right < 0 ? SmelterPart.BACK_TOP_LEFT : right > 0 ? SmelterPart.BACK_TOP_RIGHT : SmelterPart.BACK_TOP;
+            }
+            if (y == -1) {
+                return right < 0 ? SmelterPart.BACK_BOTTOM_LEFT : right > 0 ? SmelterPart.BACK_BOTTOM_RIGHT : SmelterPart.BACK_BOTTOM;
+            }
+            if (right < 0) {
+                return SmelterPart.BACK_LEFT;
+            }
+            if (right > 0) {
+                return SmelterPart.BACK_RIGHT;
+            }
+            return SmelterPart.BACK_VENT;
         }
         if (y == -1) {
-            return SmelterPart.BOTTOM;
+            return right < 0 ? SmelterPart.BOTTOM_LEFT : right > 0 ? SmelterPart.BOTTOM_RIGHT : SmelterPart.BOTTOM_CORE;
         }
-        if (Math.abs(x) == 1 && Math.abs(z) == 1) {
-            return SmelterPart.CORNER;
+        if (y == 1) {
+            return right < 0 ? SmelterPart.TOP_LEFT : right > 0 ? SmelterPart.TOP_RIGHT : SmelterPart.TOP_CORE;
         }
-        if ((Math.abs(x) + Math.abs(z) + Math.abs(y)) >= 2) {
-            return SmelterPart.EDGE;
+        if (right < 0) {
+            return SmelterPart.LEFT_SIDE;
+        }
+        if (right > 0) {
+            return SmelterPart.RIGHT_SIDE;
         }
         return SmelterPart.CASING;
     }
 
     public enum SmelterPart implements StringRepresentable {
         CASING("casing"),
-        CORNER("corner"),
-        EDGE("edge"),
-        TOP("top"),
-        BOTTOM("bottom"),
-        FRONT_CASING("front_casing"),
-        FRONT_PORT("front_port");
+        FRONT_TOP_LEFT("front_top_left"),
+        FRONT_TOP("front_top"),
+        FRONT_TOP_RIGHT("front_top_right"),
+        FRONT_LEFT("front_left"),
+        FRONT_PORT("front_port"),
+        FRONT_RIGHT("front_right"),
+        FRONT_BOTTOM_LEFT("front_bottom_left"),
+        FRONT_BOTTOM("front_bottom"),
+        FRONT_BOTTOM_RIGHT("front_bottom_right"),
+        BACK_TOP_LEFT("back_top_left"),
+        BACK_TOP("back_top"),
+        BACK_TOP_RIGHT("back_top_right"),
+        BACK_LEFT("back_left"),
+        BACK_VENT("back_vent"),
+        BACK_RIGHT("back_right"),
+        BACK_BOTTOM_LEFT("back_bottom_left"),
+        BACK_BOTTOM("back_bottom"),
+        BACK_BOTTOM_RIGHT("back_bottom_right"),
+        TOP_LEFT("top_left"),
+        TOP_CORE("top_core"),
+        TOP_RIGHT("top_right"),
+        BOTTOM_LEFT("bottom_left"),
+        BOTTOM_CORE("bottom_core"),
+        BOTTOM_RIGHT("bottom_right"),
+        LEFT_SIDE("left_side"),
+        RIGHT_SIDE("right_side");
 
         private final String name;
 

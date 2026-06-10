@@ -1,38 +1,328 @@
 {
   "variants": {
-    "facing=north,part=casing": { "model": "fearsmod:block/resonance_smelter_part_casing" },
-    "facing=east,part=casing": { "model": "fearsmod:block/resonance_smelter_part_casing" },
-    "facing=south,part=casing": { "model": "fearsmod:block/resonance_smelter_part_casing" },
-    "facing=west,part=casing": { "model": "fearsmod:block/resonance_smelter_part_casing" },
-
-    "facing=north,part=corner": { "model": "fearsmod:block/resonance_smelter_part_corner" },
-    "facing=east,part=corner": { "model": "fearsmod:block/resonance_smelter_part_corner" },
-    "facing=south,part=corner": { "model": "fearsmod:block/resonance_smelter_part_corner" },
-    "facing=west,part=corner": { "model": "fearsmod:block/resonance_smelter_part_corner" },
-
-    "facing=north,part=edge": { "model": "fearsmod:block/resonance_smelter_part_edge" },
-    "facing=east,part=edge": { "model": "fearsmod:block/resonance_smelter_part_edge" },
-    "facing=south,part=edge": { "model": "fearsmod:block/resonance_smelter_part_edge" },
-    "facing=west,part=edge": { "model": "fearsmod:block/resonance_smelter_part_edge" },
-
-    "facing=north,part=top": { "model": "fearsmod:block/resonance_smelter_part_top" },
-    "facing=east,part=top": { "model": "fearsmod:block/resonance_smelter_part_top" },
-    "facing=south,part=top": { "model": "fearsmod:block/resonance_smelter_part_top" },
-    "facing=west,part=top": { "model": "fearsmod:block/resonance_smelter_part_top" },
-
-    "facing=north,part=bottom": { "model": "fearsmod:block/resonance_smelter_part_bottom" },
-    "facing=east,part=bottom": { "model": "fearsmod:block/resonance_smelter_part_bottom" },
-    "facing=south,part=bottom": { "model": "fearsmod:block/resonance_smelter_part_bottom" },
-    "facing=west,part=bottom": { "model": "fearsmod:block/resonance_smelter_part_bottom" },
-
-    "facing=north,part=front_casing": { "model": "fearsmod:block/resonance_smelter_part_front_casing" },
-    "facing=east,part=front_casing": { "model": "fearsmod:block/resonance_smelter_part_front_casing", "y": 90 },
-    "facing=south,part=front_casing": { "model": "fearsmod:block/resonance_smelter_part_front_casing", "y": 180 },
-    "facing=west,part=front_casing": { "model": "fearsmod:block/resonance_smelter_part_front_casing", "y": 270 },
-
-    "facing=north,part=front_port": { "model": "fearsmod:block/resonance_smelter_part_front_port" },
-    "facing=east,part=front_port": { "model": "fearsmod:block/resonance_smelter_part_front_port", "y": 90 },
-    "facing=south,part=front_port": { "model": "fearsmod:block/resonance_smelter_part_front_port", "y": 180 },
-    "facing=west,part=front_port": { "model": "fearsmod:block/resonance_smelter_part_front_port", "y": 270 }
+    "facing=north,part=casing": {
+      "model": "fearsmod:block/resonance_smelter_part_casing"
+    },
+    "facing=north,part=front_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_left"
+    },
+    "facing=north,part=front_top": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top"
+    },
+    "facing=north,part=front_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_right"
+    },
+    "facing=north,part=front_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_left"
+    },
+    "facing=north,part=front_port": {
+      "model": "fearsmod:block/resonance_smelter_part_front_port"
+    },
+    "facing=north,part=front_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_right"
+    },
+    "facing=north,part=front_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_left"
+    },
+    "facing=north,part=front_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom"
+    },
+    "facing=north,part=front_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_right"
+    },
+    "facing=north,part=back_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_left"
+    },
+    "facing=north,part=back_top": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top"
+    },
+    "facing=north,part=back_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_right"
+    },
+    "facing=north,part=back_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_left"
+    },
+    "facing=north,part=back_vent": {
+      "model": "fearsmod:block/resonance_smelter_part_back_vent"
+    },
+    "facing=north,part=back_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_right"
+    },
+    "facing=north,part=back_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_left"
+    },
+    "facing=north,part=back_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom"
+    },
+    "facing=north,part=back_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_right"
+    },
+    "facing=north,part=top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_top_left"
+    },
+    "facing=north,part=top_core": {
+      "model": "fearsmod:block/resonance_smelter_part_top_core"
+    },
+    "facing=north,part=top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_top_right"
+    },
+    "facing=north,part=bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_left"
+    },
+    "facing=north,part=bottom_core": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_core"
+    },
+    "facing=north,part=bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_right"
+    },
+    "facing=north,part=left_side": {
+      "model": "fearsmod:block/resonance_smelter_part_left_side"
+    },
+    "facing=north,part=right_side": {
+      "model": "fearsmod:block/resonance_smelter_part_right_side"
+    },
+    "facing=east,part=casing": {
+      "model": "fearsmod:block/resonance_smelter_part_casing"
+    },
+    "facing=east,part=front_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_left"
+    },
+    "facing=east,part=front_top": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top"
+    },
+    "facing=east,part=front_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_right"
+    },
+    "facing=east,part=front_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_left"
+    },
+    "facing=east,part=front_port": {
+      "model": "fearsmod:block/resonance_smelter_part_front_port"
+    },
+    "facing=east,part=front_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_right"
+    },
+    "facing=east,part=front_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_left"
+    },
+    "facing=east,part=front_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom"
+    },
+    "facing=east,part=front_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_right"
+    },
+    "facing=east,part=back_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_left"
+    },
+    "facing=east,part=back_top": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top"
+    },
+    "facing=east,part=back_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_right"
+    },
+    "facing=east,part=back_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_left"
+    },
+    "facing=east,part=back_vent": {
+      "model": "fearsmod:block/resonance_smelter_part_back_vent"
+    },
+    "facing=east,part=back_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_right"
+    },
+    "facing=east,part=back_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_left"
+    },
+    "facing=east,part=back_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom"
+    },
+    "facing=east,part=back_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_right"
+    },
+    "facing=east,part=top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_top_left"
+    },
+    "facing=east,part=top_core": {
+      "model": "fearsmod:block/resonance_smelter_part_top_core"
+    },
+    "facing=east,part=top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_top_right"
+    },
+    "facing=east,part=bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_left"
+    },
+    "facing=east,part=bottom_core": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_core"
+    },
+    "facing=east,part=bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_right"
+    },
+    "facing=east,part=left_side": {
+      "model": "fearsmod:block/resonance_smelter_part_left_side"
+    },
+    "facing=east,part=right_side": {
+      "model": "fearsmod:block/resonance_smelter_part_right_side"
+    },
+    "facing=south,part=casing": {
+      "model": "fearsmod:block/resonance_smelter_part_casing"
+    },
+    "facing=south,part=front_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_left"
+    },
+    "facing=south,part=front_top": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top"
+    },
+    "facing=south,part=front_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_right"
+    },
+    "facing=south,part=front_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_left"
+    },
+    "facing=south,part=front_port": {
+      "model": "fearsmod:block/resonance_smelter_part_front_port"
+    },
+    "facing=south,part=front_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_right"
+    },
+    "facing=south,part=front_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_left"
+    },
+    "facing=south,part=front_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom"
+    },
+    "facing=south,part=front_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_right"
+    },
+    "facing=south,part=back_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_left"
+    },
+    "facing=south,part=back_top": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top"
+    },
+    "facing=south,part=back_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_right"
+    },
+    "facing=south,part=back_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_left"
+    },
+    "facing=south,part=back_vent": {
+      "model": "fearsmod:block/resonance_smelter_part_back_vent"
+    },
+    "facing=south,part=back_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_right"
+    },
+    "facing=south,part=back_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_left"
+    },
+    "facing=south,part=back_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom"
+    },
+    "facing=south,part=back_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_right"
+    },
+    "facing=south,part=top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_top_left"
+    },
+    "facing=south,part=top_core": {
+      "model": "fearsmod:block/resonance_smelter_part_top_core"
+    },
+    "facing=south,part=top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_top_right"
+    },
+    "facing=south,part=bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_left"
+    },
+    "facing=south,part=bottom_core": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_core"
+    },
+    "facing=south,part=bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_right"
+    },
+    "facing=south,part=left_side": {
+      "model": "fearsmod:block/resonance_smelter_part_left_side"
+    },
+    "facing=south,part=right_side": {
+      "model": "fearsmod:block/resonance_smelter_part_right_side"
+    },
+    "facing=west,part=casing": {
+      "model": "fearsmod:block/resonance_smelter_part_casing"
+    },
+    "facing=west,part=front_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_left"
+    },
+    "facing=west,part=front_top": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top"
+    },
+    "facing=west,part=front_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_top_right"
+    },
+    "facing=west,part=front_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_left"
+    },
+    "facing=west,part=front_port": {
+      "model": "fearsmod:block/resonance_smelter_part_front_port"
+    },
+    "facing=west,part=front_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_right"
+    },
+    "facing=west,part=front_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_left"
+    },
+    "facing=west,part=front_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom"
+    },
+    "facing=west,part=front_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_front_bottom_right"
+    },
+    "facing=west,part=back_top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_left"
+    },
+    "facing=west,part=back_top": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top"
+    },
+    "facing=west,part=back_top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_top_right"
+    },
+    "facing=west,part=back_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_left"
+    },
+    "facing=west,part=back_vent": {
+      "model": "fearsmod:block/resonance_smelter_part_back_vent"
+    },
+    "facing=west,part=back_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_right"
+    },
+    "facing=west,part=back_bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_left"
+    },
+    "facing=west,part=back_bottom": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom"
+    },
+    "facing=west,part=back_bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_back_bottom_right"
+    },
+    "facing=west,part=top_left": {
+      "model": "fearsmod:block/resonance_smelter_part_top_left"
+    },
+    "facing=west,part=top_core": {
+      "model": "fearsmod:block/resonance_smelter_part_top_core"
+    },
+    "facing=west,part=top_right": {
+      "model": "fearsmod:block/resonance_smelter_part_top_right"
+    },
+    "facing=west,part=bottom_left": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_left"
+    },
+    "facing=west,part=bottom_core": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_core"
+    },
+    "facing=west,part=bottom_right": {
+      "model": "fearsmod:block/resonance_smelter_part_bottom_right"
+    },
+    "facing=west,part=left_side": {
+      "model": "fearsmod:block/resonance_smelter_part_left_side"
+    },
+    "facing=west,part=right_side": {
+      "model": "fearsmod:block/resonance_smelter_part_right_side"
+    }
   }
 }
