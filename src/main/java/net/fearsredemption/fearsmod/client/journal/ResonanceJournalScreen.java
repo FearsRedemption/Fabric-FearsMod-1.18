@@ -31,7 +31,7 @@ public class ResonanceJournalScreen extends Screen {
             new ItemStack(ModItems.TOPAZ_SHARD)
     };
     private static final ItemStack[] STAFF_RESULTS = {
-            new ItemStack(ModItems.RESONANCE_STAFF),
+            new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
             new ItemStack(ModItems.AGATE_RESONANCE_STAFF),
             new ItemStack(ModItems.AMBER_RESONANCE_STAFF),
             new ItemStack(ModItems.AQUAMARINE_RESONANCE_STAFF),
@@ -42,19 +42,19 @@ public class ResonanceJournalScreen extends Screen {
             new RecipeDisplay(
                     "Amethyst Focus",
                     new ItemStack(ModBlocks.AMETHYST_FOCUS),
-                    new ItemStack(ModItems.RESONANCE_STAFF),
+                    new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
                     new ItemStack[]{new ItemStack(Items.GLASS), new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.AMETHYST_SHARD)}
             ),
             new RecipeDisplay(
                     "Magitek Core",
                     new ItemStack(ModBlocks.MAGITEK_CORE),
-                    new ItemStack(ModItems.RESONANCE_STAFF),
+                    new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
                     new ItemStack[]{new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.AMETHYST_SHARD), new ItemStack(ModItems.MAGITEK_INGOT)}
             ),
             new RecipeDisplay(
                     "Voxite Stabilizer",
                     new ItemStack(ModBlocks.VOXITE_STABILIZER),
-                    new ItemStack(ModItems.RESONANCE_STAFF),
+                    new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
                     new ItemStack[]{new ItemStack(ModItems.VOXITE_INGOT), new ItemStack(Items.AMETHYST_SHARD)}
             )
     };

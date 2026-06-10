@@ -44,7 +44,7 @@ public class ModItems {
     public static final Item RAW_VOXITE = register("raw_voxite", Item::new, new Item.Properties());
 
     //RESONANCE STAFFS
-    public static final Item RESONANCE_STAFF = register("resonance_staff", ResonanceStaffItem::new, new Item.Properties().durability(64));
+    public static final Item AMETHYST_RESONANCE_STAFF = register("resonance_staff", ResonanceStaffItem::new, new Item.Properties().durability(64));
 
     public static final Item AGATE_RESONANCE_STAFF = register("agate_resonance_staff", ResonanceStaffItem::new, new Item.Properties().durability(64));
 
@@ -78,7 +78,7 @@ public class ModItems {
 
     public static boolean isResonanceStaff(ItemStack stack) {
         Item item = stack.getItem();
-        return item == RESONANCE_STAFF
+        return item == AMETHYST_RESONANCE_STAFF
                 || item == AGATE_RESONANCE_STAFF
                 || item == AMBER_RESONANCE_STAFF
                 || item == AQUAMARINE_RESONANCE_STAFF
@@ -88,7 +88,7 @@ public class ModItems {
 
     public static Item staffForShard(Item shard) {
         if (shard == Items.AMETHYST_SHARD) {
-            return RESONANCE_STAFF;
+            return AMETHYST_RESONANCE_STAFF;
         }
         if (shard == AGATE_SHARD) {
             return AGATE_RESONANCE_STAFF;
@@ -110,7 +110,7 @@ public class ModItems {
     }
 
     public static Item shardForStaff(Item staff) {
-        if (staff == RESONANCE_STAFF) {
+        if (staff == AMETHYST_RESONANCE_STAFF) {
             return Items.AMETHYST_SHARD;
         }
         if (staff == AGATE_RESONANCE_STAFF) {
@@ -133,7 +133,7 @@ public class ModItems {
     }
 
     public static int staffVariantIndex(Item staff) {
-        if (staff == RESONANCE_STAFF) {
+        if (staff == AMETHYST_RESONANCE_STAFF) {
             return 0;
         }
         if (staff == AGATE_RESONANCE_STAFF) {
@@ -157,13 +157,13 @@ public class ModItems {
 
     public static Item staffByVariantIndex(int index) {
         return switch (index) {
-            case 0 -> RESONANCE_STAFF;
+            case 0 -> AMETHYST_RESONANCE_STAFF;
             case 1 -> AGATE_RESONANCE_STAFF;
             case 2 -> AMBER_RESONANCE_STAFF;
             case 3 -> AQUAMARINE_RESONANCE_STAFF;
             case 4 -> RUBY_RESONANCE_STAFF;
             case 5 -> TOPAZ_RESONANCE_STAFF;
-            default -> RESONANCE_STAFF;
+            default -> AMETHYST_RESONANCE_STAFF;
         };
     }
 
@@ -193,7 +193,7 @@ public class ModItems {
 
         CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.RESONANCE_KEY).register(entries -> {
             entries.accept(RESONANCE_JOURNAL);
-            entries.accept(RESONANCE_STAFF);
+            entries.accept(AMETHYST_RESONANCE_STAFF);
             entries.accept(AGATE_RESONANCE_STAFF);
             entries.accept(AMBER_RESONANCE_STAFF);
             entries.accept(AQUAMARINE_RESONANCE_STAFF);
