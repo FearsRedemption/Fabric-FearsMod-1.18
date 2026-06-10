@@ -175,27 +175,43 @@ public class ResonanceSmelterBlockEntity extends BaseContainerBlockEntity implem
 
     private boolean tryPushToOutputAttachment(ServerLevel level, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(ResonanceSmelterBlock.FACING);
-        Container target = containerAt(level, pos.relative(facing, 2).below());
-        if (target == null) {
-            return false;
-        }
+        BlockPos[] outputPositions = outputAttachmentPositions(pos, facing);
 
-        for (int sourceSlot = OUTPUT_0; sourceSlot <= OUTPUT_2; sourceSlot++) {
-            ItemStack sourceStack = items.get(sourceSlot);
-            if (sourceStack.isEmpty() || !canInsertOne(target, sourceStack)) {
+        for (BlockPos outputPos : outputPositions) {
+            Container target = containerAt(level, outputPos);
+            if (target == null) {
                 continue;
             }
 
-            ItemStack moved = sourceStack.split(1);
-            insertOne(target, moved);
-            if (sourceStack.isEmpty()) {
-                items.set(sourceSlot, ItemStack.EMPTY);
+            for (int sourceSlot = OUTPUT_0; sourceSlot <= OUTPUT_2; sourceSlot++) {
+                ItemStack sourceStack = items.get(sourceSlot);
+                if (sourceStack.isEmpty() || !canInsertOne(target, sourceStack)) {
+                    continue;
+                }
+
+                ItemStack moved = sourceStack.split(1);
+                insertOne(target, moved);
+                if (sourceStack.isEmpty()) {
+                    items.set(sourceSlot, ItemStack.EMPTY);
+                }
+                target.setChanged();
+                return true;
             }
-            target.setChanged();
-            return true;
         }
 
         return false;
+    }
+
+    private BlockPos[] outputAttachmentPositions(BlockPos pos, Direction facing) {
+        Direction right = facing.getClockWise();
+        Direction left = facing.getCounterClockWise();
+        Direction back = facing.getOpposite();
+        return new BlockPos[] {
+                pos.relative(facing, 2).below(),
+                pos.relative(back, 2),
+                pos.relative(left, 2),
+                pos.relative(right, 2)
+        };
     }
 
     private Container containerAt(ServerLevel level, BlockPos pos) {
