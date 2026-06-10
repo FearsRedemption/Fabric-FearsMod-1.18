@@ -210,7 +210,8 @@ public class ResonanceSmelterBlockEntity extends BaseContainerBlockEntity implem
                 pos.relative(facing, 2).below(),
                 pos.relative(back, 2),
                 pos.relative(left, 2),
-                pos.relative(right, 2)
+                pos.relative(right, 2),
+                pos.below(2)
         };
     }
 
