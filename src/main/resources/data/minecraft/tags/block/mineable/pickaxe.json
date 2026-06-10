@@ -2,9 +2,11 @@
   "replace": false,
   "values": [
     "fearsmod:magitek_block",
+    "fearsmod:magitek_stone",
     "fearsmod:magitek_ore",
     "fearsmod:deepslate_magitek_ore",
     "fearsmod:voxite_block",
+    "fearsmod:voxite_stone",
     "fearsmod:voxite_ore",
     "fearsmod:deepslate_voxite_ore",
     "fearsmod:agate_block",

@@ -36,12 +36,14 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
     private static final String RECIPE_KEY = "starter_ritual_recipe";
     private static final String OUTPUT_VARIANT_KEY = "starter_output_variant";
     private static final String OWNER_KEY = "starter_ritual_owner";
+    private static final String REPEAT_KEY = "starter_ritual_repeat";
 
     private boolean ritualActive;
     private int ritualTicks;
     private int ritualRecipeIndex;
     private int outputVariantIndex;
     private UUID ownerUuid;
+    private boolean repeatRitual;
 
     public ResonanceWorkbenchBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RESONANCE_WORKBENCH, pos, state);
@@ -51,12 +53,13 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         return ritualActive;
     }
 
-    public void startRitual(Player player, int recipeIndex, Item outputItem) {
+    public void startRitual(Player player, int recipeIndex, Item outputItem, boolean repeat) {
         ritualActive = true;
         ritualTicks = 0;
         ritualRecipeIndex = recipeIndex;
         outputVariantIndex = variantIndexFor(recipeIndex, outputItem);
         ownerUuid = player.getUUID();
+        repeatRitual = repeat;
         markUpdated();
     }
 
@@ -135,8 +138,20 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         level.sendParticles(ParticleTypes.POOF, x, y, z, 18, 0.25D, 0.2D, 0.25D, 0.04D);
         level.sendParticles(ParticleTypes.END_ROD, x, y, z, 22, 0.35D, 0.25D, 0.35D, 0.03D);
         level.playSound(null, worldPosition, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.55F, 1.45F);
-        resetRitual();
+        if (canRepeatActiveRitual(level)) {
+            ritualTicks = 0;
+            protectActiveIngredientStacks(level);
+        } else {
+            resetRitual();
+        }
         markUpdated();
+    }
+
+    private boolean canRepeatActiveRitual(ServerLevel level) {
+        return repeatRitual
+                && ResonanceWorkbenchBlock.hasRitualStructure(level, worldPosition)
+                && ResonanceWorkbenchBlock.hasRitualIngredients(level, worldPosition,
+                ResonanceWorkbenchBlock.ingredientsFor(ritualRecipeIndex, outputForActiveRitual()));
     }
 
     private void protectActiveIngredientStacks(ServerLevel level) {
@@ -171,6 +186,8 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
             case ResonanceWorkbenchBlock.RITUAL_AMETHYST_FOCUS -> net.fearsredemption.fearsmod.block.ModBlocks.AMETHYST_FOCUS.asItem();
             case ResonanceWorkbenchBlock.RITUAL_MAGITEK_CORE -> net.fearsredemption.fearsmod.block.ModBlocks.MAGITEK_CORE.asItem();
             case ResonanceWorkbenchBlock.RITUAL_VOXITE_STABILIZER -> net.fearsredemption.fearsmod.block.ModBlocks.VOXITE_STABILIZER.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_MAGITEK_STONE -> net.fearsredemption.fearsmod.block.ModBlocks.MAGITEK_STONE.asItem();
+            case ResonanceWorkbenchBlock.RITUAL_VOXITE_STONE -> net.fearsredemption.fearsmod.block.ModBlocks.VOXITE_STONE.asItem();
             default -> ModItems.AMETHYST_RESONANCE_STAFF;
         };
     }
@@ -202,6 +219,10 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
             }
 
             JournalUnlocks.unlock(player, "apparatus_rituals");
+            if (output.getItem() == net.fearsredemption.fearsmod.block.ModBlocks.MAGITEK_STONE.asItem()
+                    || output.getItem() == net.fearsredemption.fearsmod.block.ModBlocks.VOXITE_STONE.asItem()) {
+                JournalUnlocks.unlock(player, "infused_stone");
+            }
         });
     }
 
@@ -219,6 +240,7 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         ritualRecipeIndex = 0;
         outputVariantIndex = 0;
         ownerUuid = null;
+        repeatRitual = false;
     }
 
     @Override
@@ -228,6 +250,7 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         output.putInt(TICKS_KEY, ritualTicks);
         output.putInt(RECIPE_KEY, ritualRecipeIndex);
         output.putInt(OUTPUT_VARIANT_KEY, outputVariantIndex);
+        output.putBoolean(REPEAT_KEY, repeatRitual);
         if (ownerUuid != null) {
             output.putString(OWNER_KEY, ownerUuid.toString());
         }
@@ -240,6 +263,7 @@ public class ResonanceWorkbenchBlockEntity extends BlockEntity {
         ritualTicks = input.getIntOr(TICKS_KEY, 0);
         ritualRecipeIndex = input.getIntOr(RECIPE_KEY, 0);
         outputVariantIndex = input.getIntOr(OUTPUT_VARIANT_KEY, input.getIntOr("starter_staff_variant", 0));
+        repeatRitual = input.getBooleanOr(REPEAT_KEY, false);
         ownerUuid = input.getString(OWNER_KEY).map(UUID::fromString).orElse(null);
     }
 

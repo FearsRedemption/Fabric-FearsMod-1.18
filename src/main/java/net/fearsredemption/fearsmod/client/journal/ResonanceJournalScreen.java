@@ -56,6 +56,18 @@ public class ResonanceJournalScreen extends Screen {
                     new ItemStack(ModBlocks.VOXITE_STABILIZER),
                     new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
                     new ItemStack[]{new ItemStack(ModItems.VOXITE_INGOT), new ItemStack(Items.AMETHYST_SHARD)}
+            ),
+            new RecipeDisplay(
+                    "Magitek Stone",
+                    new ItemStack(ModBlocks.MAGITEK_STONE),
+                    new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
+                    new ItemStack[]{new ItemStack(Items.COBBLESTONE), new ItemStack(ModItems.MAGITEK_NUGGET)}
+            ),
+            new RecipeDisplay(
+                    "Voxite Stone",
+                    new ItemStack(ModBlocks.VOXITE_STONE),
+                    new ItemStack(ModItems.AMETHYST_RESONANCE_STAFF),
+                    new ItemStack[]{new ItemStack(Items.COBBLESTONE), new ItemStack(ModItems.VOXITE_NUGGET)}
             )
     };
 
@@ -277,7 +289,7 @@ public class ResonanceJournalScreen extends Screen {
 
     private boolean hasDiagram(String unlock) {
         return switch (unlock) {
-            case "combined_ingots", "starter_structure", "ritual_basics", "apparatus_rituals" -> true;
+            case "combined_ingots", "starter_structure", "ritual_basics", "apparatus_rituals", "infused_stone" -> true;
             default -> false;
         };
     }
@@ -304,9 +316,39 @@ public class ResonanceJournalScreen extends Screen {
                 drawRecipe(graphics, x, y, staffRecipe(variant), "Variant " + (variant + 1) + " / " + STAFF_SHARDS.length);
             }
             case "apparatus_rituals" -> drawApparatusRecipe(graphics, x, y);
+            case "infused_stone" -> drawSmelterSketch(graphics, x, y);
             default -> {
             }
         }
+    }
+
+    private void drawSmelterSketch(GuiGraphicsExtractor graphics, int x, int y) {
+        int layer = rotatingIndex(3, 1800L);
+        ItemStack m = new ItemStack(ModBlocks.MAGITEK_STONE);
+        ItemStack v = new ItemStack(ModBlocks.VOXITE_STONE);
+        ItemStack c = new ItemStack(ModBlocks.MAGITEK_CORE);
+        ItemStack[][][] layers = {
+                {
+                        {m, v, m},
+                        {v, m, v},
+                        {m, v, m}
+                },
+                {
+                        {v, m, v},
+                        {m, c, m},
+                        {v, m, v}
+                },
+                {
+                        {m, v, m},
+                        {v, m, v},
+                        {m, v, m}
+                }
+        };
+
+        String[] titles = {"Roof", "Middle", "Ground"};
+        drawCenteredText(graphics, "Furnace Frame: " + titles[layer], x + 55, y, MUTED_TEXT_COLOR);
+        drawGrid(graphics, x + 19, y + 17, layers[layer]);
+        drawCenteredText(graphics, "M / V / Core", x + 55, y + 92, MUTED_TEXT_COLOR);
     }
 
     private void drawApparatusRecipe(GuiGraphicsExtractor graphics, int x, int y) {

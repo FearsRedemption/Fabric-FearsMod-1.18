@@ -63,12 +63,17 @@
   {
     "unlock": "apparatus_rituals",
     "title": "Apparatus Ideas",
-    "text": "The staff should be able to act as a catalyst without being spent. I should toss materials near the workbench, then tap the workbench with the staff.\n\nA focus may want glass, copper, and an amethyst shard. A core may want copper, amethyst, and Magitek. A stabilizer may want Voxite and amethyst."
+    "text": "The staff should be able to act as a catalyst without being spent. I should toss materials near the workbench, then tap the workbench with the staff.\n\nA focus may want glass, copper, and an amethyst shard. A core may want copper, amethyst, and Magitek. A stabilizer may want Voxite and amethyst.\n\nCobblestone may also hold a trace of either metal if I bind it with one nugget."
   },
   {
     "unlock": "stack_handling",
     "title": "One Reaction",
-    "text": "The workbench is careful. Even if I drop extra materials nearby, it draws only what it needs for one reaction. One cycle, one output.\n\nThat means larger rituals can be tested without losing everything at once."
+    "text": "The workbench is careful. Even if I drop extra materials nearby, it draws only what it needs for the reaction in front of it. One cycle, one output.\n\nIf the same materials remain nearby, it can keep repeating the same reaction. I can still interrupt it by taking the leftovers away."
+  },
+  {
+    "unlock": "infused_stone",
+    "title": "Stone That Holds Heat",
+    "text": "Cobblestone can hold shape, but not pressure. Magitek wants to push outward, and Voxite wants to pull the reaction back into balance.\n\nIf I bind each nugget into stone, I may be able to build a frame that does more than decorate a room. It might hold a furnace reaction in place.\n\nThe frame in my notes is only a structure idea for now: Magitek Stone and Voxite Stone around a Magitek Core, stacked as roof, middle, and ground layers."
   },
   {
     "unlock": "crystal_growth",

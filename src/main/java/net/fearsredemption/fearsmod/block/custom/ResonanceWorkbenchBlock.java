@@ -43,6 +43,8 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
     public static final int RITUAL_AMETHYST_FOCUS = 1;
     public static final int RITUAL_MAGITEK_CORE = 2;
     public static final int RITUAL_VOXITE_STABILIZER = 3;
+    public static final int RITUAL_MAGITEK_STONE = 4;
+    public static final int RITUAL_VOXITE_STONE = 5;
 
     private static final List<PatternSlot> APPARATUS_PATTERN = createPattern();
     private static final RecipeDefinition[] RECIPES = {
@@ -132,7 +134,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         protectRitualStacks(serverLevel, pos, ingredientsFor(plan.recipeIndex(), plan.output()));
-        workbench.startRitual(player, plan.recipeIndex(), plan.output());
+        workbench.startRitual(player, plan.recipeIndex(), plan.output(), true);
         serverLevel.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5D, pos.getY() + 1.15D, pos.getZ() + 0.5D, 18, 0.35D, 0.25D, 0.35D, 0.03D);
         serverLevel.sendParticles(new DustParticleOptions(0xB987FF, 1.1F), pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, 12, 0.25D, 0.2D, 0.25D, 0.02D);
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.8F, 1.15F);
@@ -171,7 +173,7 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         }
 
         protectRitualStacks(serverLevel, pos, ingredientsFor(plan.recipeIndex(), plan.output()));
-        workbench.startRitual(player, plan.recipeIndex(), plan.output());
+        workbench.startRitual(player, plan.recipeIndex(), plan.output(), false);
         serverLevel.sendParticles(new DustParticleOptions(0xF04B45, 1.1F), pos.getX() + 0.5D, pos.getY() + 1.15D, pos.getZ() + 0.5D, 20, 0.35D, 0.25D, 0.35D, 0.03D);
         serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, 10, 0.25D, 0.2D, 0.25D, 0.02D);
         level.playSound(null, pos, SoundEvents.REDSTONE_TORCH_BURNOUT, SoundSource.BLOCKS, 0.55F, 1.6F);
@@ -265,6 +267,12 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         if (recipeIndex == RITUAL_VOXITE_STABILIZER) {
             return List.of(ModItems.VOXITE_INGOT, Items.AMETHYST_SHARD);
         }
+        if (recipeIndex == RITUAL_MAGITEK_STONE) {
+            return List.of(Items.COBBLESTONE, ModItems.MAGITEK_NUGGET);
+        }
+        if (recipeIndex == RITUAL_VOXITE_STONE) {
+            return List.of(Items.COBBLESTONE, ModItems.VOXITE_NUGGET);
+        }
 
         return List.of();
     }
@@ -297,6 +305,15 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         if (item == ModItems.TOPAZ_SHARD) {
             return 0xE7D253;
         }
+        if (item == Items.COBBLESTONE) {
+            return 0x777777;
+        }
+        if (item == ModItems.MAGITEK_NUGGET) {
+            return 0xB95BCE;
+        }
+        if (item == ModItems.VOXITE_NUGGET) {
+            return 0xF4F4F0;
+        }
 
         return 0xD8B4FF;
     }
@@ -324,10 +341,18 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
             return new RitualPlan(RITUAL_VOXITE_STABILIZER, ModBlocks.VOXITE_STABILIZER.asItem());
         }
 
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_MAGITEK_STONE, ModBlocks.MAGITEK_STONE.asItem()))) {
+            return new RitualPlan(RITUAL_MAGITEK_STONE, ModBlocks.MAGITEK_STONE.asItem());
+        }
+
+        if (hasRitualIngredients(level, pos, ingredientsFor(RITUAL_VOXITE_STONE, ModBlocks.VOXITE_STONE.asItem()))) {
+            return new RitualPlan(RITUAL_VOXITE_STONE, ModBlocks.VOXITE_STONE.asItem());
+        }
+
         return null;
     }
 
-    private static boolean hasRitualIngredients(ServerLevel level, BlockPos pos, List<Item> ingredients) {
+    public static boolean hasRitualIngredients(ServerLevel level, BlockPos pos, List<Item> ingredients) {
         return ingredients.stream().allMatch(item -> findNearbyItemEntity(level, pos, item) != null);
     }
 
@@ -505,5 +530,6 @@ public class ResonanceWorkbenchBlock extends Block implements EntityBlock {
         double dz = (random.nextDouble() - 0.5D) * 0.08D;
         entity.setDeltaMovement(dx, 0.22D, dz);
         level.addFreshEntity(entity);
+        entity.setExtendedLifetime();
     }
 }

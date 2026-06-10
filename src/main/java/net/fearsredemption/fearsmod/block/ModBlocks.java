@@ -41,6 +41,9 @@ public class ModBlocks {
     public static final Block MAGITEK_BLOCK = register("magitek_block", Block::new,
             BlockBehaviour.Properties.of().strength(6f).requiresCorrectToolForDrops().sound(SoundType.METAL));
 
+    public static final Block MAGITEK_STONE = register("magitek_stone", Block::new,
+            BlockBehaviour.Properties.of().strength(3.5f).requiresCorrectToolForDrops().sound(SoundType.STONE).lightLevel(state -> 2));
+
     public static final Block MAGITEK_ORE = register("magitek_ore", Block::new,
             BlockBehaviour.Properties.of().strength(4.5f).requiresCorrectToolForDrops().sound(SoundType.STONE));
 
@@ -50,6 +53,9 @@ public class ModBlocks {
     //VOXITE BLOCKS
     public static final Block VOXITE_BLOCK = register("voxite_block", Block::new,
             BlockBehaviour.Properties.of().strength(6f).requiresCorrectToolForDrops().sound(SoundType.METAL).lightLevel(state -> 7));
+
+    public static final Block VOXITE_STONE = register("voxite_stone", Block::new,
+            BlockBehaviour.Properties.of().strength(3.5f).requiresCorrectToolForDrops().sound(SoundType.STONE).lightLevel(state -> 2));
 
     public static final Block VOXITE_ORE = register("voxite_ore", Block::new,
             BlockBehaviour.Properties.of().strength(4.5f).requiresCorrectToolForDrops().sound(SoundType.STONE).lightLevel(state -> 5));
@@ -127,12 +133,14 @@ public class ModBlocks {
 
         CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.MAGITEK_KEY).register(entries -> {
             entries.accept(MAGITEK_BLOCK.asItem());
+            entries.accept(MAGITEK_STONE.asItem());
             entries.accept(MAGITEK_ORE.asItem());
             entries.accept(DEEPSLATE_MAGITEK_ORE.asItem());
         });
 
         CreativeModeTabEvents.modifyOutputEvent(ModItemGroup.VOXITE_KEY).register(entries -> {
             entries.accept(VOXITE_BLOCK.asItem());
+            entries.accept(VOXITE_STONE.asItem());
             entries.accept(VOXITE_ORE.asItem());
             entries.accept(DEEPSLATE_VOXITE_ORE.asItem());
         });
@@ -175,6 +183,8 @@ public class ModBlocks {
             entries.accept(MAGITEK_CORE.asItem());
             entries.accept(VOXITE_STABILIZER.asItem());
             entries.accept(AMETHYST_FOCUS.asItem());
+            entries.accept(MAGITEK_STONE.asItem());
+            entries.accept(VOXITE_STONE.asItem());
         });
     }
 }

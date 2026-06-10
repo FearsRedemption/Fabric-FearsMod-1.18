@@ -33,6 +33,7 @@ public final class JournalUnlocks {
             new Discovery("first_staff", player -> hasTag(player, "staff_ritual") && hasAnyStaff(player)),
             new Discovery("apparatus_rituals", player -> hasTag(player, "first_staff")),
             new Discovery("stack_handling", player -> hasTag(player, "first_staff")),
+            new Discovery("infused_stone", player -> hasTag(player, "apparatus_rituals") && (has(player, ModBlocks.MAGITEK_STONE.asItem()) || has(player, ModBlocks.VOXITE_STONE.asItem()))),
             new Discovery("crystal_growth", player -> hasTag(player, "staff_ritual") && hasAnyModShard(player)),
             new Discovery("future", player -> hasTag(player, "first_staff"))
     );
